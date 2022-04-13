@@ -152,6 +152,15 @@
     <Text Include="DFA.txt" />
     <Text Include="grammar.txt" />
     <Text Include="testcase1.txt" />
+    <Text Include="testcase10.txt" />
+    <Text Include="testcase2.txt" />
+    <Text Include="testcase3.txt" />
+    <Text Include="testcase4.txt" />
+    <Text Include="testcase5.txt" />
+    <Text Include="testcase6.txt" />
+    <Text Include="testcase7.txt" />
+    <Text Include="testcase8.txt" />
+    <Text Include="testcase9.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,0 +1,24 @@
+%Test Case 2: Syntactically correct test case
+%Following function computes the sum of user defined real numbers
+%The variable d3 maintains the sum of values
+_sumN  input parameter list [real d5cc34]  
+output parameter list[real d3];
+	type real : b5b567;
+	b5b567 <--- 11.01;
+	d3 <--- 0.00;
+	while ( b5b567 <= d5cc34)
+		read( d5cc34);
+		d3 <--- d3 + d5cc34;
+		b5b567 <--- b5b567 + 1;
+	endwhile
+	return [d3];
+end
+
+_main
+	type real :b3;
+	type real :c4bd56;
+	b3 <--- 7;
+	[b3]<--- call _sumN with parameters [c4bd56];
+	write(c4bd56);
+	return;
+end

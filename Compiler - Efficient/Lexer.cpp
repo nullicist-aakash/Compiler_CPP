@@ -132,7 +132,7 @@ Token* getTokenFromDFA(Buffer& buffer)
 	assert(false);
 }
 
-const Token* getNextToken(Buffer& buffer)
+Token* getNextToken(Buffer& buffer)
 {
 	while (buffer.getTopChar() != '\0')
 	{
@@ -158,16 +158,17 @@ const Token* getNextToken(Buffer& buffer)
 			continue;
 		}
 
-		token->lexeme.resize(token->length + 1);
+		char* BUFF = (char*)calloc(token->length + 1, sizeof(char));
 		for (int i = 0; i < token->length; i++)
-			token->lexeme[i] = buffer.getChar(buffer.start_index - token->length + i);
+			BUFF[i] = buffer.getChar(buffer.start_index - token->length + i);
+		token->lexeme = BUFF;
 
 		if (token->type == TokenType::TK_ID || token->type == TokenType::TK_FUNID || token->type == TokenType::TK_FIELDID)
 		{
-			if (dfa.lookupTable.find(token->lexeme) != dfa.lookupTable.end())
+			auto res = dfa.lookupTable.find(token->lexeme);
+			if (res != dfa.lookupTable.end())
 				token->type = dfa.lookupTable.at(token->lexeme);
 		}
-
 		// Assign error types
 
 		if (token->type == TokenType::TK_ID && token->length > 20)

@@ -49,5 +49,32 @@
     <Text Include="grammar.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="testcase2.txt">
+      <Filter>Resource Files\testcases</Filter>
+    </Text>
+    <Text Include="testcase3.txt">
+      <Filter>Resource Files\testcases</Filter>
+    </Text>
+    <Text Include="testcase4.txt">
+      <Filter>Resource Files\testcases</Filter>
+    </Text>
+    <Text Include="testcase5.txt">
+      <Filter>Resource Files\testcases</Filter>
+    </Text>
+    <Text Include="testcase6.txt">
+      <Filter>Resource Files\testcases</Filter>
+    </Text>
+    <Text Include="testcase7.txt">
+      <Filter>Resource Files\testcases</Filter>
+    </Text>
+    <Text Include="testcase8.txt">
+      <Filter>Resource Files\testcases</Filter>
+    </Text>
+    <Text Include="testcase9.txt">
+      <Filter>Resource Files\testcases</Filter>
+    </Text>
+    <Text Include="testcase10.txt">
+      <Filter>Resource Files\testcases</Filter>
+    </Text>
   </ItemGroup>
 </Project>

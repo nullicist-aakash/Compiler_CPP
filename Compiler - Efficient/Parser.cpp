@@ -4,6 +4,8 @@
 #include <string>
 #include <bitset>
 #include <map>
+#include <stack>
+#include <cassert>
 
 const char* GrammarLoc = "grammar.txt";
 using namespace std;
@@ -159,6 +161,9 @@ public:
 							bits |= followSet[production[0]];
 					}
 
+					if (j == production.size() - 1)
+						bits |= followSet[production[0]];
+
 					if ((bits ^ followSet[production[j]]).any())
 					{
 						followSet[production[j]] |= bits;
@@ -196,28 +201,25 @@ public:
 		parseTable.clear();
 		parseTable.resize(symbolType2symbolStr.size(), vector<int>(num_terminals, -1));
 
-		vector<bitset<128>> select(symbolType2symbolStr.size());
-
-		for (auto& production : productions)
+		for (int i = 0; i < productions.size(); ++i)
 		{
+			bitset<128> select;
+			auto& production = productions[i];
+
 			for (int j = 1; j < production.size(); ++j)
 			{
-				select[production[0]] |= firstSet[production[j]];
+				select |= firstSet[production[j]];
 
 				if (!nullable.test(production[j]))
 					break;
 
 				if (j == production.size() - 1)
-					select[production[0]] |= followSet[production[0]];
+					select |= followSet[production[0]];
 			}
-		}
 
-		// fill parse table
-		for (int i = 0; i < productions.size(); ++i)
-		{
 			for (int j = 0; j < num_terminals; ++j)
 			{
-				if (!select[productions[i][0]].test(j))
+				if (!select.test(j))
 					continue;
 
 				parseTable[productions[i][0]][j] = i;
@@ -292,3 +294,178 @@ void loadParser()
 	parser.computeParseTable();
 }
 
+void _pop(ParseTreeNode** node, stack<int>& s)
+{
+	assert((*node)->symbol_index == s.top());
+
+	s.pop();
+
+	while ((*node)->parent_child_index == (*node)->parent->children.size() - 1)
+	{
+		(*node) = (*node)->parent;
+		if ((*node)->parent == nullptr)
+			return;
+	}
+
+	(*node) = (*node)->parent->children[(*node)->parent_child_index + 1];
+
+	assert((*node)->symbol_index == s.top());
+}
+
+void printStack(stack<int> st)
+{
+	stack<string> s;
+	while (st.size() > 1)
+	{
+		s.push(parser.symbolType2symbolStr[st.top()]);
+		st.pop();
+	}
+
+	while (!s.empty())
+	{
+		cout << s.top() << " ";
+		s.pop();
+	}
+	cout << endl;
+}
+
+const ParseTreeNode* parseInputSourceCode(Buffer& buffer)
+{
+	stack<int> st;
+	st.push(-1);
+	st.push(parser.start_index);
+
+	ParseTreeNode* parseTree = new ParseTreeNode;
+	parseTree->symbol_index = st.top();
+
+	ParseTreeNode* node = parseTree;
+	Token* lookahead = getNextToken(buffer);
+
+	bool isError = false;
+	while (lookahead != nullptr)
+	{
+		if (lookahead->type == TokenType::TK_ERROR_LENGTH)
+		{
+			isError = true;
+			cout << "Line " << lookahead->line_number << " \t\terror: Identifier is longer than the allowed length." << endl;
+
+			lookahead = getNextToken(buffer);
+			continue;
+		}
+		if (lookahead->type == TokenType::TK_ERROR_PATTERN)
+		{
+			isError = true;
+			cout << "Line " << lookahead->line_number << " \t\terror: Unknown Pattern <" << lookahead->lexeme << ">" << endl;
+
+			lookahead = getNextToken(buffer);
+			continue;
+		}
+		if (lookahead->type == TokenType::TK_ERROR_SYMBOL)
+		{
+			isError = true;
+			cout << "Line " << lookahead->line_number << " \t\terror: Unknown Symbol <" << lookahead->lexeme << ">" << endl;
+
+			lookahead = getNextToken(buffer);
+			continue;
+		}
+
+		int stack_top = st.top();
+		int input_terminal = parser.symbolStr2symbolType[dfa.tokenType2tokenStr[(int)lookahead->type]];
+
+		if (stack_top == -1)
+			break;
+
+		cout << "Stack config: ";
+		printStack(st);
+		cout << "Input symbol: " << parser.symbolType2symbolStr[input_terminal] << endl << endl;
+
+		// if top of stack matches with input terminal (terminal at top of stack)
+		if (stack_top == input_terminal)
+		{
+			cout << "Top matched!!" << endl;
+			node->isLeaf = 1;
+			node->token = lookahead;
+			_pop(&node, st);
+			lookahead = getNextToken(buffer);
+			continue;
+		}
+
+		int line_number = lookahead->line_number;
+		const string &la_token = parser.symbolType2symbolStr[input_terminal];
+		const string &lexeme = lookahead->lexeme;
+		const string &expected_token = parser.symbolType2symbolStr[stack_top];
+
+		// if top of stack is terminal but it is not matching with input look-ahead
+		if (stack_top < parser.num_terminals)
+		{
+			isError = true;
+			cout << "Line " << line_number << "\t\terror: The token " << la_token << " for lexeme " << lexeme << " does not match with the expected token " << expected_token << endl;
+			_pop(&node, st);
+			continue;
+		}
+
+		// Here, top of stack is always non-terminal
+
+		int production_number = parser.parseTable[stack_top][input_terminal];
+
+		// if it is a valid production
+		if (production_number >= 0)
+		{
+			cout << "Expanding along: " << parser.symbolType2symbolStr[parser.productions[production_number][0]] << " ---> ";
+			for (int j = 1; j < parser.productions[production_number].size(); ++j)
+				cout << parser.symbolType2symbolStr[parser.productions[production_number][j]] << " ";
+			cout << endl;
+
+			const vector<int> &production = parser.productions[production_number];
+			int production_size = parser.productions[production_number].size();
+			node->productionNumber = production_number;
+
+			// empty production
+			if (production_size == 2 && production[1] == 0)
+			{
+				_pop(&node, st);
+				continue;
+			}
+
+			st.pop();
+
+			node->children.assign(production_size - 1, nullptr);
+
+			for (size_t i = production_size - 1; i > 0; --i)
+			{
+				st.push(production[i]);
+
+				// -1 here because production[0] is the start symbol
+				node->children[i - 1] = new ParseTreeNode;
+
+				node->children[i - 1]->parent = node;
+				node->children[i - 1]->symbol_index = production[i];
+				node->children[i - 1]->parent_child_index = i - 1;
+			}
+
+			node = node->children[0];
+			continue;
+		}
+
+		// if the production is not found and neither it is in sync set
+		if (production_number == -1)
+		{
+			lookahead = getNextToken(buffer);
+			continue;
+		}
+
+		// left case is for sync set
+		assert(production_number == -2);
+
+		isError = true;
+		cout << "Line " << line_number << "\t\terror: Invalid token " << la_token << " encountered with value " << lexeme << " stack top " << expected_token << endl;
+		_pop(&node, st);
+	}
+
+	assert(st.top() == -1);
+
+	if (!isError)
+		fprintf(stderr, "Input source code is syntactically correct.\n");
+
+	return parseTree;
+}

@@ -109,4 +109,4 @@ struct DFA
 extern DFA dfa;
 
 void loadDFA();
-const Token* getNextToken(Buffer&);
+Token* getNextToken(Buffer&);

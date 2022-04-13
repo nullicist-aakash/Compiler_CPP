@@ -10,10 +10,5 @@ int main()
 	loadParser();
 
 	Buffer buffer("testcase1.txt");
-	const Token* t;
-	while ((t = getNextToken(buffer)) != nullptr)
-	{
-		cout << *t << endl;
-		delete t;
-	}
+	parseInputSourceCode(buffer);
 }
