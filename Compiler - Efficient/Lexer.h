@@ -3,9 +3,7 @@
 #include <fstream>
 #include <string>
 
-#define LexerLoc "DFA.txt"
-
-using namespace std;
+extern const char* LexerLoc;
 
 enum class TokenType
 {
@@ -76,7 +74,7 @@ enum class TokenType
 struct Token
 {
 	TokenType type = TokenType::UNINITIALISED;
-	string lexeme;
+	std::string lexeme;
 	int line_number = 0;
 	int start_index = 0;
 	int length = 0;
@@ -84,15 +82,5 @@ struct Token
 	friend std::ostream& operator<<(std::ostream&, const Token&);
 };
 
-class Lexer
-{
-private:
-	Buffer buffer;
-
-	Token* DFA(int start_index);
-
-public:
-	Lexer(const char*);
-
-	const Token* getNextToken();
-};
+void loadDFA();
+const Token* getNextToken(Buffer&);

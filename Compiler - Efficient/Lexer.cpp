@@ -4,90 +4,107 @@
 #include <vector>
 #include <cassert>
 #include <iomanip>
+using namespace std;
 
-vector<string> tokenType2tokenStr;
+const char* LexerLoc = "DFA.txt";
 
-int num_tokens;
-int num_states;
-int num_transitions;
-int num_finalstates;
-int num_keywords;
-
-vector<vector<int>> productions;
-vector<TokenType> finalStates;
-map<string, TokenType> tokenStr2tokenType;
-map<string, TokenType> lookupTable;	// move to global in future
-
-void loadLexer()
+struct DFA
 {
-	std::ifstream dfa{ LexerLoc };
-	assert(dfa);
-	dfa >> num_tokens >> num_states >> num_transitions >> num_finalstates >> num_keywords;
+	int num_tokens;
+	int num_states;
+	int num_transitions;
+	int num_finalStates;
+	int num_keywords;
 
-	// Load Tokens
-	tokenType2tokenStr.resize(num_tokens);
-	for (int i = 0; i < num_tokens; ++i)
+	vector<vector<int>> productions;
+	vector<TokenType> finalStates;
+	vector<string> tokenType2tokenStr;
+	map<string, TokenType> tokenStr2tokenType;
+	map<string, TokenType> lookupTable;
+
+	DFA() : num_tokens {0}, num_states{0}, num_transitions{0}, num_finalStates{0}, num_keywords{0}
 	{
-		dfa >> tokenType2tokenStr[i];
-		tokenStr2tokenType[tokenType2tokenStr[i]] = (TokenType)i;
+
 	}
+};
 
-	// Load Transitions
-	productions.assign(num_states, vector<int>(128, -1));
-
-	for (int i = 0; i < num_transitions; ++i)
-	{
-		int from, to;
-		string symbols;
-		dfa >> from >> to >> symbols;
-
-		for (char c : symbols)
-			productions[from][c] = to;
-	}
-
-	for (int i = 0; i < 128; i++)
-		productions[48][i] = 48;		// state 48 - accept state for comment
-
-	productions[48]['\n'] = -1;
-
-	productions[0][' ']
-		= productions[0]['\t']
-		= productions[0]['\r']
-		= productions[50][' ']
-		= productions[50]['\t']
-		= productions[50]['\r']
-		= 50;
-
-	// Load Final States
-	finalStates.assign(num_states, TokenType::UNINITIALISED);
-
-	for (int i = 0; i < num_finalstates; i++)
-	{
-		int state;
-		string BUFF;
-		dfa >> state >> BUFF;
-
-		finalStates[state] = tokenStr2tokenType[BUFF];
-	}
-
-	// Load Keywords
-	for (int i = 0; i < num_keywords; ++i)
-	{
-		string keyword, token_name;
-		dfa >> keyword >> token_name;
-		lookupTable[keyword] = tokenStr2tokenType[token_name];
-	}
-}
+DFA dfa;
 
 std::ostream& operator<< (std::ostream& out, const Token& token)
 {
-	out << "Line no: " << token.line_number << "\tToken: " << setw(20) << tokenType2tokenStr[(int)token.type] << "\tLexeme: " << token.lexeme;
+	out << "Line no: " << token.line_number << "\tToken: " << setw(20) << dfa.tokenType2tokenStr[(int)token.type] << "\tLexeme: " << token.lexeme;
 	return out;
 }
 
-Token* Lexer::DFA(int start_index)
+void loadDFA()
+{
+	std::ifstream dfaReader{ LexerLoc };
+	assert(dfaReader);
+	dfaReader >>  dfa.num_tokens >> dfa.num_states >> dfa.num_transitions >> dfa.num_finalStates >> dfa.num_keywords;
+
+	// Load Tokens
+	dfa.tokenType2tokenStr.clear();
+	dfa.tokenType2tokenStr.resize(dfa.num_tokens);
+	for (int i = 0; i < dfa.num_tokens; ++i)
+	{
+		dfaReader >>  dfa.tokenType2tokenStr[i];
+		dfa.tokenStr2tokenType[dfa.tokenType2tokenStr[i]] = (TokenType)i;
+	}
+
+	// Load Transitions
+	dfa.productions.clear();
+	dfa.productions.assign(dfa.num_states, vector<int>(128, -1));
+
+	for (int i = 0; i < dfa.num_transitions; ++i)
+	{
+		int from, to;
+		string symbols;
+		dfaReader >>  from >> to >> symbols;
+
+		for (char c : symbols)
+			dfa.productions[from][c] = to;
+	}
+
+	for (int i = 0; i < 128; i++)
+		dfa.productions[48][i] = 48;		// state 48 - accept state for comment
+
+	dfa.productions[48]['\n'] = -1;
+
+	dfa.productions[0][' ']
+		= dfa.productions[0]['\t']
+		= dfa.productions[0]['\r']
+		= dfa.productions[50][' ']
+		= dfa.productions[50]['\t']
+		= dfa.productions[50]['\r']
+		= 50;
+
+	// Load Final States
+	dfa.finalStates.clear();
+	dfa.finalStates.assign(dfa.num_states, TokenType::UNINITIALISED);
+
+	for (int i = 0; i < dfa.num_finalStates; i++)
+	{
+		int state;
+		string BUFF;
+		dfaReader >>  state >> BUFF;
+
+		dfa.finalStates[state] = dfa.tokenStr2tokenType[BUFF];
+	}
+
+	// Load Keywords
+	dfa.lookupTable.clear();
+	for (int i = 0; i < dfa.num_keywords; ++i)
+	{
+		string keyword, token_name;
+		dfaReader >>  keyword >> token_name;
+		dfa.lookupTable[keyword] = dfa.tokenStr2tokenType[token_name];
+	}
+}
+
+Token* getTokenFromDFA(Buffer& buffer)
 {
 	TokenType ttype;
+	int start_index = buffer.start_index;
 	int last_final = -1;
 	int input_final_pos = start_index - 1;
 
@@ -101,10 +118,10 @@ Token* Lexer::DFA(int start_index)
 		char input = buffer.getChar(start_index);
 
 		last_final = cur_state;
-		ttype = finalStates[cur_state];
+		ttype = dfa.finalStates[cur_state];
 		input_final_pos = start_index - 1;
 
-		cur_state = productions[cur_state][input];
+		cur_state = dfa.productions[cur_state][input];
 
 		if (cur_state == -1)    // return
 		{
@@ -115,7 +132,7 @@ Token* Lexer::DFA(int start_index)
 				token->length = 1;
 				return token;
 			}
-			if (finalStates[last_final] == TokenType::UNINITIALISED && last_final != 0)
+			if (dfa.finalStates[last_final] == TokenType::UNINITIALISED && last_final != 0)
 			{
 				Token* token = new Token;
 				token->type = TokenType::TK_ERROR_PATTERN;
@@ -137,17 +154,7 @@ Token* Lexer::DFA(int start_index)
 	assert(false);
 }
 
-Lexer::Lexer(const char* fileLoc) : buffer{ fileLoc }
-{
-	static bool isLexerLoaded = false;
-	if (!isLexerLoaded)
-	{
-		loadLexer();
-		isLexerLoaded = true;
-	}
-}
-
-const Token* Lexer::getNextToken()
+const Token* getNextToken(Buffer& buffer)
 {
 	while (buffer.getTopChar() != '\0')
 	{
@@ -158,7 +165,7 @@ const Token* Lexer::getNextToken()
 			continue;
 		}
 
-		Token* token = DFA(buffer.start_index);
+		Token* token = getTokenFromDFA(buffer);
 
 		assert(token != nullptr);
 
@@ -179,8 +186,8 @@ const Token* Lexer::getNextToken()
 
 		if (token->type == TokenType::TK_ID || token->type == TokenType::TK_FUNID || token->type == TokenType::TK_FIELDID)
 		{
-			if (lookupTable.find(token->lexeme) != lookupTable.end())
-				token->type = lookupTable.at(token->lexeme);
+			if (dfa.lookupTable.find(token->lexeme) != dfa.lookupTable.end())
+				token->type = dfa.lookupTable.at(token->lexeme);
 		}
 
 		// Assign error types
