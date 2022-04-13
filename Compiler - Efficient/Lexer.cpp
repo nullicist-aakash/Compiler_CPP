@@ -1,32 +1,9 @@
 #include "Lexer.h"
-#include <map>
-#include <set>
-#include <vector>
 #include <cassert>
 #include <iomanip>
 using namespace std;
 
 const char* LexerLoc = "DFA.txt";
-
-struct DFA
-{
-	int num_tokens;
-	int num_states;
-	int num_transitions;
-	int num_finalStates;
-	int num_keywords;
-
-	vector<vector<int>> productions;
-	vector<TokenType> finalStates;
-	vector<string> tokenType2tokenStr;
-	map<string, TokenType> tokenStr2tokenType;
-	map<string, TokenType> lookupTable;
-
-	DFA() : num_tokens {0}, num_states{0}, num_transitions{0}, num_finalStates{0}, num_keywords{0}
-	{
-
-	}
-};
 
 DFA dfa;
 
@@ -98,6 +75,7 @@ void loadDFA()
 		string keyword, token_name;
 		dfaReader >>  keyword >> token_name;
 		dfa.lookupTable[keyword] = dfa.tokenStr2tokenType[token_name];
+		dfa.keywordTokens.insert(token_name);
 	}
 }
 

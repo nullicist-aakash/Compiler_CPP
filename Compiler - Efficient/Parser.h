@@ -4,7 +4,7 @@
 
 extern const char* GrammarLoc;
 
-struct TreeNode
+struct ParseTreeNode
 {
 	int symbol_index;
 	int parent_child_index;
@@ -13,8 +13,8 @@ struct TreeNode
 	const Token* token;
 
 	int isLeaf;
-	TreeNode* parent;
-	std::vector<TreeNode*> children;
+	const ParseTreeNode* parent;
+	std::vector<const ParseTreeNode*> children;
 };
 
 void loadParser();

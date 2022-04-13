@@ -16,12 +16,12 @@ public:
 	int start_index;
 
 	vector<vector<int>> productions;
+	vector<string> symbolType2symbolStr;
+	map<string, int> symbolStr2symbolType;
+	bitset<128> nullable;
 	vector<bitset<128>> firstSet;
 	vector<bitset<128>> followSet;
-	bitset<128> nullable;
-	vector<string> symbolType2symbolStr;
 	vector<vector<int>> parseTable;
-	map<string, int> symbolStr2symbolType;
 
 	Parser() : num_non_terminals{ 0 }, num_terminals{ 0 }, start_index{ 0 }
 	{
@@ -190,6 +190,64 @@ public:
 			cout << "\b\b }" << endl;
 		}
 	}
+
+	void computeParseTable()
+	{
+		parseTable.clear();
+		parseTable.resize(symbolType2symbolStr.size(), vector<int>(num_terminals, -1));
+
+		vector<bitset<128>> select(symbolType2symbolStr.size());
+
+		for (auto& production : productions)
+		{
+			for (int j = 1; j < production.size(); ++j)
+			{
+				select[production[0]] |= firstSet[production[j]];
+
+				if (!nullable.test(production[j]))
+					break;
+
+				if (j == production.size() - 1)
+					select[production[0]] |= followSet[production[0]];
+			}
+		}
+
+		// fill parse table
+		for (int i = 0; i < productions.size(); ++i)
+		{
+			for (int j = 0; j < num_terminals; ++j)
+			{
+				if (!select[productions[i][0]].test(j))
+					continue;
+
+				parseTable[productions[i][0]][j] = i;
+			}
+		}
+
+		// fill for sync sets
+		for (int i = 0; i < parseTable.size(); ++i)
+		{
+			for (int j = 0; j < num_terminals; ++j)
+			{
+				if (parseTable[i][j] > -1)
+					continue;
+
+				if (followSet[i].test(j))
+					parseTable[i][j] = -2;
+			}
+		}
+
+		for (auto& keyword : dfa.keywordTokens)
+		{
+			int col = symbolStr2symbolType[keyword];
+
+			assert(col > 0);
+
+			for (auto& row : parseTable)
+				if (row[col] == -1)
+					row[col] = -2;
+		}
+	}
 };
 
 Parser parser;
@@ -231,4 +289,6 @@ void loadParser()
 	parser.computeNullables();
 	parser.computeFirstSets();
 	parser.computeFollowSets();
+	parser.computeParseTable();
 }
+

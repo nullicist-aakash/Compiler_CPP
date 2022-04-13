@@ -1,7 +1,10 @@
 #pragma once
 #include "Buffer.h"
 #include <fstream>
+#include <set>
 #include <string>
+#include <map>
+#include <vector>
 
 extern const char* LexerLoc;
 
@@ -81,6 +84,29 @@ struct Token
 
 	friend std::ostream& operator<<(std::ostream&, const Token&);
 };
+
+struct DFA
+{
+	int num_tokens;
+	int num_states;
+	int num_transitions;
+	int num_finalStates;
+	int num_keywords;
+
+	std::vector<std::vector<int>> productions;
+	std::vector<TokenType> finalStates;
+	std::vector<std::string> tokenType2tokenStr;
+	std::map<std::string, TokenType> tokenStr2tokenType;
+	std::map<std::string, TokenType> lookupTable;
+	std::set<std::string> keywordTokens;
+
+	DFA() : num_tokens{ 0 }, num_states{ 0 }, num_transitions{ 0 }, num_finalStates{ 0 }, num_keywords{ 0 }
+	{
+
+	}
+};
+
+extern DFA dfa;
 
 void loadDFA();
 const Token* getNextToken(Buffer&);
