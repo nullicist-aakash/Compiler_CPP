@@ -1,5 +1,7 @@
 #include "SymbolTable.h"
 #include <iostream>
+#include <string>
+#include <map>
 using namespace std;
 
 map<string, TypeLog*> globalSymbolTable;
@@ -10,6 +12,34 @@ int identifierCount = 0;
 
 vector<TypeLog*> structList;
 vector<vector<int>> adj;
+
+std::ostream& operator<<(std::ostream& out, const TypeEntry& entry)
+{
+    out << "{ name: " << entry.name << " }";
+    return out;
+}
+
+std::ostream& operator<<(std::ostream& out, const TypeLog& type)
+{
+    out << "{ refCount: " << type.refCount << ", index: " << type.index << ", width: " << type.width << ", entryType: " << (
+        type.entryType == TypeTag::INT ? "int" :
+        type.entryType == TypeTag::REAL ? "real" :
+        type.entryType == TypeTag::BOOL ? "##bool" :
+        type.entryType == TypeTag::VOID ? "##void" :
+        type.entryType == TypeTag::DERIVED ? "derived" :
+        type.entryType == TypeTag::FUNCTION ? "function" :
+        type.entryType == TypeTag::VARIABLE ? "variable" :
+        "unknown") << ", structure: ";
+
+    if (type.structure)
+        out << *type.structure;
+    else
+        out << "(null)";
+
+    out << " }";
+
+    return out;
+}
 
 void dfs(int v, vector<bool>& visited, vector<int>& ans)
 {

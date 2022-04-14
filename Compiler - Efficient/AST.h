@@ -2,12 +2,16 @@
 #include "Parser.h"
 #include <vector>
 
+struct TypeLog;
+std::ostream& operator<<(std::ostream&, const TypeLog&);
+
 struct ASTNode
 {
 	int isLeaf = 0;
 	int isGlobal = 0;
 	int sym_index = 0;
 
+	TypeLog* derived_type = nullptr;
 	Token* token = nullptr;
 	ASTNode* type = nullptr;
 	std::vector<ASTNode*> children;

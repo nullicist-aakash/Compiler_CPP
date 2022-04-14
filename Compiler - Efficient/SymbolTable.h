@@ -28,6 +28,8 @@ public:
     {
 
     }
+
+    friend std::ostream& operator<<(std::ostream&, const TypeEntry&);
 };
 
 struct TypeLog
@@ -38,6 +40,8 @@ struct TypeLog
 
     TypeTag entryType;
     TypeEntry* structure;
+
+    friend std::ostream& operator<<(std::ostream&, const TypeLog&);
 };
 
 // Derived Classes
@@ -80,5 +84,9 @@ public:
     }
 };
 
+extern int dataTypeCount;
+extern int identifierCount;
+extern std::map<std::string, TypeLog*> globalSymbolTable;
+extern std::map<std::string, TokenType> prefixTable;
 
 void loadSymbolTable(const ASTNode*);

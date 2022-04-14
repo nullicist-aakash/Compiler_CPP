@@ -2659,3 +2659,147 @@ Input symbol: TK_END
 Top matched!!
 Input source code is syntactically correct.
 
+Assignment with incompatible types at line no. 16
+Operation b5c6 - d5cc34 with incompatible types at line no. 17
+Assignment with incompatible types at line no. 17
+Operation b5b567 <= d5cc34 with incompatible types at line no. 18
+Operation d3 + d5cc34 with incompatible types at line no. 20
+Assignment with incompatible types at line no. 20
+Operation b5b567 + 1 with incompatible types at line no. 21
+Assignment with incompatible types at line no. 21
+Operation . + . with incompatible types at line no. 54
+Operation + - . with incompatible types at line no. 54
+Assignment with incompatible types at line no. 54
+Assignment with incompatible types at line no. 56
+{ symbol: 'program', lexeme: '', isGlobal: no, type: (null) }
+	{ symbol: 'function', lexeme: '_unionfunction', isGlobal: no, type: (null) }
+		{ symbol: 'parameter_list', lexeme: 'd5cc34', isGlobal: no, type: { refCount: 6, index: 4, width: 16, entryType: derived, structure: { name: #two } } }
+		{ symbol: 'parameter_list', lexeme: 'b5c6', isGlobal: no, type: { refCount: 7, index: 5, width: 8, entryType: derived, structure: { name: #one } } }
+		{ symbol: 'parameter_list', lexeme: 'd3', isGlobal: no, type: { refCount: 3, index: 1, width: 4, entryType: real, structure: (null) } }
+		{ symbol: 'stmts', lexeme: '', isGlobal: no, type: (null) }
+			{ symbol: 'typeDefinition', lexeme: 'record', isGlobal: no, type: (null) }
+				{ symbol: 'TK_RUID', lexeme: '#two', isGlobal: no, type: (null) }
+				{ symbol: 'fieldDefinition', lexeme: 'beginpoint', isGlobal: no, type: (null) }
+				{ symbol: 'fieldDefinition', lexeme: 'endpoint', isGlobal: no, type: (null) }
+			{ symbol: 'declaration', lexeme: 'b5b567', isGlobal: no, type: { refCount: 6, index: 4, width: 16, entryType: derived, structure: { name: #two } } }
+			{ symbol: 'declaration', lexeme: 'b3', isGlobal: no, type: { refCount: 7, index: 5, width: 8, entryType: derived, structure: { name: #one } } }
+			{ symbol: 'declaration', lexeme: 'd5', isGlobal: no, type: { refCount: 7, index: 5, width: 8, entryType: derived, structure: { name: #one } } }
+			{ symbol: 'assignmentStmt', lexeme: '<---', isGlobal: no, type: (null) }
+				{ symbol: 'TK_ID', lexeme: 'b5b567', isGlobal: no, type: { refCount: 6, index: 4, width: 16, entryType: derived, structure: { name: #two } } }
+				{ symbol: 'TK_MUL', lexeme: '*', isGlobal: no, type: (null) }
+					{ symbol: 'TK_ID', lexeme: 'b5c6', isGlobal: no, type: { refCount: 7, index: 5, width: 8, entryType: derived, structure: { name: #one } } }
+					{ symbol: 'TK_NUM', lexeme: '2', isGlobal: no, type: { refCount: 2, index: 0, width: 2, entryType: int, structure: (null) } }
+			{ symbol: 'assignmentStmt', lexeme: '<---', isGlobal: no, type: (null) }
+				{ symbol: 'TK_ID', lexeme: 'b3', isGlobal: no, type: { refCount: 7, index: 5, width: 8, entryType: derived, structure: { name: #one } } }
+				{ symbol: 'TK_MINUS', lexeme: '-', isGlobal: no, type: (null) }
+					{ symbol: 'TK_ID', lexeme: 'b5c6', isGlobal: no, type: { refCount: 7, index: 5, width: 8, entryType: derived, structure: { name: #one } } }
+					{ symbol: 'TK_ID', lexeme: 'd5cc34', isGlobal: no, type: { refCount: 6, index: 4, width: 16, entryType: derived, structure: { name: #two } } }
+			{ symbol: 'iterativeStmt', lexeme: 'while', isGlobal: no, type: { refCount: 1, index: 3, width: 0, entryType: ##void, structure: (null) } }
+				{ symbol: 'TK_LE', lexeme: '<=', isGlobal: no, type: (null) }
+					{ symbol: 'TK_ID', lexeme: 'b5b567', isGlobal: no, type: { refCount: 6, index: 4, width: 16, entryType: derived, structure: { name: #two } } }
+					{ symbol: 'TK_ID', lexeme: 'd5cc34', isGlobal: no, type: { refCount: 6, index: 4, width: 16, entryType: derived, structure: { name: #two } } }
+				{ symbol: 'ioStmt', lexeme: 'read', isGlobal: no, type: { refCount: 1, index: 3, width: 0, entryType: ##void, structure: (null) } }
+					{ symbol: 'TK_ID', lexeme: 'd5cc34', isGlobal: no, type: { refCount: 6, index: 4, width: 16, entryType: derived, structure: { name: #two } } }
+				{ symbol: 'assignmentStmt', lexeme: '<---', isGlobal: no, type: (null) }
+					{ symbol: 'TK_ID', lexeme: 'd3', isGlobal: no, type: { refCount: 3, index: 1, width: 4, entryType: real, structure: (null) } }
+					{ symbol: 'TK_PLUS', lexeme: '+', isGlobal: no, type: (null) }
+						{ symbol: 'TK_ID', lexeme: 'd3', isGlobal: no, type: { refCount: 3, index: 1, width: 4, entryType: real, structure: (null) } }
+						{ symbol: 'TK_ID', lexeme: 'd5cc34', isGlobal: no, type: { refCount: 6, index: 4, width: 16, entryType: derived, structure: { name: #two } } }
+				{ symbol: 'assignmentStmt', lexeme: '<---', isGlobal: no, type: (null) }
+					{ symbol: 'TK_ID', lexeme: 'b5b567', isGlobal: no, type: { refCount: 6, index: 4, width: 16, entryType: derived, structure: { name: #two } } }
+					{ symbol: 'TK_PLUS', lexeme: '+', isGlobal: no, type: (null) }
+						{ symbol: 'TK_ID', lexeme: 'b5b567', isGlobal: no, type: { refCount: 6, index: 4, width: 16, entryType: derived, structure: { name: #two } } }
+						{ symbol: 'TK_NUM', lexeme: '1', isGlobal: no, type: { refCount: 2, index: 0, width: 2, entryType: int, structure: (null) } }
+			{ symbol: 'idList', lexeme: 'd3', isGlobal: no, type: (null) }
+	{ symbol: 'mainFunction', lexeme: '_main', isGlobal: no, type: (null) }
+		{ symbol: 'stmts', lexeme: '', isGlobal: no, type: (null) }
+			{ symbol: 'typeDefinition', lexeme: 'record', isGlobal: no, type: (null) }
+				{ symbol: 'TK_RUID', lexeme: '#one', isGlobal: no, type: (null) }
+				{ symbol: 'fieldDefinition', lexeme: 'x', isGlobal: no, type: (null) }
+				{ symbol: 'fieldDefinition', lexeme: 'y', isGlobal: no, type: (null) }
+			{ symbol: 'definetypestmt', lexeme: 'definetype', isGlobal: no, type: (null) }
+				{ symbol: 'A', lexeme: 'record', isGlobal: no, type: (null) }
+				{ symbol: 'TK_RUID', lexeme: '#one', isGlobal: no, type: (null) }
+				{ symbol: 'TK_RUID', lexeme: '#point', isGlobal: no, type: (null) }
+			{ symbol: 'definetypestmt', lexeme: 'definetype', isGlobal: no, type: (null) }
+				{ symbol: 'A', lexeme: 'record', isGlobal: no, type: (null) }
+				{ symbol: 'TK_RUID', lexeme: '#two', isGlobal: no, type: (null) }
+				{ symbol: 'TK_RUID', lexeme: '#line', isGlobal: no, type: (null) }
+			{ symbol: 'typeDefinition', lexeme: 'union', isGlobal: no, type: (null) }
+				{ symbol: 'TK_RUID', lexeme: '#four', isGlobal: no, type: (null) }
+				{ symbol: 'fieldDefinition', lexeme: 'ln', isGlobal: no, type: (null) }
+				{ symbol: 'fieldDefinition', lexeme: 'pt', isGlobal: no, type: (null) }
+				{ symbol: 'fieldDefinition', lexeme: 'tr', isGlobal: no, type: (null) }
+			{ symbol: 'definetypestmt', lexeme: 'definetype', isGlobal: no, type: (null) }
+				{ symbol: 'A', lexeme: 'record', isGlobal: no, type: (null) }
+				{ symbol: 'TK_RUID', lexeme: '#three', isGlobal: no, type: (null) }
+				{ symbol: 'TK_RUID', lexeme: '#triangle', isGlobal: no, type: (null) }
+			{ symbol: 'typeDefinition', lexeme: 'record', isGlobal: no, type: (null) }
+				{ symbol: 'TK_RUID', lexeme: '#three', isGlobal: no, type: (null) }
+				{ symbol: 'fieldDefinition', lexeme: 'base', isGlobal: no, type: (null) }
+				{ symbol: 'fieldDefinition', lexeme: 'height', isGlobal: no, type: (null) }
+			{ symbol: 'definetypestmt', lexeme: 'definetype', isGlobal: no, type: (null) }
+				{ symbol: 'A', lexeme: 'union', isGlobal: no, type: (null) }
+				{ symbol: 'TK_RUID', lexeme: '#four', isGlobal: no, type: (null) }
+				{ symbol: 'TK_RUID', lexeme: '#shape', isGlobal: no, type: (null) }
+			{ symbol: 'typeDefinition', lexeme: 'record', isGlobal: no, type: (null) }
+				{ symbol: 'TK_RUID', lexeme: '#variantrecord', isGlobal: no, type: (null) }
+				{ symbol: 'fieldDefinition', lexeme: 'tag', isGlobal: no, type: (null) }
+				{ symbol: 'fieldDefinition', lexeme: 's', isGlobal: no, type: (null) }
+			{ symbol: 'declaration', lexeme: 'd4', isGlobal: no, type: { refCount: 1, index: 8, width: 34, entryType: derived, structure: { name: #variantrecord } } }
+			{ symbol: 'declaration', lexeme: 'd5cb34567', isGlobal: no, type: { refCount: 2, index: 0, width: 2, entryType: int, structure: (null) } }
+			{ symbol: 'declaration', lexeme: 'b5', isGlobal: no, type: { refCount: 2, index: 0, width: 2, entryType: int, structure: (null) } }
+			{ symbol: 'declaration', lexeme: 'b5c6', isGlobal: no, type: { refCount: 1, index: 8, width: 34, entryType: derived, structure: { name: #variantrecord } } }
+			{ symbol: 'assignmentStmt', lexeme: '<---', isGlobal: no, type: (null) }
+				{ symbol: 'TK_ID', lexeme: 'b5c6', isGlobal: no, type: { refCount: 1, index: 8, width: 34, entryType: derived, structure: { name: #variantrecord } } }
+				{ symbol: 'TK_MINUS', lexeme: '-', isGlobal: no, type: (null) }
+					{ symbol: 'TK_PLUS', lexeme: '+', isGlobal: no, type: (null) }
+						{ symbol: 'TK_DOT', lexeme: '.', isGlobal: no, type: { refCount: 2, index: 0, width: 2, entryType: int, structure: (null) } }
+							{ symbol: 'TK_ID', lexeme: 'b5c6', isGlobal: no, type: { refCount: 1, index: 8, width: 34, entryType: derived, structure: { name: #variantrecord } } }
+							{ symbol: 'TK_FIELDID', lexeme: 'tag', isGlobal: no, type: { refCount: 2, index: 0, width: 2, entryType: int, structure: (null) } }
+						{ symbol: 'TK_DOT', lexeme: '.', isGlobal: no, type: { refCount: 3, index: 1, width: 4, entryType: real, structure: (null) } }
+							{ symbol: 'TK_DOT', lexeme: '.', isGlobal: no, type: { refCount: 7, index: 5, width: 8, entryType: derived, structure: { name: #one } } }
+								{ symbol: 'TK_DOT', lexeme: '.', isGlobal: no, type: { refCount: 6, index: 4, width: 16, entryType: derived, structure: { name: #two } } }
+									{ symbol: 'TK_DOT', lexeme: '.', isGlobal: no, type: { refCount: 3, index: 6, width: 32, entryType: derived, structure: { name: #four } } }
+										{ symbol: 'TK_ID', lexeme: 'd4', isGlobal: no, type: { refCount: 1, index: 8, width: 34, entryType: derived, structure: { name: #variantrecord } } }
+										{ symbol: 'TK_FIELDID', lexeme: 's', isGlobal: no, type: { refCount: 3, index: 6, width: 32, entryType: derived, structure: { name: #four } } }
+									{ symbol: 'TK_FIELDID', lexeme: 'ln', isGlobal: no, type: { refCount: 6, index: 4, width: 16, entryType: derived, structure: { name: #two } } }
+								{ symbol: 'TK_FIELDID', lexeme: 'beginpoint', isGlobal: no, type: { refCount: 7, index: 5, width: 8, entryType: derived, structure: { name: #one } } }
+							{ symbol: 'TK_FIELDID', lexeme: 'x', isGlobal: no, type: { refCount: 3, index: 1, width: 4, entryType: real, structure: (null) } }
+					{ symbol: 'TK_DOT', lexeme: '.', isGlobal: no, type: { refCount: 3, index: 1, width: 4, entryType: real, structure: (null) } }
+						{ symbol: 'TK_DOT', lexeme: '.', isGlobal: no, type: { refCount: 7, index: 5, width: 8, entryType: derived, structure: { name: #one } } }
+							{ symbol: 'TK_DOT', lexeme: '.', isGlobal: no, type: { refCount: 6, index: 4, width: 16, entryType: derived, structure: { name: #two } } }
+								{ symbol: 'TK_DOT', lexeme: '.', isGlobal: no, type: { refCount: 3, index: 7, width: 32, entryType: derived, structure: { name: #three } } }
+									{ symbol: 'TK_DOT', lexeme: '.', isGlobal: no, type: { refCount: 3, index: 6, width: 32, entryType: derived, structure: { name: #four } } }
+										{ symbol: 'TK_ID', lexeme: 'b5c6', isGlobal: no, type: { refCount: 1, index: 8, width: 34, entryType: derived, structure: { name: #variantrecord } } }
+										{ symbol: 'TK_FIELDID', lexeme: 's', isGlobal: no, type: { refCount: 3, index: 6, width: 32, entryType: derived, structure: { name: #four } } }
+									{ symbol: 'TK_FIELDID', lexeme: 'tr', isGlobal: no, type: { refCount: 3, index: 7, width: 32, entryType: derived, structure: { name: #three } } }
+								{ symbol: 'TK_FIELDID', lexeme: 'base', isGlobal: no, type: { refCount: 6, index: 4, width: 16, entryType: derived, structure: { name: #two } } }
+							{ symbol: 'TK_FIELDID', lexeme: 'beginpoint', isGlobal: no, type: { refCount: 7, index: 5, width: 8, entryType: derived, structure: { name: #one } } }
+						{ symbol: 'TK_FIELDID', lexeme: 'y', isGlobal: no, type: { refCount: 3, index: 1, width: 4, entryType: real, structure: (null) } }
+			{ symbol: 'assignmentStmt', lexeme: '<---', isGlobal: no, type: { refCount: 1, index: 3, width: 0, entryType: ##void, structure: (null) } }
+				{ symbol: 'TK_ID', lexeme: 'b5', isGlobal: no, type: { refCount: 2, index: 0, width: 2, entryType: int, structure: (null) } }
+				{ symbol: 'TK_PLUS', lexeme: '+', isGlobal: no, type: { refCount: 2, index: 0, width: 2, entryType: int, structure: (null) } }
+					{ symbol: 'TK_ID', lexeme: 'b5', isGlobal: no, type: { refCount: 2, index: 0, width: 2, entryType: int, structure: (null) } }
+					{ symbol: 'TK_NUM', lexeme: '1', isGlobal: no, type: { refCount: 2, index: 0, width: 2, entryType: int, structure: (null) } }
+			{ symbol: 'assignmentStmt', lexeme: '<---', isGlobal: no, type: (null) }
+				{ symbol: 'TK_ID', lexeme: 'd4', isGlobal: no, type: { refCount: 1, index: 8, width: 34, entryType: derived, structure: { name: #variantrecord } } }
+				{ symbol: 'TK_DIV', lexeme: '/', isGlobal: no, type: (null) }
+					{ symbol: 'TK_ID', lexeme: 'b5c6', isGlobal: no, type: { refCount: 1, index: 8, width: 34, entryType: derived, structure: { name: #variantrecord } } }
+					{ symbol: 'TK_ID', lexeme: 'd5cb34567', isGlobal: no, type: { refCount: 2, index: 0, width: 2, entryType: int, structure: (null) } }
+			{ symbol: 'ioStmt', lexeme: 'write', isGlobal: no, type: { refCount: 1, index: 3, width: 0, entryType: ##void, structure: (null) } }
+				{ symbol: 'TK_ID', lexeme: 'd4', isGlobal: no, type: { refCount: 1, index: 8, width: 34, entryType: derived, structure: { name: #variantrecord } } }
+			{ symbol: 'ioStmt', lexeme: 'write', isGlobal: no, type: { refCount: 1, index: 3, width: 0, entryType: ##void, structure: (null) } }
+				{ symbol: 'TK_DOT', lexeme: '.', isGlobal: no, type: { refCount: 3, index: 1, width: 4, entryType: real, structure: (null) } }
+					{ symbol: 'TK_DOT', lexeme: '.', isGlobal: no, type: { refCount: 7, index: 5, width: 8, entryType: derived, structure: { name: #one } } }
+						{ symbol: 'TK_DOT', lexeme: '.', isGlobal: no, type: { refCount: 6, index: 4, width: 16, entryType: derived, structure: { name: #two } } }
+							{ symbol: 'TK_DOT', lexeme: '.', isGlobal: no, type: { refCount: 3, index: 6, width: 32, entryType: derived, structure: { name: #four } } }
+								{ symbol: 'TK_ID', lexeme: 'd4', isGlobal: no, type: { refCount: 1, index: 8, width: 34, entryType: derived, structure: { name: #variantrecord } } }
+								{ symbol: 'TK_FIELDID', lexeme: 's', isGlobal: no, type: { refCount: 3, index: 6, width: 32, entryType: derived, structure: { name: #four } } }
+							{ symbol: 'TK_FIELDID', lexeme: 'ln', isGlobal: no, type: { refCount: 6, index: 4, width: 16, entryType: derived, structure: { name: #two } } }
+						{ symbol: 'TK_FIELDID', lexeme: 'beginpoint', isGlobal: no, type: { refCount: 7, index: 5, width: 8, entryType: derived, structure: { name: #one } } }
+					{ symbol: 'TK_FIELDID', lexeme: 'x', isGlobal: no, type: { refCount: 3, index: 1, width: 4, entryType: real, structure: (null) } }
+			{ symbol: 'ioStmt', lexeme: 'write', isGlobal: no, type: { refCount: 1, index: 3, width: 0, entryType: ##void, structure: (null) } }
+				{ symbol: 'TK_DOT', lexeme: '.', isGlobal: no, type: { refCount: 2, index: 0, width: 2, entryType: int, structure: (null) } }
+					{ symbol: 'TK_ID', lexeme: 'b5c6', isGlobal: no, type: { refCount: 1, index: 8, width: 34, entryType: derived, structure: { name: #variantrecord } } }
+					{ symbol: 'TK_FIELDID', lexeme: 'tag', isGlobal: no, type: { refCount: 2, index: 0, width: 2, entryType: int, structure: (null) } }

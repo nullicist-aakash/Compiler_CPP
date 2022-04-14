@@ -6,7 +6,21 @@ using namespace std;
 
 std::ostream& operator<<(std::ostream& out, const ASTNode& node)
 {
-	out << "{ symbol: '" << parser.symbolType2symbolStr[node.sym_index] << "', lexeme: '" << (node.token ? node.token->lexeme : "") << "', isGlobal: " << (node.isGlobal ? "yes" : "no") << " }";
+	out <<
+		"{ symbol: '" <<
+		parser.symbolType2symbolStr[node.sym_index] <<
+		"', lexeme: '" <<
+		(node.token ? node.token->lexeme : "") <<
+		"', isGlobal: " <<
+		(node.isGlobal ? "yes" : "no") <<
+		", type: ";
+
+	if (node.derived_type)
+		out << *(node.derived_type);
+	else
+		out << "(null)";
+
+	out << " }";
 	return out;
 }
 
