@@ -1,8 +1,8 @@
 #include "Parser.h"
 #include <vector>
 #include <iostream>
+#include <iomanip>
 #include <string>
-#include <bitset>
 #include <map>
 #include <stack>
 #include <cassert>
@@ -10,249 +10,251 @@
 const char* GrammarLoc = "grammar.txt";
 using namespace std;
 
-class Parser
+void Parser::computeNullables()
 {
-public:
-	int num_non_terminals;
-	int num_terminals;
-	int start_index;
+	nullable.reset();
+	nullable.set(0);
 
-	vector<vector<int>> productions;
-	vector<string> symbolType2symbolStr;
-	map<string, int> symbolStr2symbolType;
-	bitset<128> nullable;
-	vector<bitset<128>> firstSet;
-	vector<bitset<128>> followSet;
-	vector<vector<int>> parseTable;
+	// Get BIT representation of productions
+	vector<bitset<128>> productionBitset(productions.size());
 
-	Parser() : num_non_terminals{ 0 }, num_terminals{ 0 }, start_index{ 0 }
+	for (int i = 0; i < productions.size(); ++i)
+		for (int j = 1; j < productions[i].size(); ++j)
+			productionBitset[i].set(productions[i][j]);
+
+	// Base case
+	for (int i = 0; i < productions.size(); ++i)
+		if (productions[i].size() == 2 && productions[i][1] == 0)
+			nullable.set(productions[i][0]);
+
+	// iterate untill no update
+	bool isUpdated = true;
+	while (isUpdated)
 	{
-
-	}
-
-	void computeNullables()
-	{
-		nullable.reset();
-		nullable.set(0);
-
-		// Get BIT representation of productions
-		vector<bitset<128>> productionBitset(productions.size());
+		isUpdated = false;
 
 		for (int i = 0; i < productions.size(); ++i)
-			for (int j = 1; j < productions[i].size(); ++j)
-				productionBitset[i].set(productions[i][j]);
-
-		// Base case
-		for (int i = 0; i < productions.size(); ++i)
-			if (productions[i].size() == 2 && productions[i][1] == 0)
+		{
+			// rhs is nullable and is not already captured
+			if ((productionBitset[i] & nullable) == productionBitset[i] &&
+				!nullable.test(productions[i][0]))
+			{
 				nullable.set(productions[i][0]);
-
-		// iterate untill no update
-		bool isUpdated = true;
-		while (isUpdated)
-		{
-			isUpdated = false;
-
-			for (int i = 0; i < productions.size(); ++i)
-			{
-				// rhs is nullable and is not already captured
-				if ((productionBitset[i] & nullable) == productionBitset[i] &&
-					!nullable.test(productions[i][0]))
-				{
-					nullable.set(productions[i][0]);
-					isUpdated = true;
-				}
+				isUpdated = true;
 			}
-		}
-
-		cerr << "Nullables: " << endl;
-		for (int i = 0; i < 128; ++i)
-			if (nullable.test(i))
-				cerr << "\t" << symbolType2symbolStr[i] << endl;
-	}
-
-	void computeFirstSets()
-	{
-		firstSet.clear();
-		firstSet.resize(symbolType2symbolStr.size());
-
-		// Base - Add eps to first set
-		for (int i = 0; i < firstSet.size(); ++i)
-			if (nullable.test(i))
-				firstSet[i].set(0);
-
-		// Base - First of terminals
-		for (int i = 0; i < num_terminals; ++i)
-			firstSet[i].set(i);
-
-		// Iterate untill no update
-		bool isUpdated = true;
-		while (isUpdated)
-		{
-			isUpdated = false;
-
-			for (const auto &production: productions)
-			{
-				bitset<128> bits = firstSet[production[0]];
-
-				for (int j = 1; j < production.size(); ++j)
-				{
-					bits |= firstSet[production[j]];
-
-					if (!nullable.test(production[j]))
-						break;
-				}
-
-				if ((bits ^ firstSet[production[0]]).any())
-				{
-					firstSet[production[0]] |= bits;
-					isUpdated = true;
-				}
-			}
-		}
-
-		cerr << "First sets: " << endl;
-		for (int i = 0; i < firstSet.size(); ++i)
-		{
-			cerr << "FIRST(" << symbolType2symbolStr[i] << ")\t { ";
-
-			if (!firstSet[i].any())
-			{
-				cerr << " }\n";
-				continue;
-			}
-
-			for (int j = 0; j < 128; ++j)
-				if (firstSet[i].test(j))
-					cerr << symbolType2symbolStr[j] << ", ";
-
-			cerr << "\b\b }" << endl;
 		}
 	}
 
-	void computeFollowSets()
+	cerr << "Nullables: " << endl;
+	for (int i = 0; i < 128; ++i)
+		if (nullable.test(i))
+			cerr << "\t" << symbolType2symbolStr[i] << endl;
+}
+
+void Parser::computeFirstSets()
+{
+	firstSet.clear();
+	firstSet.resize(symbolType2symbolStr.size());
+
+	// Base - Add eps to first set
+	for (int i = 0; i < firstSet.size(); ++i)
+		if (nullable.test(i))
+			firstSet[i].set(0);
+
+	// Base - First of terminals
+	for (int i = 0; i < num_terminals; ++i)
+		firstSet[i].set(i);
+
+	// Iterate untill no update
+	bool isUpdated = true;
+	while (isUpdated)
 	{
-		followSet.clear();
-		followSet.resize(symbolType2symbolStr.size());
+		isUpdated = false;
 
-		// Iterate untill no update
-		bool isUpdated = true;
-		while (isUpdated)
+		for (const auto &production: productions)
 		{
-			isUpdated = false;
-
-			for (const auto& production : productions)
-			{
-				for (int j = 1; j < production.size(); ++j)
-				{
-					if (production[j] < num_terminals)
-						continue;
-
-					bitset<128> bits = followSet[production[j]];
-
-					for (int k = j + 1; k < production.size(); ++k)
-					{
-						bits |= firstSet[production[k]];
-
-						if (!nullable.test(production[k]))
-							break;
-
-						if (k == production.size() - 1)
-							bits |= followSet[production[0]];
-					}
-
-					if (j == production.size() - 1)
-						bits |= followSet[production[0]];
-
-					if ((bits ^ followSet[production[j]]).any())
-					{
-						followSet[production[j]] |= bits;
-						isUpdated = true;
-					}
-				}
-			}
-		}
-
-		// remove eps from follow set
-		for (auto& follow : followSet)
-			follow.reset(0);
-
-		cerr << "Follow sets: " << endl;
-		for (int i = 0; i < followSet.size(); ++i)
-		{
-			cerr << "FOLLOW(" << symbolType2symbolStr[i] << ")\t { ";
-
-			if (!followSet[i].any())
-			{
-				cerr << " }\n";
-				continue;
-			}
-
-			for (int j = 0; j < 128; ++j)
-				if (followSet[i].test(j))
-					cerr << symbolType2symbolStr[j] << ", ";
-
-			cerr << "\b\b }" << endl;
-		}
-	}
-
-	void computeParseTable()
-	{
-		parseTable.clear();
-		parseTable.resize(symbolType2symbolStr.size(), vector<int>(num_terminals, -1));
-
-		for (int i = 0; i < productions.size(); ++i)
-		{
-			bitset<128> select;
-			auto& production = productions[i];
+			bitset<128> bits = firstSet[production[0]];
 
 			for (int j = 1; j < production.size(); ++j)
 			{
-				select |= firstSet[production[j]];
+				bits |= firstSet[production[j]];
 
 				if (!nullable.test(production[j]))
 					break;
-
-				if (j == production.size() - 1)
-					select |= followSet[production[0]];
 			}
 
-			for (int j = 0; j < num_terminals; ++j)
+			if ((bits ^ firstSet[production[0]]).any())
 			{
-				if (!select.test(j))
-					continue;
-
-				parseTable[productions[i][0]][j] = i;
+				firstSet[production[0]] |= bits;
+				isUpdated = true;
 			}
-		}
-
-		// fill for sync sets
-		for (int i = 0; i < parseTable.size(); ++i)
-		{
-			for (int j = 0; j < num_terminals; ++j)
-			{
-				if (parseTable[i][j] > -1)
-					continue;
-
-				if (followSet[i].test(j))
-					parseTable[i][j] = -2;
-			}
-		}
-
-		for (auto& keyword : dfa.keywordTokens)
-		{
-			int col = symbolStr2symbolType[keyword];
-
-			assert(col > 0);
-
-			for (auto& row : parseTable)
-				if (row[col] == -1)
-					row[col] = -2;
 		}
 	}
-};
+
+	cerr << "First sets: " << endl;
+	for (int i = 0; i < firstSet.size(); ++i)
+	{
+		cerr << "FIRST(" << symbolType2symbolStr[i] << ")\t { ";
+
+		if (!firstSet[i].any())
+		{
+			cerr << " }\n";
+			continue;
+		}
+
+		for (int j = 0; j < 128; ++j)
+			if (firstSet[i].test(j))
+				cerr << symbolType2symbolStr[j] << ", ";
+
+		cerr << "\b\b }" << endl;
+	}
+}
+
+void Parser::computeFollowSets()
+{
+	followSet.clear();
+	followSet.resize(symbolType2symbolStr.size());
+
+	// Iterate untill no update
+	bool isUpdated = true;
+	while (isUpdated)
+	{
+		isUpdated = false;
+
+		for (const auto& production : productions)
+		{
+			for (int j = 1; j < production.size(); ++j)
+			{
+				if (production[j] < num_terminals)
+					continue;
+
+				bitset<128> bits = followSet[production[j]];
+
+				for (int k = j + 1; k < production.size(); ++k)
+				{
+					bits |= firstSet[production[k]];
+
+					if (!nullable.test(production[k]))
+						break;
+
+					if (k == production.size() - 1)
+						bits |= followSet[production[0]];
+				}
+
+				if (j == production.size() - 1)
+					bits |= followSet[production[0]];
+
+				if ((bits ^ followSet[production[j]]).any())
+				{
+					followSet[production[j]] |= bits;
+					isUpdated = true;
+				}
+			}
+		}
+	}
+
+	// remove eps from follow set
+	for (auto& follow : followSet)
+		follow.reset(0);
+
+	cerr << "Follow sets: " << endl;
+	for (int i = 0; i < followSet.size(); ++i)
+	{
+		cerr << "FOLLOW(" << symbolType2symbolStr[i] << ")\t { ";
+
+		if (!followSet[i].any())
+		{
+			cerr << " }\n";
+			continue;
+		}
+
+		for (int j = 0; j < 128; ++j)
+			if (followSet[i].test(j))
+				cerr << symbolType2symbolStr[j] << ", ";
+
+		cerr << "\b\b }" << endl;
+	}
+}
+
+void Parser::computeParseTable()
+{
+	parseTable.clear();
+	parseTable.resize(symbolType2symbolStr.size(), vector<int>(num_terminals, -1));
+
+	for (int i = 0; i < productions.size(); ++i)
+	{
+		bitset<128> select;
+		auto& production = productions[i];
+
+		for (int j = 1; j < production.size(); ++j)
+		{
+			select |= firstSet[production[j]];
+
+			if (!nullable.test(production[j]))
+				break;
+
+			if (j == production.size() - 1)
+				select |= followSet[production[0]];
+		}
+
+		for (int j = 0; j < num_terminals; ++j)
+		{
+			if (!select.test(j))
+				continue;
+
+			parseTable[productions[i][0]][j] = i;
+		}
+	}
+
+	// fill for sync sets
+	for (int i = 0; i < parseTable.size(); ++i)
+	{
+		for (int j = 0; j < num_terminals; ++j)
+		{
+			if (parseTable[i][j] > -1)
+				continue;
+
+			if (followSet[i].test(j))
+				parseTable[i][j] = -2;
+		}
+	}
+
+	for (auto& keyword : dfa.keywordTokens)
+	{
+		int col = symbolStr2symbolType[keyword];
+
+		assert(col > 0);
+
+		for (auto& row : parseTable)
+			if (row[col] == -1)
+				row[col] = -2;
+	}
+}
 
 Parser parser;
+
+std::ostream& operator<< (std::ostream& out, const ParseTreeNode& node)
+{
+	if (node.parent == nullptr)
+	{
+		out << setw(30) << "----" << setw(15) << -1 << setw(30) << "----" << setw(15) << "-nan" << setw(30) << "ROOT" << setw(10) << "no" << setw(30) << "program";
+		return out;
+	}
+
+	const string &A = node.isLeaf ? node.token->lexeme : "----";
+	int B = node.isLeaf ? node.token->line_number : -1;
+	const string& C = !(node.isLeaf) ? "----" : parser.symbolType2symbolStr[node.symbol_index];
+	double D = node.token == nullptr || !(node.token->type == TokenType::TK_RNUM || node.token->type == TokenType::TK_NUM) ?
+		std::numeric_limits<double>::quiet_NaN() :
+		stod(node.token->lexeme);
+	const string &E = node.parent == NULL ? "root" : parser.symbolType2symbolStr[node.parent->symbol_index];
+	const string& F = node.isLeaf ? "yes" : "no";
+	const string& G = node.isLeaf ? "----" : parser.symbolType2symbolStr[node.symbol_index];
+
+	out << setw(30) << A << setw(15) << B << setw(30) << C << setw(15) << D << setw(30) << E << setw(10) << F << setw(30) << G;
+
+	return out;
+}
 
 void loadParser()
 {
@@ -329,7 +331,7 @@ void printStack(stack<int> st)
 	cerr << endl;
 }
 
-const ParseTreeNode* parseInputSourceCode(Buffer& buffer, bool &isError)
+ParseTreeNode* parseInputSourceCode(Buffer& buffer, bool &isError)
 {
 	isError = false;
 	stack<int> st;

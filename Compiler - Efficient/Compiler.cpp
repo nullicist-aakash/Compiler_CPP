@@ -1,8 +1,41 @@
 #include <iostream>
-#include "Lexer.h"
-#include "Parser.h"
+#include <iomanip>
+#include "AST.h"
 
 using namespace std;
+
+void printAST(ASTNode* node, int tab = 0)
+{
+	if (node == nullptr)
+		return;
+
+	for (int i = 0; i < tab; ++i)
+		cout << '\t';
+	cout << *node << endl;
+
+	for (auto& child : node->children)
+		printAST(child, tab + 1);
+
+	printAST(node->sibling, tab);
+}
+
+void printParseTree(const ParseTreeNode& node)
+{
+	cout << node << endl;
+	for (auto& x : node.children)
+		printParseTree(*x);
+}
+
+void cleanParseTree(ParseTreeNode* node)
+{
+	if (node->token)
+		delete node->token;
+
+	for (auto& x : node->children)
+		cleanParseTree(x);
+
+	delete node;
+}
 
 int main()
 {
@@ -14,6 +47,9 @@ int main()
 
 	bool b;
 
-	Buffer buffer("testcase6.txt");
-	parseInputSourceCode(buffer, b);
+	Buffer buffer("testcase5.txt");
+	auto parseNode = parseInputSourceCode(buffer, b);
+	auto astNode = createAST(parseNode);
+
+	cleanParseTree(parseNode);
 }
