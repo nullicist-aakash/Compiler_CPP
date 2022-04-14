@@ -275,19 +275,23 @@ Input symbol: TK_SQL
 Top matched!!
 
 Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR parameter_list 
-Input symbol: TK_INT
+Input symbol: TK_RECORD
 Expanding along: parameter_list ---> dataType TK_ID remaining_list 
 
 Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list TK_ID dataType 
-Input symbol: TK_INT
-Expanding along: dataType ---> primitiveDatatype 
+Input symbol: TK_RECORD
+Expanding along: dataType ---> constructedDatatype 
 
-Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list TK_ID primitiveDatatype 
-Input symbol: TK_INT
-Expanding along: primitiveDatatype ---> TK_INT 
+Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list TK_ID constructedDatatype 
+Input symbol: TK_RECORD
+Expanding along: constructedDatatype ---> TK_RECORD TK_RUID 
 
-Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list TK_ID TK_INT 
-Input symbol: TK_INT
+Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list TK_ID TK_RUID TK_RECORD 
+Input symbol: TK_RECORD
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list TK_ID TK_RUID 
+Input symbol: TK_RUID
 Top matched!!
 
 Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list TK_ID 
@@ -303,47 +307,19 @@ Input symbol: TK_COMMA
 Top matched!!
 
 Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR parameter_list 
-Input symbol: TK_INT
+Input symbol: TK_RUID
 Expanding along: parameter_list ---> dataType TK_ID remaining_list 
 
 Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list TK_ID dataType 
-Input symbol: TK_INT
-Expanding along: dataType ---> primitiveDatatype 
+Input symbol: TK_RUID
+Expanding along: dataType ---> constructedDatatype 
 
-Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list TK_ID primitiveDatatype 
-Input symbol: TK_INT
-Expanding along: primitiveDatatype ---> TK_INT 
+Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list TK_ID constructedDatatype 
+Input symbol: TK_RUID
+Expanding along: constructedDatatype ---> TK_RUID 
 
-Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list TK_ID TK_INT 
-Input symbol: TK_INT
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list TK_ID 
-Input symbol: TK_ID
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list 
-Input symbol: TK_COMMA
-Expanding along: remaining_list ---> TK_COMMA parameter_list 
-
-Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR parameter_list TK_COMMA 
-Input symbol: TK_COMMA
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR parameter_list 
-Input symbol: TK_INT
-Expanding along: parameter_list ---> dataType TK_ID remaining_list 
-
-Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list TK_ID dataType 
-Input symbol: TK_INT
-Expanding along: dataType ---> primitiveDatatype 
-
-Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list TK_ID primitiveDatatype 
-Input symbol: TK_INT
-Expanding along: primitiveDatatype ---> TK_INT 
-
-Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list TK_ID TK_INT 
-Input symbol: TK_INT
+Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list TK_ID TK_RUID 
+Input symbol: TK_RUID
 Top matched!!
 
 Stack config: mainFunction otherFunctions TK_END stmts TK_SEM output_par TK_SQR remaining_list TK_ID 
@@ -371,8 +347,8 @@ Input symbol: TK_PARAMETER
 Top matched!!
 
 Stack config: mainFunction otherFunctions TK_END stmts TK_SEM TK_SQR parameter_list TK_SQL TK_LIST 
-Input symbol: TK_SQL
-Line 7		error: The token TK_SQL for lexeme [ does not match with the expected token TK_LIST
+Input symbol: TK_LIST
+Top matched!!
 
 Stack config: mainFunction otherFunctions TK_END stmts TK_SEM TK_SQR parameter_list TK_SQL 
 Input symbol: TK_SQL
@@ -411,8 +387,96 @@ Input symbol: TK_SEM
 Top matched!!
 
 Stack config: mainFunction otherFunctions TK_END stmts 
-Input symbol: TK_TYPE
+Input symbol: TK_RECORD
 Expanding along: stmts ---> typeDefinitions declarations otherStmts returnStmt 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions 
+Input symbol: TK_RECORD
+Expanding along: typeDefinitions ---> actualOrRedefined typeDefinitions 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions actualOrRedefined 
+Input symbol: TK_RECORD
+Expanding along: actualOrRedefined ---> typeDefinition 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions typeDefinition 
+Input symbol: TK_RECORD
+Expanding along: typeDefinition ---> TK_RECORD TK_RUID fieldDefinitions TK_ENDRECORD 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD fieldDefinitions TK_RUID TK_RECORD 
+Input symbol: TK_RECORD
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD fieldDefinitions TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD fieldDefinitions 
+Input symbol: TK_TYPE
+Expanding along: fieldDefinitions ---> fieldDefinition fieldDefinition moreFields 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition fieldDefinition 
+Input symbol: TK_TYPE
+Expanding along: fieldDefinition ---> TK_TYPE fieldType TK_COLON TK_FIELDID TK_SEM 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON fieldType TK_TYPE 
+Input symbol: TK_TYPE
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON fieldType 
+Input symbol: TK_RUID
+Expanding along: fieldType ---> TK_RUID 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON 
+Input symbol: TK_COLON
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition 
+Input symbol: TK_TYPE
+Expanding along: fieldDefinition ---> TK_TYPE fieldType TK_COLON TK_FIELDID TK_SEM 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID TK_COLON fieldType TK_TYPE 
+Input symbol: TK_TYPE
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID TK_COLON fieldType 
+Input symbol: TK_RUID
+Expanding along: fieldType ---> TK_RUID 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID TK_COLON TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID TK_COLON 
+Input symbol: TK_COLON
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields 
+Input symbol: TK_ENDRECORD
+Expanding along: moreFields ---> eps 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD 
+Input symbol: TK_ENDRECORD
+Top matched!!
 
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations typeDefinitions 
 Input symbol: TK_TYPE
@@ -431,25 +495,28 @@ Input symbol: TK_TYPE
 Top matched!!
 
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON dataType 
-Input symbol: TK_REAL
-Expanding along: dataType ---> primitiveDatatype 
+Input symbol: TK_RECORD
+Expanding along: dataType ---> constructedDatatype 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON primitiveDatatype 
-Input symbol: TK_REAL
-Expanding along: primitiveDatatype ---> TK_REAL 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON constructedDatatype 
+Input symbol: TK_RECORD
+Expanding along: constructedDatatype ---> TK_RECORD TK_RUID 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON TK_REAL 
-Input symbol: TK_REAL
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON TK_RUID TK_RECORD 
+Input symbol: TK_RECORD
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON TK_RUID 
+Input symbol: TK_RUID
 Top matched!!
 
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON 
 Input symbol: TK_COLON
 Top matched!!
-Line 8		error: Identifier length is greater than the prescribed length.
 
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID 
-Input symbol: TK_SEM
-Line 8		error: The token TK_SEM for lexeme ; does not match with the expected token TK_ID
+Input symbol: TK_ID
+Top matched!!
 
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not 
 Input symbol: TK_SEM
@@ -472,15 +539,59 @@ Input symbol: TK_TYPE
 Top matched!!
 
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON dataType 
-Input symbol: TK_REAL
-Expanding along: dataType ---> primitiveDatatype 
+Input symbol: TK_RECORD
+Expanding along: dataType ---> constructedDatatype 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON primitiveDatatype 
-Input symbol: TK_REAL
-Expanding along: primitiveDatatype ---> TK_REAL 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON constructedDatatype 
+Input symbol: TK_RECORD
+Expanding along: constructedDatatype ---> TK_RECORD TK_RUID 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON TK_REAL 
-Input symbol: TK_REAL
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON TK_RUID TK_RECORD 
+Input symbol: TK_RECORD
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON 
+Input symbol: TK_COLON
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID 
+Input symbol: TK_ID
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not 
+Input symbol: TK_SEM
+Expanding along: global_or_not ---> eps 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations 
+Input symbol: TK_TYPE
+Expanding along: declarations ---> declaration declarations 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations declaration 
+Input symbol: TK_TYPE
+Expanding along: declaration ---> TK_TYPE dataType TK_COLON TK_ID global_or_not TK_SEM 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON dataType TK_TYPE 
+Input symbol: TK_TYPE
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON dataType 
+Input symbol: TK_RUID
+Expanding along: dataType ---> constructedDatatype 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON constructedDatatype 
+Input symbol: TK_RUID
+Expanding along: constructedDatatype ---> TK_RUID 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON TK_RUID 
+Input symbol: TK_RUID
 Top matched!!
 
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON 
@@ -530,599 +641,46 @@ Expanding along: option_single_constructed ---> eps
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP 
 Input symbol: TK_ASSIGNOP
 Top matched!!
-Line 10		error: Unknwon Pattern <5000.7>.
 
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM arithmeticExpression 
-Input symbol: TK_SEM
-Line 10		error: Invalid token TK_SEM encountered with value ; stack top arithmeticExpression
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM 
-Input symbol: TK_SEM
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts 
 Input symbol: TK_ID
-Expanding along: otherStmts ---> stmt otherStmts 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts stmt 
-Input symbol: TK_ID
-Expanding along: stmt ---> assignmentStmt 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts assignmentStmt 
-Input symbol: TK_ID
-Expanding along: assignmentStmt ---> singleOrRecId TK_ASSIGNOP arithmeticExpression TK_SEM 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP singleOrRecId 
-Input symbol: TK_ID
-Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed TK_ID 
-Input symbol: TK_ID
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed 
-Input symbol: TK_ASSIGNOP
-Expanding along: option_single_constructed ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP 
-Input symbol: TK_ASSIGNOP
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM arithmeticExpression 
-Input symbol: TK_OP
 Expanding along: arithmeticExpression ---> term expPrime 
 
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime term 
-Input symbol: TK_OP
+Input symbol: TK_ID
 Expanding along: term ---> factor termPrime 
 
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor 
-Input symbol: TK_OP
-Expanding along: factor ---> TK_OP arithmeticExpression TK_CL 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL arithmeticExpression TK_OP 
-Input symbol: TK_OP
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL arithmeticExpression 
-Input symbol: TK_OP
-Expanding along: arithmeticExpression ---> term expPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime term 
-Input symbol: TK_OP
-Expanding along: term ---> factor termPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime factor 
-Input symbol: TK_OP
-Expanding along: factor ---> TK_OP arithmeticExpression TK_CL 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL arithmeticExpression TK_OP 
-Input symbol: TK_OP
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL arithmeticExpression 
-Input symbol: TK_ID
-Expanding along: arithmeticExpression ---> term expPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term 
-Input symbol: TK_ID
-Expanding along: term ---> factor termPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime factor 
 Input symbol: TK_ID
 Expanding along: factor ---> var 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime var 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime var 
 Input symbol: TK_ID
 Expanding along: var ---> singleOrRecId 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime singleOrRecId 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime singleOrRecId 
 Input symbol: TK_ID
 Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime option_single_constructed TK_ID 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime option_single_constructed TK_ID 
 Input symbol: TK_ID
 Top matched!!
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime option_single_constructed 
-Input symbol: TK_PLUS
-Expanding along: option_single_constructed ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime 
-Input symbol: TK_PLUS
-Expanding along: termPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime 
-Input symbol: TK_PLUS
-Expanding along: expPrime ---> lowPrecedenceOperators term expPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term lowPrecedenceOperators 
-Input symbol: TK_PLUS
-Expanding along: lowPrecedenceOperators ---> TK_PLUS 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term TK_PLUS 
-Input symbol: TK_PLUS
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term 
-Input symbol: TK_NUM
-Expanding along: term ---> factor termPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime factor 
-Input symbol: TK_NUM
-Expanding along: factor ---> var 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime var 
-Input symbol: TK_NUM
-Expanding along: var ---> TK_NUM 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_NUM 
-Input symbol: TK_NUM
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime option_single_constructed 
 Input symbol: TK_MUL
-Expanding along: termPrime ---> highPrecedenceOperators factor termPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime factor highPrecedenceOperators 
-Input symbol: TK_MUL
-Expanding along: highPrecedenceOperators ---> TK_MUL 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime factor TK_MUL 
-Input symbol: TK_MUL
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime factor 
-Input symbol: TK_ID
-Expanding along: factor ---> var 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime var 
-Input symbol: TK_ID
-Expanding along: var ---> singleOrRecId 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime singleOrRecId 
-Input symbol: TK_ID
-Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime option_single_constructed TK_ID 
-Input symbol: TK_ID
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime option_single_constructed 
-Input symbol: TK_MINUS
 Expanding along: option_single_constructed ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime 
-Input symbol: TK_MINUS
-Expanding along: termPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime 
-Input symbol: TK_MINUS
-Expanding along: expPrime ---> lowPrecedenceOperators term expPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term lowPrecedenceOperators 
-Input symbol: TK_MINUS
-Expanding along: lowPrecedenceOperators ---> TK_MINUS 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term TK_MINUS 
-Input symbol: TK_MINUS
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term 
-Input symbol: TK_OP
-Expanding along: term ---> factor termPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime factor 
-Input symbol: TK_OP
-Expanding along: factor ---> TK_OP arithmeticExpression TK_CL 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL arithmeticExpression TK_OP 
-Input symbol: TK_OP
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL arithmeticExpression 
-Input symbol: TK_ID
-Expanding along: arithmeticExpression ---> term expPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term 
-Input symbol: TK_ID
-Expanding along: term ---> factor termPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime factor 
-Input symbol: TK_ID
-Expanding along: factor ---> var 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime var 
-Input symbol: TK_ID
-Expanding along: var ---> singleOrRecId 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime singleOrRecId 
-Input symbol: TK_ID
-Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime option_single_constructed TK_ID 
-Input symbol: TK_ID
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime option_single_constructed 
-Input symbol: TK_MINUS
-Expanding along: option_single_constructed ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime 
-Input symbol: TK_MINUS
-Expanding along: termPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime 
-Input symbol: TK_MINUS
-Expanding along: expPrime ---> lowPrecedenceOperators term expPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term lowPrecedenceOperators 
-Input symbol: TK_MINUS
-Expanding along: lowPrecedenceOperators ---> TK_MINUS 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term TK_MINUS 
-Input symbol: TK_MINUS
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term 
-Input symbol: TK_NUM
-Expanding along: term ---> factor termPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime factor 
-Input symbol: TK_NUM
-Expanding along: factor ---> var 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime var 
-Input symbol: TK_NUM
-Expanding along: var ---> TK_NUM 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_NUM 
-Input symbol: TK_NUM
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime 
-Input symbol: TK_CL
-Expanding along: termPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime 
-Input symbol: TK_CL
-Expanding along: expPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_CL 
-Input symbol: TK_CL
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime 
-Input symbol: TK_CL
-Expanding along: termPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime 
-Input symbol: TK_CL
-Expanding along: expPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL 
-Input symbol: TK_CL
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime 
-Input symbol: TK_DIV
-Expanding along: termPrime ---> highPrecedenceOperators factor termPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime factor highPrecedenceOperators 
-Input symbol: TK_DIV
-Expanding along: highPrecedenceOperators ---> TK_DIV 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime factor TK_DIV 
-Input symbol: TK_DIV
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime factor 
-Input symbol: TK_NUM
-Expanding along: factor ---> var 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime var 
-Input symbol: TK_NUM
-Expanding along: var ---> TK_NUM 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_NUM 
-Input symbol: TK_NUM
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime 
-Input symbol: TK_SEM
-Expanding along: termPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime 
-Input symbol: TK_SEM
-Expanding along: expPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL 
-Input symbol: TK_SEM
-Line 11		error: The token TK_SEM for lexeme ; does not match with the expected token TK_CL
 
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime 
-Input symbol: TK_SEM
-Expanding along: termPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime 
-Input symbol: TK_SEM
-Expanding along: expPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM 
-Input symbol: TK_SEM
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts 
-Input symbol: TK_ID
-Expanding along: otherStmts ---> stmt otherStmts 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts stmt 
-Input symbol: TK_ID
-Expanding along: stmt ---> assignmentStmt 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts assignmentStmt 
-Input symbol: TK_ID
-Expanding along: assignmentStmt ---> singleOrRecId TK_ASSIGNOP arithmeticExpression TK_SEM 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP singleOrRecId 
-Input symbol: TK_ID
-Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed TK_ID 
-Input symbol: TK_ID
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed 
-Input symbol: TK_ASSIGNOP
-Expanding along: option_single_constructed ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP 
-Input symbol: TK_ASSIGNOP
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM arithmeticExpression 
-Input symbol: TK_OP
-Expanding along: arithmeticExpression ---> term expPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime term 
-Input symbol: TK_OP
-Expanding along: term ---> factor termPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor 
-Input symbol: TK_OP
-Expanding along: factor ---> TK_OP arithmeticExpression TK_CL 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL arithmeticExpression TK_OP 
-Input symbol: TK_OP
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL arithmeticExpression 
-Input symbol: TK_OP
-Expanding along: arithmeticExpression ---> term expPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime term 
-Input symbol: TK_OP
-Expanding along: term ---> factor termPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime factor 
-Input symbol: TK_OP
-Expanding along: factor ---> TK_OP arithmeticExpression TK_CL 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL arithmeticExpression TK_OP 
-Input symbol: TK_OP
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL arithmeticExpression 
-Input symbol: TK_ID
-Expanding along: arithmeticExpression ---> term expPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term 
-Input symbol: TK_ID
-Expanding along: term ---> factor termPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime factor 
-Input symbol: TK_ID
-Expanding along: factor ---> var 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime var 
-Input symbol: TK_ID
-Expanding along: var ---> singleOrRecId 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime singleOrRecId 
-Input symbol: TK_ID
-Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime option_single_constructed TK_ID 
-Input symbol: TK_ID
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime option_single_constructed 
-Input symbol: TK_MINUS
-Expanding along: option_single_constructed ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime 
-Input symbol: TK_MINUS
-Expanding along: termPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime 
-Input symbol: TK_MINUS
-Expanding along: expPrime ---> lowPrecedenceOperators term expPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term lowPrecedenceOperators 
-Input symbol: TK_MINUS
-Expanding along: lowPrecedenceOperators ---> TK_MINUS 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term TK_MINUS 
-Input symbol: TK_MINUS
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term 
-Input symbol: TK_RNUM
-Expanding along: term ---> factor termPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime factor 
-Input symbol: TK_RNUM
-Expanding along: factor ---> var 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime var 
-Input symbol: TK_RNUM
-Expanding along: var ---> TK_RNUM 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_RNUM 
-Input symbol: TK_RNUM
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime 
-Input symbol: TK_CL
-Expanding along: termPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime 
-Input symbol: TK_CL
-Expanding along: expPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL 
-Input symbol: TK_CL
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime 
 Input symbol: TK_MUL
 Expanding along: termPrime ---> highPrecedenceOperators factor termPrime 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime factor highPrecedenceOperators 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor highPrecedenceOperators 
 Input symbol: TK_MUL
 Expanding along: highPrecedenceOperators ---> TK_MUL 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime factor TK_MUL 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor TK_MUL 
 Input symbol: TK_MUL
 Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime factor 
-Input symbol: TK_OP
-Expanding along: factor ---> TK_OP arithmeticExpression TK_CL 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL arithmeticExpression TK_OP 
-Input symbol: TK_OP
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL arithmeticExpression 
-Input symbol: TK_NUM
-Expanding along: arithmeticExpression ---> term expPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term 
-Input symbol: TK_NUM
-Expanding along: term ---> factor termPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime factor 
-Input symbol: TK_NUM
-Expanding along: factor ---> var 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime var 
-Input symbol: TK_NUM
-Expanding along: var ---> TK_NUM 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_NUM 
-Input symbol: TK_NUM
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime 
-Input symbol: TK_MINUS
-Expanding along: termPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime 
-Input symbol: TK_MINUS
-Expanding along: expPrime ---> lowPrecedenceOperators term expPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term lowPrecedenceOperators 
-Input symbol: TK_MINUS
-Expanding along: lowPrecedenceOperators ---> TK_MINUS 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term TK_MINUS 
-Input symbol: TK_MINUS
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime term 
-Input symbol: TK_NUM
-Expanding along: term ---> factor termPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime factor 
-Input symbol: TK_NUM
-Expanding along: factor ---> var 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime var 
-Input symbol: TK_NUM
-Expanding along: var ---> TK_NUM 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_NUM 
-Input symbol: TK_NUM
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime 
-Input symbol: TK_MUL
-Expanding along: termPrime ---> highPrecedenceOperators factor termPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime factor highPrecedenceOperators 
-Input symbol: TK_MUL
-Expanding along: highPrecedenceOperators ---> TK_MUL 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime factor TK_MUL 
-Input symbol: TK_MUL
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime factor 
-Input symbol: TK_NUM
-Expanding along: factor ---> var 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime var 
-Input symbol: TK_NUM
-Expanding along: var ---> TK_NUM 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime TK_NUM 
-Input symbol: TK_NUM
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime termPrime 
-Input symbol: TK_CL
-Expanding along: termPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL expPrime 
-Input symbol: TK_CL
-Expanding along: expPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime TK_CL 
-Input symbol: TK_CL
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime termPrime 
-Input symbol: TK_CL
-Expanding along: termPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL expPrime 
-Input symbol: TK_CL
-Expanding along: expPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_CL 
-Input symbol: TK_CL
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime 
-Input symbol: TK_PLUS
-Expanding along: termPrime ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime 
-Input symbol: TK_PLUS
-Expanding along: expPrime ---> lowPrecedenceOperators term expPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime term lowPrecedenceOperators 
-Input symbol: TK_PLUS
-Expanding along: lowPrecedenceOperators ---> TK_PLUS 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime term TK_PLUS 
-Input symbol: TK_PLUS
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime term 
-Input symbol: TK_NUM
-Expanding along: term ---> factor termPrime 
 
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor 
 Input symbol: TK_NUM
@@ -1137,16 +695,92 @@ Input symbol: TK_NUM
 Top matched!!
 
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime 
-Input symbol: TK_MUL
-Expanding along: termPrime ---> highPrecedenceOperators factor termPrime 
+Input symbol: TK_SEM
+Expanding along: termPrime ---> eps 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor highPrecedenceOperators 
-Input symbol: TK_MUL
-Expanding along: highPrecedenceOperators ---> TK_MUL 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime 
+Input symbol: TK_SEM
+Expanding along: expPrime ---> eps 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor TK_MUL 
-Input symbol: TK_MUL
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM 
+Input symbol: TK_SEM
 Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts 
+Input symbol: TK_ID
+Expanding along: otherStmts ---> stmt otherStmts 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts stmt 
+Input symbol: TK_ID
+Expanding along: stmt ---> assignmentStmt 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts assignmentStmt 
+Input symbol: TK_ID
+Expanding along: assignmentStmt ---> singleOrRecId TK_ASSIGNOP arithmeticExpression TK_SEM 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP singleOrRecId 
+Input symbol: TK_ID
+Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed TK_ID 
+Input symbol: TK_ID
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed 
+Input symbol: TK_ASSIGNOP
+Expanding along: option_single_constructed ---> eps 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP 
+Input symbol: TK_ASSIGNOP
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM arithmeticExpression 
+Input symbol: TK_ID
+Expanding along: arithmeticExpression ---> term expPrime 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime term 
+Input symbol: TK_ID
+Expanding along: term ---> factor termPrime 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor 
+Input symbol: TK_ID
+Expanding along: factor ---> var 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime var 
+Input symbol: TK_ID
+Expanding along: var ---> singleOrRecId 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime singleOrRecId 
+Input symbol: TK_ID
+Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime option_single_constructed TK_ID 
+Input symbol: TK_ID
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime option_single_constructed 
+Input symbol: TK_MINUS
+Expanding along: option_single_constructed ---> eps 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime 
+Input symbol: TK_MINUS
+Expanding along: termPrime ---> eps 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime 
+Input symbol: TK_MINUS
+Expanding along: expPrime ---> lowPrecedenceOperators term expPrime 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime term lowPrecedenceOperators 
+Input symbol: TK_MINUS
+Expanding along: lowPrecedenceOperators ---> TK_MINUS 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime term TK_MINUS 
+Input symbol: TK_MINUS
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime term 
+Input symbol: TK_ID
+Expanding along: term ---> factor termPrime 
 
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor 
 Input symbol: TK_ID
@@ -1181,309 +815,368 @@ Input symbol: TK_SEM
 Top matched!!
 
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts 
-Input symbol: TK_IF
+Input symbol: TK_WHILE
 Expanding along: otherStmts ---> stmt otherStmts 
 
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts stmt 
-Input symbol: TK_IF
-Expanding along: stmt ---> conditionalStmt 
+Input symbol: TK_WHILE
+Expanding along: stmt ---> iterativeStmt 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts conditionalStmt 
-Input symbol: TK_IF
-Expanding along: conditionalStmt ---> TK_IF TK_OP booleanExpression TK_CL TK_THEN stmt otherStmts elsePart 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts iterativeStmt 
+Input symbol: TK_WHILE
+Expanding along: iterativeStmt ---> TK_WHILE TK_OP booleanExpression TK_CL stmt otherStmts TK_ENDWHILE 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL booleanExpression TK_OP TK_IF 
-Input symbol: TK_IF
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts stmt TK_CL booleanExpression TK_OP TK_WHILE 
+Input symbol: TK_WHILE
 Top matched!!
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL booleanExpression TK_OP 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts stmt TK_CL booleanExpression TK_OP 
 Input symbol: TK_OP
 Top matched!!
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL booleanExpression 
-Input symbol: TK_OP
-Expanding along: booleanExpression ---> TK_OP booleanExpression TK_CL logicalOp TK_OP booleanExpression TK_CL 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression TK_OP logicalOp TK_CL booleanExpression TK_OP 
-Input symbol: TK_OP
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression TK_OP logicalOp TK_CL booleanExpression 
-Input symbol: TK_NOT
-Expanding along: booleanExpression ---> TK_NOT TK_OP booleanExpression TK_CL 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression TK_OP logicalOp TK_CL TK_CL booleanExpression TK_OP TK_NOT 
-Input symbol: TK_NOT
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression TK_OP logicalOp TK_CL TK_CL booleanExpression TK_OP 
-Input symbol: TK_OP
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression TK_OP logicalOp TK_CL TK_CL booleanExpression 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts stmt TK_CL booleanExpression 
 Input symbol: TK_ID
 Expanding along: booleanExpression ---> var relationalOp var 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression TK_OP logicalOp TK_CL TK_CL var relationalOp var 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts stmt TK_CL var relationalOp var 
 Input symbol: TK_ID
 Expanding along: var ---> singleOrRecId 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression TK_OP logicalOp TK_CL TK_CL var relationalOp singleOrRecId 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts stmt TK_CL var relationalOp singleOrRecId 
 Input symbol: TK_ID
 Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression TK_OP logicalOp TK_CL TK_CL var relationalOp option_single_constructed TK_ID 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts stmt TK_CL var relationalOp option_single_constructed TK_ID 
 Input symbol: TK_ID
 Top matched!!
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression TK_OP logicalOp TK_CL TK_CL var relationalOp option_single_constructed 
-Input symbol: TK_EQ
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts stmt TK_CL var relationalOp option_single_constructed 
+Input symbol: TK_LE
 Expanding along: option_single_constructed ---> eps 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression TK_OP logicalOp TK_CL TK_CL var relationalOp 
-Input symbol: TK_EQ
-Expanding along: relationalOp ---> TK_EQ 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts stmt TK_CL var relationalOp 
+Input symbol: TK_LE
+Expanding along: relationalOp ---> TK_LE 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression TK_OP logicalOp TK_CL TK_CL var TK_EQ 
-Input symbol: TK_EQ
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts stmt TK_CL var TK_LE 
+Input symbol: TK_LE
 Top matched!!
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression TK_OP logicalOp TK_CL TK_CL var 
-Input symbol: TK_NUM
-Expanding along: var ---> TK_NUM 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression TK_OP logicalOp TK_CL TK_CL TK_NUM 
-Input symbol: TK_NUM
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression TK_OP logicalOp TK_CL TK_CL 
-Input symbol: TK_CL
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression TK_OP logicalOp TK_CL 
-Input symbol: TK_CL
-Top matched!!
-Line 13		error: Unknwon Pattern <&&>.
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression TK_OP logicalOp 
-Input symbol: TK_OP
-Line 13		error: Invalid token TK_OP encountered with value ( stack top logicalOp
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression TK_OP 
-Input symbol: TK_OP
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL booleanExpression 
-Input symbol: TK_ID
-Expanding along: booleanExpression ---> var relationalOp var 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL var relationalOp var 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts stmt TK_CL var 
 Input symbol: TK_ID
 Expanding along: var ---> singleOrRecId 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL var relationalOp singleOrRecId 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts stmt TK_CL singleOrRecId 
 Input symbol: TK_ID
 Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL var relationalOp option_single_constructed TK_ID 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts stmt TK_CL option_single_constructed TK_ID 
 Input symbol: TK_ID
 Top matched!!
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL var relationalOp option_single_constructed 
-Input symbol: TK_GT
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts stmt TK_CL option_single_constructed 
+Input symbol: TK_CL
 Expanding along: option_single_constructed ---> eps 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL var relationalOp 
-Input symbol: TK_GT
-Expanding along: relationalOp ---> TK_GT 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL var TK_GT 
-Input symbol: TK_GT
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL var 
-Input symbol: TK_RNUM
-Expanding along: var ---> TK_RNUM 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL TK_RNUM 
-Input symbol: TK_RNUM
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL TK_CL 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts stmt TK_CL 
 Input symbol: TK_CL
 Top matched!!
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN TK_CL 
-Input symbol: TK_CL
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt TK_THEN 
-Input symbol: TK_THEN
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts stmt 
-Input symbol: TK_ID
-Expanding along: stmt ---> assignmentStmt 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts assignmentStmt 
-Input symbol: TK_ID
-Expanding along: assignmentStmt ---> singleOrRecId TK_ASSIGNOP arithmeticExpression TK_SEM 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP singleOrRecId 
-Input symbol: TK_ID
-Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed TK_ID 
-Input symbol: TK_ID
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed 
-Input symbol: TK_ASSIGNOP
-Expanding along: option_single_constructed ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP 
-Input symbol: TK_ASSIGNOP
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM arithmeticExpression 
-Input symbol: TK_ID
-Expanding along: arithmeticExpression ---> term expPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM expPrime term 
-Input symbol: TK_ID
-Expanding along: term ---> factor termPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM expPrime termPrime factor 
-Input symbol: TK_ID
-Expanding along: factor ---> var 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM expPrime termPrime var 
-Input symbol: TK_ID
-Expanding along: var ---> singleOrRecId 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM expPrime termPrime singleOrRecId 
-Input symbol: TK_ID
-Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM expPrime termPrime option_single_constructed TK_ID 
-Input symbol: TK_ID
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM expPrime termPrime option_single_constructed 
-Input symbol: TK_DIV
-Expanding along: option_single_constructed ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM expPrime termPrime 
-Input symbol: TK_DIV
-Expanding along: termPrime ---> highPrecedenceOperators factor termPrime 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM expPrime termPrime factor highPrecedenceOperators 
-Input symbol: TK_DIV
-Expanding along: highPrecedenceOperators ---> TK_DIV 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM expPrime termPrime factor TK_DIV 
-Input symbol: TK_DIV
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM expPrime termPrime factor 
-Input symbol: TK_ID
-Expanding along: factor ---> var 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM expPrime termPrime var 
-Input symbol: TK_ID
-Expanding along: var ---> singleOrRecId 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM expPrime termPrime singleOrRecId 
-Input symbol: TK_ID
-Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM expPrime termPrime option_single_constructed TK_ID 
-Input symbol: TK_ID
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM expPrime termPrime option_single_constructed 
-Input symbol: TK_ELSE
-Line 16		error: Invalid token TK_ELSE encountered with value else stack top option_single_constructed
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM expPrime termPrime 
-Input symbol: TK_ELSE
-Line 16		error: Invalid token TK_ELSE encountered with value else stack top termPrime
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM expPrime 
-Input symbol: TK_ELSE
-Line 16		error: Invalid token TK_ELSE encountered with value else stack top expPrime
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts TK_SEM 
-Input symbol: TK_ELSE
-Line 16		error: The token TK_ELSE for lexeme else does not match with the expected token TK_SEM
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart otherStmts 
-Input symbol: TK_ELSE
-Expanding along: otherStmts ---> eps 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts elsePart 
-Input symbol: TK_ELSE
-Expanding along: elsePart ---> TK_ELSE stmt otherStmts TK_ENDIF 
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDIF otherStmts stmt TK_ELSE 
-Input symbol: TK_ELSE
-Top matched!!
-
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDIF otherStmts stmt 
-Input symbol: TK_WRITE
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts stmt 
+Input symbol: TK_READ
 Expanding along: stmt ---> ioStmt 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDIF otherStmts ioStmt 
-Input symbol: TK_WRITE
-Expanding along: ioStmt ---> TK_WRITE TK_OP var TK_CL TK_SEM 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts ioStmt 
+Input symbol: TK_READ
+Expanding along: ioStmt ---> TK_READ TK_OP var TK_CL TK_SEM 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDIF otherStmts TK_SEM TK_CL var TK_OP TK_WRITE 
-Input symbol: TK_WRITE
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM TK_CL var TK_OP TK_READ 
+Input symbol: TK_READ
 Top matched!!
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDIF otherStmts TK_SEM TK_CL var TK_OP 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM TK_CL var TK_OP 
 Input symbol: TK_OP
 Top matched!!
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDIF otherStmts TK_SEM TK_CL var 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM TK_CL var 
 Input symbol: TK_ID
 Expanding along: var ---> singleOrRecId 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDIF otherStmts TK_SEM TK_CL singleOrRecId 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM TK_CL singleOrRecId 
 Input symbol: TK_ID
 Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDIF otherStmts TK_SEM TK_CL option_single_constructed TK_ID 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM TK_CL option_single_constructed TK_ID 
 Input symbol: TK_ID
 Top matched!!
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDIF otherStmts TK_SEM TK_CL option_single_constructed 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM TK_CL option_single_constructed 
 Input symbol: TK_CL
 Expanding along: option_single_constructed ---> eps 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDIF otherStmts TK_SEM TK_CL 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM TK_CL 
 Input symbol: TK_CL
 Top matched!!
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDIF otherStmts TK_SEM 
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM 
 Input symbol: TK_SEM
 Top matched!!
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDIF otherStmts 
-Input symbol: TK_ENDIF
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts 
+Input symbol: TK_ID
+Expanding along: otherStmts ---> stmt otherStmts 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts stmt 
+Input symbol: TK_ID
+Expanding along: stmt ---> assignmentStmt 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts assignmentStmt 
+Input symbol: TK_ID
+Expanding along: assignmentStmt ---> singleOrRecId TK_ASSIGNOP arithmeticExpression TK_SEM 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP singleOrRecId 
+Input symbol: TK_ID
+Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed TK_ID 
+Input symbol: TK_ID
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed 
+Input symbol: TK_ASSIGNOP
+Expanding along: option_single_constructed ---> eps 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP 
+Input symbol: TK_ASSIGNOP
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM arithmeticExpression 
+Input symbol: TK_ID
+Expanding along: arithmeticExpression ---> term expPrime 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime term 
+Input symbol: TK_ID
+Expanding along: term ---> factor termPrime 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime factor 
+Input symbol: TK_ID
+Expanding along: factor ---> var 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime var 
+Input symbol: TK_ID
+Expanding along: var ---> singleOrRecId 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime singleOrRecId 
+Input symbol: TK_ID
+Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime option_single_constructed TK_ID 
+Input symbol: TK_ID
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime option_single_constructed 
+Input symbol: TK_PLUS
+Expanding along: option_single_constructed ---> eps 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime 
+Input symbol: TK_PLUS
+Expanding along: termPrime ---> eps 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime 
+Input symbol: TK_PLUS
+Expanding along: expPrime ---> lowPrecedenceOperators term expPrime 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime term lowPrecedenceOperators 
+Input symbol: TK_PLUS
+Expanding along: lowPrecedenceOperators ---> TK_PLUS 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime term TK_PLUS 
+Input symbol: TK_PLUS
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime term 
+Input symbol: TK_ID
+Expanding along: term ---> factor termPrime 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime factor 
+Input symbol: TK_ID
+Expanding along: factor ---> var 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime var 
+Input symbol: TK_ID
+Expanding along: var ---> singleOrRecId 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime singleOrRecId 
+Input symbol: TK_ID
+Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime option_single_constructed TK_ID 
+Input symbol: TK_ID
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime option_single_constructed 
+Input symbol: TK_SEM
+Expanding along: option_single_constructed ---> eps 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime 
+Input symbol: TK_SEM
+Expanding along: termPrime ---> eps 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime 
+Input symbol: TK_SEM
+Expanding along: expPrime ---> eps 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts 
+Input symbol: TK_ID
+Expanding along: otherStmts ---> stmt otherStmts 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts stmt 
+Input symbol: TK_ID
+Expanding along: stmt ---> assignmentStmt 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts assignmentStmt 
+Input symbol: TK_ID
+Expanding along: assignmentStmt ---> singleOrRecId TK_ASSIGNOP arithmeticExpression TK_SEM 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP singleOrRecId 
+Input symbol: TK_ID
+Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed TK_ID 
+Input symbol: TK_ID
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed 
+Input symbol: TK_ASSIGNOP
+Expanding along: option_single_constructed ---> eps 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP 
+Input symbol: TK_ASSIGNOP
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM arithmeticExpression 
+Input symbol: TK_ID
+Expanding along: arithmeticExpression ---> term expPrime 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime term 
+Input symbol: TK_ID
+Expanding along: term ---> factor termPrime 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime factor 
+Input symbol: TK_ID
+Expanding along: factor ---> var 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime var 
+Input symbol: TK_ID
+Expanding along: var ---> singleOrRecId 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime singleOrRecId 
+Input symbol: TK_ID
+Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime option_single_constructed TK_ID 
+Input symbol: TK_ID
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime option_single_constructed 
+Input symbol: TK_PLUS
+Expanding along: option_single_constructed ---> eps 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime 
+Input symbol: TK_PLUS
+Expanding along: termPrime ---> eps 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime 
+Input symbol: TK_PLUS
+Expanding along: expPrime ---> lowPrecedenceOperators term expPrime 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime term lowPrecedenceOperators 
+Input symbol: TK_PLUS
+Expanding along: lowPrecedenceOperators ---> TK_PLUS 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime term TK_PLUS 
+Input symbol: TK_PLUS
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime term 
+Input symbol: TK_NUM
+Expanding along: term ---> factor termPrime 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime factor 
+Input symbol: TK_NUM
+Expanding along: factor ---> var 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime var 
+Input symbol: TK_NUM
+Expanding along: var ---> TK_NUM 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime TK_NUM 
+Input symbol: TK_NUM
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime termPrime 
+Input symbol: TK_SEM
+Expanding along: termPrime ---> eps 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM expPrime 
+Input symbol: TK_SEM
+Expanding along: expPrime ---> eps 
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE otherStmts 
+Input symbol: TK_ENDWHILE
 Expanding along: otherStmts ---> eps 
 
-Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDIF 
-Input symbol: TK_ENDIF
+Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts TK_ENDWHILE 
+Input symbol: TK_ENDWHILE
 Top matched!!
 
 Stack config: mainFunction otherFunctions TK_END returnStmt otherStmts 
-Input symbol: TK_END
-Line 20		error: Invalid token TK_END encountered with value end stack top otherStmts
+Input symbol: TK_RETURN
+Expanding along: otherStmts ---> eps 
 
 Stack config: mainFunction otherFunctions TK_END returnStmt 
-Input symbol: TK_END
-Line 20		error: Invalid token TK_END encountered with value end stack top returnStmt
+Input symbol: TK_RETURN
+Expanding along: returnStmt ---> TK_RETURN optionalReturn TK_SEM 
+
+Stack config: mainFunction otherFunctions TK_END TK_SEM optionalReturn TK_RETURN 
+Input symbol: TK_RETURN
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END TK_SEM optionalReturn 
+Input symbol: TK_SQL
+Expanding along: optionalReturn ---> TK_SQL idList TK_SQR 
+
+Stack config: mainFunction otherFunctions TK_END TK_SEM TK_SQR idList TK_SQL 
+Input symbol: TK_SQL
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END TK_SEM TK_SQR idList 
+Input symbol: TK_ID
+Expanding along: idList ---> TK_ID more_ids 
+
+Stack config: mainFunction otherFunctions TK_END TK_SEM TK_SQR more_ids TK_ID 
+Input symbol: TK_ID
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END TK_SEM TK_SQR more_ids 
+Input symbol: TK_SQR
+Expanding along: more_ids ---> eps 
+
+Stack config: mainFunction otherFunctions TK_END TK_SEM TK_SQR 
+Input symbol: TK_SQR
+Top matched!!
+
+Stack config: mainFunction otherFunctions TK_END TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
 
 Stack config: mainFunction otherFunctions TK_END 
 Input symbol: TK_END
@@ -1502,8 +1195,548 @@ Input symbol: TK_MAIN
 Top matched!!
 
 Stack config: TK_END stmts 
-Input symbol: TK_TYPE
+Input symbol: TK_RECORD
 Expanding along: stmts ---> typeDefinitions declarations otherStmts returnStmt 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions 
+Input symbol: TK_RECORD
+Expanding along: typeDefinitions ---> actualOrRedefined typeDefinitions 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions actualOrRedefined 
+Input symbol: TK_RECORD
+Expanding along: actualOrRedefined ---> typeDefinition 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions typeDefinition 
+Input symbol: TK_RECORD
+Expanding along: typeDefinition ---> TK_RECORD TK_RUID fieldDefinitions TK_ENDRECORD 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD fieldDefinitions TK_RUID TK_RECORD 
+Input symbol: TK_RECORD
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD fieldDefinitions TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD fieldDefinitions 
+Input symbol: TK_TYPE
+Expanding along: fieldDefinitions ---> fieldDefinition fieldDefinition moreFields 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition fieldDefinition 
+Input symbol: TK_TYPE
+Expanding along: fieldDefinition ---> TK_TYPE fieldType TK_COLON TK_FIELDID TK_SEM 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON fieldType TK_TYPE 
+Input symbol: TK_TYPE
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON fieldType 
+Input symbol: TK_REAL
+Expanding along: fieldType ---> primitiveDatatype 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON primitiveDatatype 
+Input symbol: TK_REAL
+Expanding along: primitiveDatatype ---> TK_REAL 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON TK_REAL 
+Input symbol: TK_REAL
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON 
+Input symbol: TK_COLON
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition 
+Input symbol: TK_TYPE
+Expanding along: fieldDefinition ---> TK_TYPE fieldType TK_COLON TK_FIELDID TK_SEM 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID TK_COLON fieldType TK_TYPE 
+Input symbol: TK_TYPE
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID TK_COLON fieldType 
+Input symbol: TK_REAL
+Expanding along: fieldType ---> primitiveDatatype 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID TK_COLON primitiveDatatype 
+Input symbol: TK_REAL
+Expanding along: primitiveDatatype ---> TK_REAL 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID TK_COLON TK_REAL 
+Input symbol: TK_REAL
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID TK_COLON 
+Input symbol: TK_COLON
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields 
+Input symbol: TK_ENDRECORD
+Expanding along: moreFields ---> eps 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD 
+Input symbol: TK_ENDRECORD
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions 
+Input symbol: TK_DEFINETYPE
+Expanding along: typeDefinitions ---> actualOrRedefined typeDefinitions 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions actualOrRedefined 
+Input symbol: TK_DEFINETYPE
+Expanding along: actualOrRedefined ---> definetypestmt 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions definetypestmt 
+Input symbol: TK_DEFINETYPE
+Expanding along: definetypestmt ---> TK_DEFINETYPE A TK_RUID TK_AS TK_RUID 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS TK_RUID A TK_DEFINETYPE 
+Input symbol: TK_DEFINETYPE
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS TK_RUID A 
+Input symbol: TK_RECORD
+Expanding along: A ---> TK_RECORD 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS TK_RUID TK_RECORD 
+Input symbol: TK_RECORD
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS 
+Input symbol: TK_AS
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions 
+Input symbol: TK_DEFINETYPE
+Expanding along: typeDefinitions ---> actualOrRedefined typeDefinitions 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions actualOrRedefined 
+Input symbol: TK_DEFINETYPE
+Expanding along: actualOrRedefined ---> definetypestmt 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions definetypestmt 
+Input symbol: TK_DEFINETYPE
+Expanding along: definetypestmt ---> TK_DEFINETYPE A TK_RUID TK_AS TK_RUID 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS TK_RUID A TK_DEFINETYPE 
+Input symbol: TK_DEFINETYPE
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS TK_RUID A 
+Input symbol: TK_RECORD
+Expanding along: A ---> TK_RECORD 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS TK_RUID TK_RECORD 
+Input symbol: TK_RECORD
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS 
+Input symbol: TK_AS
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions 
+Input symbol: TK_UNION
+Expanding along: typeDefinitions ---> actualOrRedefined typeDefinitions 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions actualOrRedefined 
+Input symbol: TK_UNION
+Expanding along: actualOrRedefined ---> typeDefinition 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions typeDefinition 
+Input symbol: TK_UNION
+Expanding along: typeDefinition ---> TK_UNION TK_RUID fieldDefinitions TK_ENDUNION 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION fieldDefinitions TK_RUID TK_UNION 
+Input symbol: TK_UNION
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION fieldDefinitions TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION fieldDefinitions 
+Input symbol: TK_TYPE
+Expanding along: fieldDefinitions ---> fieldDefinition fieldDefinition moreFields 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields fieldDefinition fieldDefinition 
+Input symbol: TK_TYPE
+Expanding along: fieldDefinition ---> TK_TYPE fieldType TK_COLON TK_FIELDID TK_SEM 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON fieldType TK_TYPE 
+Input symbol: TK_TYPE
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON fieldType 
+Input symbol: TK_RUID
+Expanding along: fieldType ---> TK_RUID 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON 
+Input symbol: TK_COLON
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields fieldDefinition TK_SEM TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields fieldDefinition TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields fieldDefinition 
+Input symbol: TK_TYPE
+Expanding along: fieldDefinition ---> TK_TYPE fieldType TK_COLON TK_FIELDID TK_SEM 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields TK_SEM TK_FIELDID TK_COLON fieldType TK_TYPE 
+Input symbol: TK_TYPE
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields TK_SEM TK_FIELDID TK_COLON fieldType 
+Input symbol: TK_RUID
+Expanding along: fieldType ---> TK_RUID 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields TK_SEM TK_FIELDID TK_COLON TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields TK_SEM TK_FIELDID TK_COLON 
+Input symbol: TK_COLON
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields TK_SEM TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields 
+Input symbol: TK_TYPE
+Expanding along: moreFields ---> fieldDefinition moreFields 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields fieldDefinition 
+Input symbol: TK_TYPE
+Expanding along: fieldDefinition ---> TK_TYPE fieldType TK_COLON TK_FIELDID TK_SEM 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields TK_SEM TK_FIELDID TK_COLON fieldType TK_TYPE 
+Input symbol: TK_TYPE
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields TK_SEM TK_FIELDID TK_COLON fieldType 
+Input symbol: TK_RUID
+Expanding along: fieldType ---> TK_RUID 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields TK_SEM TK_FIELDID TK_COLON TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields TK_SEM TK_FIELDID TK_COLON 
+Input symbol: TK_COLON
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields TK_SEM TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION moreFields 
+Input symbol: TK_ENDUNION
+Expanding along: moreFields ---> eps 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDUNION 
+Input symbol: TK_ENDUNION
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions 
+Input symbol: TK_DEFINETYPE
+Expanding along: typeDefinitions ---> actualOrRedefined typeDefinitions 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions actualOrRedefined 
+Input symbol: TK_DEFINETYPE
+Expanding along: actualOrRedefined ---> definetypestmt 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions definetypestmt 
+Input symbol: TK_DEFINETYPE
+Expanding along: definetypestmt ---> TK_DEFINETYPE A TK_RUID TK_AS TK_RUID 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS TK_RUID A TK_DEFINETYPE 
+Input symbol: TK_DEFINETYPE
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS TK_RUID A 
+Input symbol: TK_RECORD
+Expanding along: A ---> TK_RECORD 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS TK_RUID TK_RECORD 
+Input symbol: TK_RECORD
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS 
+Input symbol: TK_AS
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions 
+Input symbol: TK_RECORD
+Expanding along: typeDefinitions ---> actualOrRedefined typeDefinitions 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions actualOrRedefined 
+Input symbol: TK_RECORD
+Expanding along: actualOrRedefined ---> typeDefinition 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions typeDefinition 
+Input symbol: TK_RECORD
+Expanding along: typeDefinition ---> TK_RECORD TK_RUID fieldDefinitions TK_ENDRECORD 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD fieldDefinitions TK_RUID TK_RECORD 
+Input symbol: TK_RECORD
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD fieldDefinitions TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD fieldDefinitions 
+Input symbol: TK_TYPE
+Expanding along: fieldDefinitions ---> fieldDefinition fieldDefinition moreFields 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition fieldDefinition 
+Input symbol: TK_TYPE
+Expanding along: fieldDefinition ---> TK_TYPE fieldType TK_COLON TK_FIELDID TK_SEM 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON fieldType TK_TYPE 
+Input symbol: TK_TYPE
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON fieldType 
+Input symbol: TK_RUID
+Expanding along: fieldType ---> TK_RUID 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON 
+Input symbol: TK_COLON
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition 
+Input symbol: TK_TYPE
+Expanding along: fieldDefinition ---> TK_TYPE fieldType TK_COLON TK_FIELDID TK_SEM 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID TK_COLON fieldType TK_TYPE 
+Input symbol: TK_TYPE
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID TK_COLON fieldType 
+Input symbol: TK_RUID
+Expanding along: fieldType ---> TK_RUID 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID TK_COLON TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID TK_COLON 
+Input symbol: TK_COLON
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields 
+Input symbol: TK_ENDRECORD
+Expanding along: moreFields ---> eps 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD 
+Input symbol: TK_ENDRECORD
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions 
+Input symbol: TK_DEFINETYPE
+Expanding along: typeDefinitions ---> actualOrRedefined typeDefinitions 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions actualOrRedefined 
+Input symbol: TK_DEFINETYPE
+Expanding along: actualOrRedefined ---> definetypestmt 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions definetypestmt 
+Input symbol: TK_DEFINETYPE
+Expanding along: definetypestmt ---> TK_DEFINETYPE A TK_RUID TK_AS TK_RUID 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS TK_RUID A TK_DEFINETYPE 
+Input symbol: TK_DEFINETYPE
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS TK_RUID A 
+Input symbol: TK_UNION
+Expanding along: A ---> TK_UNION 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS TK_RUID TK_UNION 
+Input symbol: TK_UNION
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID TK_AS 
+Input symbol: TK_AS
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions 
+Input symbol: TK_RECORD
+Expanding along: typeDefinitions ---> actualOrRedefined typeDefinitions 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions actualOrRedefined 
+Input symbol: TK_RECORD
+Expanding along: actualOrRedefined ---> typeDefinition 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions typeDefinition 
+Input symbol: TK_RECORD
+Expanding along: typeDefinition ---> TK_RECORD TK_RUID fieldDefinitions TK_ENDRECORD 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD fieldDefinitions TK_RUID TK_RECORD 
+Input symbol: TK_RECORD
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD fieldDefinitions TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD fieldDefinitions 
+Input symbol: TK_TYPE
+Expanding along: fieldDefinitions ---> fieldDefinition fieldDefinition moreFields 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition fieldDefinition 
+Input symbol: TK_TYPE
+Expanding along: fieldDefinition ---> TK_TYPE fieldType TK_COLON TK_FIELDID TK_SEM 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON fieldType TK_TYPE 
+Input symbol: TK_TYPE
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON fieldType 
+Input symbol: TK_INT
+Expanding along: fieldType ---> primitiveDatatype 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON primitiveDatatype 
+Input symbol: TK_INT
+Expanding along: primitiveDatatype ---> TK_INT 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON TK_INT 
+Input symbol: TK_INT
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID TK_COLON 
+Input symbol: TK_COLON
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields fieldDefinition 
+Input symbol: TK_TYPE
+Expanding along: fieldDefinition ---> TK_TYPE fieldType TK_COLON TK_FIELDID TK_SEM 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID TK_COLON fieldType TK_TYPE 
+Input symbol: TK_TYPE
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID TK_COLON fieldType 
+Input symbol: TK_RUID
+Expanding along: fieldType ---> TK_RUID 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID TK_COLON TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID TK_COLON 
+Input symbol: TK_COLON
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD moreFields 
+Input symbol: TK_ENDRECORD
+Expanding along: moreFields ---> eps 
+
+Stack config: TK_END returnStmt otherStmts declarations typeDefinitions TK_ENDRECORD 
+Input symbol: TK_ENDRECORD
+Top matched!!
 
 Stack config: TK_END returnStmt otherStmts declarations typeDefinitions 
 Input symbol: TK_TYPE
@@ -1522,6 +1755,50 @@ Input symbol: TK_TYPE
 Top matched!!
 
 Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON dataType 
+Input symbol: TK_RECORD
+Expanding along: dataType ---> constructedDatatype 
+
+Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON constructedDatatype 
+Input symbol: TK_RECORD
+Expanding along: constructedDatatype ---> TK_RECORD TK_RUID 
+
+Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON TK_RUID TK_RECORD 
+Input symbol: TK_RECORD
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON TK_RUID 
+Input symbol: TK_RUID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON 
+Input symbol: TK_COLON
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID 
+Input symbol: TK_ID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not 
+Input symbol: TK_SEM
+Expanding along: global_or_not ---> eps 
+
+Stack config: TK_END returnStmt otherStmts declarations TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations 
+Input symbol: TK_TYPE
+Expanding along: declarations ---> declaration declarations 
+
+Stack config: TK_END returnStmt otherStmts declarations declaration 
+Input symbol: TK_TYPE
+Expanding along: declaration ---> TK_TYPE dataType TK_COLON TK_ID global_or_not TK_SEM 
+
+Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON dataType TK_TYPE 
+Input symbol: TK_TYPE
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON dataType 
 Input symbol: TK_INT
 Expanding along: dataType ---> primitiveDatatype 
 
@@ -1534,8 +1811,8 @@ Input symbol: TK_INT
 Top matched!!
 
 Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON 
-Input symbol: TK_ID
-Line 25		error: The token TK_ID for lexeme b5 does not match with the expected token TK_COLON
+Input symbol: TK_COLON
+Top matched!!
 
 Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID 
 Input symbol: TK_ID
@@ -1602,64 +1879,19 @@ Input symbol: TK_TYPE
 Top matched!!
 
 Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON dataType 
-Input symbol: TK_INT
-Expanding along: dataType ---> primitiveDatatype 
+Input symbol: TK_RECORD
+Expanding along: dataType ---> constructedDatatype 
 
-Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON primitiveDatatype 
-Input symbol: TK_INT
-Expanding along: primitiveDatatype ---> TK_INT 
+Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON constructedDatatype 
+Input symbol: TK_RECORD
+Expanding along: constructedDatatype ---> TK_RECORD TK_RUID 
 
-Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON TK_INT 
-Input symbol: TK_INT
+Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON TK_RUID TK_RECORD 
+Input symbol: TK_RECORD
 Top matched!!
 
-Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON 
-Input symbol: TK_COLON
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID 
-Input symbol: TK_ID
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not 
-Input symbol: TK_COLON
-Expanding along: global_or_not ---> TK_COLON TK_GLOBAL 
-
-Stack config: TK_END returnStmt otherStmts declarations TK_SEM TK_GLOBAL TK_COLON 
-Input symbol: TK_COLON
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts declarations TK_SEM TK_GLOBAL 
-Input symbol: TK_GLOBAL
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts declarations TK_SEM 
-Input symbol: TK_SEM
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts declarations 
-Input symbol: TK_TYPE
-Expanding along: declarations ---> declaration declarations 
-
-Stack config: TK_END returnStmt otherStmts declarations declaration 
-Input symbol: TK_TYPE
-Expanding along: declaration ---> TK_TYPE dataType TK_COLON TK_ID global_or_not TK_SEM 
-
-Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON dataType TK_TYPE 
-Input symbol: TK_TYPE
-Top matched!!
-Line 28		error: Unknwon Symbol <$>.
-
-Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON dataType 
-Input symbol: TK_REAL
-Expanding along: dataType ---> primitiveDatatype 
-
-Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON primitiveDatatype 
-Input symbol: TK_REAL
-Expanding along: primitiveDatatype ---> TK_REAL 
-
-Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON TK_REAL 
-Input symbol: TK_REAL
+Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON TK_RUID 
+Input symbol: TK_RUID
 Top matched!!
 
 Stack config: TK_END returnStmt otherStmts declarations TK_SEM global_or_not TK_ID TK_COLON 
@@ -1701,262 +1933,490 @@ Expanding along: singleOrRecId ---> TK_ID option_single_constructed
 Stack config: TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed TK_ID 
 Input symbol: TK_ID
 Top matched!!
-Line 29		error: Unknwon Pattern <<-->.
 
 Stack config: TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed 
-Input symbol: TK_NUM
-
-Stack config: TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed 
-Input symbol: TK_SEM
+Input symbol: TK_ASSIGNOP
 Expanding along: option_single_constructed ---> eps 
 
 Stack config: TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP 
-Input symbol: TK_SEM
-Line 29		error: The token TK_SEM for lexeme ; does not match with the expected token TK_ASSIGNOP
-
-Stack config: TK_END returnStmt otherStmts TK_SEM arithmeticExpression 
-Input symbol: TK_SEM
-Line 29		error: Invalid token TK_SEM encountered with value ; stack top arithmeticExpression
-
-Stack config: TK_END returnStmt otherStmts TK_SEM 
-Input symbol: TK_SEM
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts 
-Input symbol: TK_READ
-Expanding along: otherStmts ---> stmt otherStmts 
-
-Stack config: TK_END returnStmt otherStmts stmt 
-Input symbol: TK_READ
-Expanding along: stmt ---> ioStmt 
-
-Stack config: TK_END returnStmt otherStmts ioStmt 
-Input symbol: TK_READ
-Expanding along: ioStmt ---> TK_READ TK_OP var TK_CL TK_SEM 
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL var TK_OP TK_READ 
-Input symbol: TK_READ
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL var TK_OP 
-Input symbol: TK_OP
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL var 
-Input symbol: TK_ID
-Expanding along: var ---> singleOrRecId 
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL singleOrRecId 
-Input symbol: TK_ID
-Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL option_single_constructed TK_ID 
-Input symbol: TK_ID
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL option_single_constructed 
-Input symbol: TK_CL
-Expanding along: option_single_constructed ---> eps 
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL 
-Input symbol: TK_CL
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM 
-Input symbol: TK_SEM
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts 
-Input symbol: TK_READ
-Expanding along: otherStmts ---> stmt otherStmts 
-
-Stack config: TK_END returnStmt otherStmts stmt 
-Input symbol: TK_READ
-Expanding along: stmt ---> ioStmt 
-
-Stack config: TK_END returnStmt otherStmts ioStmt 
-Input symbol: TK_READ
-Expanding along: ioStmt ---> TK_READ TK_OP var TK_CL TK_SEM 
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL var TK_OP TK_READ 
-Input symbol: TK_READ
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL var TK_OP 
-Input symbol: TK_OP
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL var 
-Input symbol: TK_NUM
-Expanding along: var ---> TK_NUM 
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL TK_NUM 
-Input symbol: TK_NUM
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL 
-Input symbol: TK_CL
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM 
-Input symbol: TK_SEM
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts 
-Input symbol: TK_READ
-Expanding along: otherStmts ---> stmt otherStmts 
-
-Stack config: TK_END returnStmt otherStmts stmt 
-Input symbol: TK_READ
-Expanding along: stmt ---> ioStmt 
-
-Stack config: TK_END returnStmt otherStmts ioStmt 
-Input symbol: TK_READ
-Expanding along: ioStmt ---> TK_READ TK_OP var TK_CL TK_SEM 
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL var TK_OP TK_READ 
-Input symbol: TK_READ
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL var TK_OP 
-Input symbol: TK_OP
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL var 
-Input symbol: TK_ID
-Expanding along: var ---> singleOrRecId 
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL singleOrRecId 
-Input symbol: TK_ID
-Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL option_single_constructed TK_ID 
-Input symbol: TK_ID
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL option_single_constructed 
-Input symbol: TK_CL
-Expanding along: option_single_constructed ---> eps 
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL 
-Input symbol: TK_CL
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM 
-Input symbol: TK_SEM
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts 
-Input symbol: TK_SQL
-Expanding along: otherStmts ---> stmt otherStmts 
-
-Stack config: TK_END returnStmt otherStmts stmt 
-Input symbol: TK_SQL
-Expanding along: stmt ---> funCallStmt 
-
-Stack config: TK_END returnStmt otherStmts funCallStmt 
-Input symbol: TK_SQL
-Expanding along: funCallStmt ---> outputParameters TK_CALL TK_FUNID TK_WITH TK_PARAMETERS inputParameters TK_SEM 
-
-Stack config: TK_END returnStmt otherStmts TK_SEM inputParameters TK_PARAMETERS TK_WITH TK_FUNID TK_CALL outputParameters 
-Input symbol: TK_SQL
-Expanding along: outputParameters ---> TK_SQL idList TK_SQR TK_ASSIGNOP 
-
-Stack config: TK_END returnStmt otherStmts TK_SEM inputParameters TK_PARAMETERS TK_WITH TK_FUNID TK_CALL TK_ASSIGNOP TK_SQR idList TK_SQL 
-Input symbol: TK_SQL
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM inputParameters TK_PARAMETERS TK_WITH TK_FUNID TK_CALL TK_ASSIGNOP TK_SQR idList 
-Input symbol: TK_ID
-Expanding along: idList ---> TK_ID more_ids 
-
-Stack config: TK_END returnStmt otherStmts TK_SEM inputParameters TK_PARAMETERS TK_WITH TK_FUNID TK_CALL TK_ASSIGNOP TK_SQR more_ids TK_ID 
-Input symbol: TK_ID
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM inputParameters TK_PARAMETERS TK_WITH TK_FUNID TK_CALL TK_ASSIGNOP TK_SQR more_ids 
-Input symbol: TK_SQR
-Expanding along: more_ids ---> eps 
-
-Stack config: TK_END returnStmt otherStmts TK_SEM inputParameters TK_PARAMETERS TK_WITH TK_FUNID TK_CALL TK_ASSIGNOP TK_SQR 
-Input symbol: TK_SQR
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM inputParameters TK_PARAMETERS TK_WITH TK_FUNID TK_CALL TK_ASSIGNOP 
 Input symbol: TK_ASSIGNOP
 Top matched!!
 
-Stack config: TK_END returnStmt otherStmts TK_SEM inputParameters TK_PARAMETERS TK_WITH TK_FUNID TK_CALL 
-Input symbol: TK_CALL
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM inputParameters TK_PARAMETERS TK_WITH TK_FUNID 
-Input symbol: TK_FUNID
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM inputParameters TK_PARAMETERS TK_WITH 
-Input symbol: TK_WITH
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM inputParameters TK_PARAMETERS 
-Input symbol: TK_PARAMETERS
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM inputParameters 
-Input symbol: TK_SQL
-Expanding along: inputParameters ---> TK_SQL idList TK_SQR 
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_SQR idList TK_SQL 
-Input symbol: TK_SQL
-Top matched!!
-
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_SQR idList 
+Stack config: TK_END returnStmt otherStmts TK_SEM arithmeticExpression 
 Input symbol: TK_ID
-Expanding along: idList ---> TK_ID more_ids 
+Expanding along: arithmeticExpression ---> term expPrime 
 
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_SQR more_ids TK_ID 
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime term 
+Input symbol: TK_ID
+Expanding along: term ---> factor termPrime 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor 
+Input symbol: TK_ID
+Expanding along: factor ---> var 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime var 
+Input symbol: TK_ID
+Expanding along: var ---> singleOrRecId 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime singleOrRecId 
+Input symbol: TK_ID
+Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime option_single_constructed TK_ID 
 Input symbol: TK_ID
 Top matched!!
 
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_SQR more_ids 
-Input symbol: TK_COMMA
-Expanding along: more_ids ---> TK_COMMA idList 
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime option_single_constructed 
+Input symbol: TK_DOT
+Expanding along: option_single_constructed ---> oneExpansion moreExpansions 
 
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_SQR idList TK_COMMA 
-Input symbol: TK_COMMA
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions oneExpansion 
+Input symbol: TK_DOT
+Expanding along: oneExpansion ---> TK_DOT TK_FIELDID 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID TK_DOT 
+Input symbol: TK_DOT
 Top matched!!
 
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_SQR idList 
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions 
+Input symbol: TK_PLUS
+Expanding along: moreExpansions ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime 
+Input symbol: TK_PLUS
+Expanding along: termPrime ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime 
+Input symbol: TK_PLUS
+Expanding along: expPrime ---> lowPrecedenceOperators term expPrime 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime term lowPrecedenceOperators 
+Input symbol: TK_PLUS
+Expanding along: lowPrecedenceOperators ---> TK_PLUS 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime term TK_PLUS 
+Input symbol: TK_PLUS
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime term 
 Input symbol: TK_ID
-Expanding along: idList ---> TK_ID more_ids 
+Expanding along: term ---> factor termPrime 
 
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_SQR more_ids TK_ID 
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor 
+Input symbol: TK_ID
+Expanding along: factor ---> var 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime var 
+Input symbol: TK_ID
+Expanding along: var ---> singleOrRecId 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime singleOrRecId 
+Input symbol: TK_ID
+Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime option_single_constructed TK_ID 
 Input symbol: TK_ID
 Top matched!!
 
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_SQR more_ids 
-Input symbol: TK_COMMA
-Expanding along: more_ids ---> TK_COMMA idList 
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime option_single_constructed 
+Input symbol: TK_DOT
+Expanding along: option_single_constructed ---> oneExpansion moreExpansions 
 
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_SQR idList TK_COMMA 
-Input symbol: TK_COMMA
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions oneExpansion 
+Input symbol: TK_DOT
+Expanding along: oneExpansion ---> TK_DOT TK_FIELDID 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID TK_DOT 
+Input symbol: TK_DOT
 Top matched!!
 
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_SQR idList 
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions 
+Input symbol: TK_DOT
+Expanding along: moreExpansions ---> oneExpansion moreExpansions 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions oneExpansion 
+Input symbol: TK_DOT
+Expanding along: oneExpansion ---> TK_DOT TK_FIELDID 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID TK_DOT 
+Input symbol: TK_DOT
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions 
+Input symbol: TK_DOT
+Expanding along: moreExpansions ---> oneExpansion moreExpansions 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions oneExpansion 
+Input symbol: TK_DOT
+Expanding along: oneExpansion ---> TK_DOT TK_FIELDID 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID TK_DOT 
+Input symbol: TK_DOT
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions 
+Input symbol: TK_DOT
+Expanding along: moreExpansions ---> oneExpansion moreExpansions 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions oneExpansion 
+Input symbol: TK_DOT
+Expanding along: oneExpansion ---> TK_DOT TK_FIELDID 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID TK_DOT 
+Input symbol: TK_DOT
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions 
+Input symbol: TK_MINUS
+Expanding along: moreExpansions ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime 
+Input symbol: TK_MINUS
+Expanding along: termPrime ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime 
+Input symbol: TK_MINUS
+Expanding along: expPrime ---> lowPrecedenceOperators term expPrime 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime term lowPrecedenceOperators 
+Input symbol: TK_MINUS
+Expanding along: lowPrecedenceOperators ---> TK_MINUS 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime term TK_MINUS 
+Input symbol: TK_MINUS
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime term 
 Input symbol: TK_ID
-Expanding along: idList ---> TK_ID more_ids 
+Expanding along: term ---> factor termPrime 
 
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_SQR more_ids TK_ID 
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor 
+Input symbol: TK_ID
+Expanding along: factor ---> var 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime var 
+Input symbol: TK_ID
+Expanding along: var ---> singleOrRecId 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime singleOrRecId 
+Input symbol: TK_ID
+Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime option_single_constructed TK_ID 
 Input symbol: TK_ID
 Top matched!!
 
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_SQR more_ids 
-Input symbol: TK_SQR
-Expanding along: more_ids ---> eps 
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime option_single_constructed 
+Input symbol: TK_DOT
+Expanding along: option_single_constructed ---> oneExpansion moreExpansions 
 
-Stack config: TK_END returnStmt otherStmts TK_SEM TK_SQR 
-Input symbol: TK_SQR
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions oneExpansion 
+Input symbol: TK_DOT
+Expanding along: oneExpansion ---> TK_DOT TK_FIELDID 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID TK_DOT 
+Input symbol: TK_DOT
 Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions 
+Input symbol: TK_DOT
+Expanding along: moreExpansions ---> oneExpansion moreExpansions 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions oneExpansion 
+Input symbol: TK_DOT
+Expanding along: oneExpansion ---> TK_DOT TK_FIELDID 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID TK_DOT 
+Input symbol: TK_DOT
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions 
+Input symbol: TK_DOT
+Expanding along: moreExpansions ---> oneExpansion moreExpansions 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions oneExpansion 
+Input symbol: TK_DOT
+Expanding along: oneExpansion ---> TK_DOT TK_FIELDID 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID TK_DOT 
+Input symbol: TK_DOT
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions 
+Input symbol: TK_DOT
+Expanding along: moreExpansions ---> oneExpansion moreExpansions 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions oneExpansion 
+Input symbol: TK_DOT
+Expanding along: oneExpansion ---> TK_DOT TK_FIELDID 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID TK_DOT 
+Input symbol: TK_DOT
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions 
+Input symbol: TK_DOT
+Expanding along: moreExpansions ---> oneExpansion moreExpansions 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions oneExpansion 
+Input symbol: TK_DOT
+Expanding along: oneExpansion ---> TK_DOT TK_FIELDID 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID TK_DOT 
+Input symbol: TK_DOT
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime moreExpansions 
+Input symbol: TK_SEM
+Expanding along: moreExpansions ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime 
+Input symbol: TK_SEM
+Expanding along: termPrime ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime 
+Input symbol: TK_SEM
+Expanding along: expPrime ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts 
+Input symbol: TK_ID
+Expanding along: otherStmts ---> stmt otherStmts 
+
+Stack config: TK_END returnStmt otherStmts stmt 
+Input symbol: TK_ID
+Expanding along: stmt ---> assignmentStmt 
+
+Stack config: TK_END returnStmt otherStmts assignmentStmt 
+Input symbol: TK_ID
+Expanding along: assignmentStmt ---> singleOrRecId TK_ASSIGNOP arithmeticExpression TK_SEM 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP singleOrRecId 
+Input symbol: TK_ID
+Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed TK_ID 
+Input symbol: TK_ID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed 
+Input symbol: TK_ASSIGNOP
+Expanding along: option_single_constructed ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP 
+Input symbol: TK_ASSIGNOP
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM arithmeticExpression 
+Input symbol: TK_ID
+Expanding along: arithmeticExpression ---> term expPrime 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime term 
+Input symbol: TK_ID
+Expanding along: term ---> factor termPrime 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor 
+Input symbol: TK_ID
+Expanding along: factor ---> var 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime var 
+Input symbol: TK_ID
+Expanding along: var ---> singleOrRecId 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime singleOrRecId 
+Input symbol: TK_ID
+Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime option_single_constructed TK_ID 
+Input symbol: TK_ID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime option_single_constructed 
+Input symbol: TK_PLUS
+Expanding along: option_single_constructed ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime 
+Input symbol: TK_PLUS
+Expanding along: termPrime ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime 
+Input symbol: TK_PLUS
+Expanding along: expPrime ---> lowPrecedenceOperators term expPrime 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime term lowPrecedenceOperators 
+Input symbol: TK_PLUS
+Expanding along: lowPrecedenceOperators ---> TK_PLUS 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime term TK_PLUS 
+Input symbol: TK_PLUS
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime term 
+Input symbol: TK_NUM
+Expanding along: term ---> factor termPrime 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor 
+Input symbol: TK_NUM
+Expanding along: factor ---> var 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime var 
+Input symbol: TK_NUM
+Expanding along: var ---> TK_NUM 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime TK_NUM 
+Input symbol: TK_NUM
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime 
+Input symbol: TK_SEM
+Expanding along: termPrime ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime 
+Input symbol: TK_SEM
+Expanding along: expPrime ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts 
+Input symbol: TK_ID
+Expanding along: otherStmts ---> stmt otherStmts 
+
+Stack config: TK_END returnStmt otherStmts stmt 
+Input symbol: TK_ID
+Expanding along: stmt ---> assignmentStmt 
+
+Stack config: TK_END returnStmt otherStmts assignmentStmt 
+Input symbol: TK_ID
+Expanding along: assignmentStmt ---> singleOrRecId TK_ASSIGNOP arithmeticExpression TK_SEM 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP singleOrRecId 
+Input symbol: TK_ID
+Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed TK_ID 
+Input symbol: TK_ID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP option_single_constructed 
+Input symbol: TK_ASSIGNOP
+Expanding along: option_single_constructed ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM arithmeticExpression TK_ASSIGNOP 
+Input symbol: TK_ASSIGNOP
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM arithmeticExpression 
+Input symbol: TK_ID
+Expanding along: arithmeticExpression ---> term expPrime 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime term 
+Input symbol: TK_ID
+Expanding along: term ---> factor termPrime 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor 
+Input symbol: TK_ID
+Expanding along: factor ---> var 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime var 
+Input symbol: TK_ID
+Expanding along: var ---> singleOrRecId 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime singleOrRecId 
+Input symbol: TK_ID
+Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime option_single_constructed TK_ID 
+Input symbol: TK_ID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime option_single_constructed 
+Input symbol: TK_DIV
+Expanding along: option_single_constructed ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime 
+Input symbol: TK_DIV
+Expanding along: termPrime ---> highPrecedenceOperators factor termPrime 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor highPrecedenceOperators 
+Input symbol: TK_DIV
+Expanding along: highPrecedenceOperators ---> TK_DIV 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor TK_DIV 
+Input symbol: TK_DIV
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime factor 
+Input symbol: TK_ID
+Expanding along: factor ---> var 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime var 
+Input symbol: TK_ID
+Expanding along: var ---> singleOrRecId 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime singleOrRecId 
+Input symbol: TK_ID
+Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime option_single_constructed TK_ID 
+Input symbol: TK_ID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime option_single_constructed 
+Input symbol: TK_SEM
+Expanding along: option_single_constructed ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime termPrime 
+Input symbol: TK_SEM
+Expanding along: termPrime ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM expPrime 
+Input symbol: TK_SEM
+Expanding along: expPrime ---> eps 
 
 Stack config: TK_END returnStmt otherStmts TK_SEM 
 Input symbol: TK_SEM
@@ -2007,6 +2467,174 @@ Input symbol: TK_SEM
 Top matched!!
 
 Stack config: TK_END returnStmt otherStmts 
+Input symbol: TK_WRITE
+Expanding along: otherStmts ---> stmt otherStmts 
+
+Stack config: TK_END returnStmt otherStmts stmt 
+Input symbol: TK_WRITE
+Expanding along: stmt ---> ioStmt 
+
+Stack config: TK_END returnStmt otherStmts ioStmt 
+Input symbol: TK_WRITE
+Expanding along: ioStmt ---> TK_WRITE TK_OP var TK_CL TK_SEM 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL var TK_OP TK_WRITE 
+Input symbol: TK_WRITE
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL var TK_OP 
+Input symbol: TK_OP
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL var 
+Input symbol: TK_ID
+Expanding along: var ---> singleOrRecId 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL singleOrRecId 
+Input symbol: TK_ID
+Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL option_single_constructed TK_ID 
+Input symbol: TK_ID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL option_single_constructed 
+Input symbol: TK_DOT
+Expanding along: option_single_constructed ---> oneExpansion moreExpansions 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions oneExpansion 
+Input symbol: TK_DOT
+Expanding along: oneExpansion ---> TK_DOT TK_FIELDID 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions TK_FIELDID TK_DOT 
+Input symbol: TK_DOT
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions 
+Input symbol: TK_DOT
+Expanding along: moreExpansions ---> oneExpansion moreExpansions 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions oneExpansion 
+Input symbol: TK_DOT
+Expanding along: oneExpansion ---> TK_DOT TK_FIELDID 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions TK_FIELDID TK_DOT 
+Input symbol: TK_DOT
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions 
+Input symbol: TK_DOT
+Expanding along: moreExpansions ---> oneExpansion moreExpansions 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions oneExpansion 
+Input symbol: TK_DOT
+Expanding along: oneExpansion ---> TK_DOT TK_FIELDID 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions TK_FIELDID TK_DOT 
+Input symbol: TK_DOT
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions 
+Input symbol: TK_DOT
+Expanding along: moreExpansions ---> oneExpansion moreExpansions 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions oneExpansion 
+Input symbol: TK_DOT
+Expanding along: oneExpansion ---> TK_DOT TK_FIELDID 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions TK_FIELDID TK_DOT 
+Input symbol: TK_DOT
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions 
+Input symbol: TK_CL
+Expanding along: moreExpansions ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL 
+Input symbol: TK_CL
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts 
+Input symbol: TK_WRITE
+Expanding along: otherStmts ---> stmt otherStmts 
+
+Stack config: TK_END returnStmt otherStmts stmt 
+Input symbol: TK_WRITE
+Expanding along: stmt ---> ioStmt 
+
+Stack config: TK_END returnStmt otherStmts ioStmt 
+Input symbol: TK_WRITE
+Expanding along: ioStmt ---> TK_WRITE TK_OP var TK_CL TK_SEM 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL var TK_OP TK_WRITE 
+Input symbol: TK_WRITE
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL var TK_OP 
+Input symbol: TK_OP
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL var 
+Input symbol: TK_ID
+Expanding along: var ---> singleOrRecId 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL singleOrRecId 
+Input symbol: TK_ID
+Expanding along: singleOrRecId ---> TK_ID option_single_constructed 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL option_single_constructed TK_ID 
+Input symbol: TK_ID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL option_single_constructed 
+Input symbol: TK_DOT
+Expanding along: option_single_constructed ---> oneExpansion moreExpansions 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions oneExpansion 
+Input symbol: TK_DOT
+Expanding along: oneExpansion ---> TK_DOT TK_FIELDID 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions TK_FIELDID TK_DOT 
+Input symbol: TK_DOT
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions TK_FIELDID 
+Input symbol: TK_FIELDID
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL moreExpansions 
+Input symbol: TK_CL
+Expanding along: moreExpansions ---> eps 
+
+Stack config: TK_END returnStmt otherStmts TK_SEM TK_CL 
+Input symbol: TK_CL
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts TK_SEM 
+Input symbol: TK_SEM
+Top matched!!
+
+Stack config: TK_END returnStmt otherStmts 
 Input symbol: TK_RETURN
 Expanding along: otherStmts ---> eps 
 
@@ -2029,5 +2657,5 @@ Top matched!!
 Stack config: TK_END 
 Input symbol: TK_END
 Top matched!!
-Input source code is syntactically incorrect
+Input source code is syntactically correct.
 
