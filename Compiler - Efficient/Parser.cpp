@@ -65,10 +65,10 @@ public:
 			}
 		}
 
-		cout << "Nullables: " << endl;
+		cerr << "Nullables: " << endl;
 		for (int i = 0; i < 128; ++i)
 			if (nullable.test(i))
-				cout << "\t" << symbolType2symbolStr[i] << endl;
+				cerr << "\t" << symbolType2symbolStr[i] << endl;
 	}
 
 	void computeFirstSets()
@@ -111,22 +111,22 @@ public:
 			}
 		}
 
-		cout << "First sets: " << endl;
+		cerr << "First sets: " << endl;
 		for (int i = 0; i < firstSet.size(); ++i)
 		{
-			cout << "FIRST(" << symbolType2symbolStr[i] << ")\t { ";
+			cerr << "FIRST(" << symbolType2symbolStr[i] << ")\t { ";
 
 			if (!firstSet[i].any())
 			{
-				cout << " }\n";
+				cerr << " }\n";
 				continue;
 			}
 
 			for (int j = 0; j < 128; ++j)
 				if (firstSet[i].test(j))
-					cout << symbolType2symbolStr[j] << ", ";
+					cerr << symbolType2symbolStr[j] << ", ";
 
-			cout << "\b\b }" << endl;
+			cerr << "\b\b }" << endl;
 		}
 	}
 
@@ -177,22 +177,22 @@ public:
 		for (auto& follow : followSet)
 			follow.reset(0);
 
-		cout << "Follow sets: " << endl;
+		cerr << "Follow sets: " << endl;
 		for (int i = 0; i < followSet.size(); ++i)
 		{
-			cout << "FOLLOW(" << symbolType2symbolStr[i] << ")\t { ";
+			cerr << "FOLLOW(" << symbolType2symbolStr[i] << ")\t { ";
 
 			if (!followSet[i].any())
 			{
-				cout << " }\n";
+				cerr << " }\n";
 				continue;
 			}
 
 			for (int j = 0; j < 128; ++j)
 				if (followSet[i].test(j))
-					cout << symbolType2symbolStr[j] << ", ";
+					cerr << symbolType2symbolStr[j] << ", ";
 
-			cout << "\b\b }" << endl;
+			cerr << "\b\b }" << endl;
 		}
 	}
 
@@ -323,14 +323,15 @@ void printStack(stack<int> st)
 
 	while (!s.empty())
 	{
-		cout << s.top() << " ";
+		cerr << s.top() << " ";
 		s.pop();
 	}
-	cout << endl;
+	cerr << endl;
 }
 
-const ParseTreeNode* parseInputSourceCode(Buffer& buffer)
+const ParseTreeNode* parseInputSourceCode(Buffer& buffer, bool &isError)
 {
+	isError = false;
 	stack<int> st;
 	st.push(-1);
 	st.push(parser.start_index);
@@ -341,13 +342,13 @@ const ParseTreeNode* parseInputSourceCode(Buffer& buffer)
 	ParseTreeNode* node = parseTree;
 	Token* lookahead = getNextToken(buffer);
 
-	bool isError = false;
 	while (lookahead != nullptr)
 	{
 		if (lookahead->type == TokenType::TK_ERROR_LENGTH)
 		{
 			isError = true;
-			cout << "Line " << lookahead->line_number << " \t\terror: Identifier is longer than the allowed length." << endl;
+			cout << *lookahead << endl;
+			cerr << *lookahead << endl;
 
 			lookahead = getNextToken(buffer);
 			continue;
@@ -355,7 +356,8 @@ const ParseTreeNode* parseInputSourceCode(Buffer& buffer)
 		if (lookahead->type == TokenType::TK_ERROR_PATTERN)
 		{
 			isError = true;
-			cout << "Line " << lookahead->line_number << " \t\terror: Unknown Pattern <" << lookahead->lexeme << ">" << endl;
+			cout << *lookahead << endl;
+			cerr << *lookahead << endl;
 
 			lookahead = getNextToken(buffer);
 			continue;
@@ -363,7 +365,8 @@ const ParseTreeNode* parseInputSourceCode(Buffer& buffer)
 		if (lookahead->type == TokenType::TK_ERROR_SYMBOL)
 		{
 			isError = true;
-			cout << "Line " << lookahead->line_number << " \t\terror: Unknown Symbol <" << lookahead->lexeme << ">" << endl;
+			cout << *lookahead << endl;
+			cerr << *lookahead << endl;
 
 			lookahead = getNextToken(buffer);
 			continue;
@@ -375,14 +378,14 @@ const ParseTreeNode* parseInputSourceCode(Buffer& buffer)
 		if (stack_top == -1)
 			break;
 
-		cout << "Stack config: ";
+		cerr << endl << "Stack config: ";
 		printStack(st);
-		cout << "Input symbol: " << parser.symbolType2symbolStr[input_terminal] << endl << endl;
+		cerr << "Input symbol: " << parser.symbolType2symbolStr[input_terminal] << endl;
 
 		// if top of stack matches with input terminal (terminal at top of stack)
 		if (stack_top == input_terminal)
 		{
-			cout << "Top matched!!" << endl;
+			cerr << "Top matched!!" << endl;
 			node->isLeaf = 1;
 			node->token = lookahead;
 			_pop(&node, st);
@@ -400,6 +403,7 @@ const ParseTreeNode* parseInputSourceCode(Buffer& buffer)
 		{
 			isError = true;
 			cout << "Line " << line_number << "\t\terror: The token " << la_token << " for lexeme " << lexeme << " does not match with the expected token " << expected_token << endl;
+			cerr << "Line " << line_number << "\t\terror: The token " << la_token << " for lexeme " << lexeme << " does not match with the expected token " << expected_token << endl;
 			_pop(&node, st);
 			continue;
 		}
@@ -411,10 +415,10 @@ const ParseTreeNode* parseInputSourceCode(Buffer& buffer)
 		// if it is a valid production
 		if (production_number >= 0)
 		{
-			cout << "Expanding along: " << parser.symbolType2symbolStr[parser.productions[production_number][0]] << " ---> ";
+			cerr << "Expanding along: " << parser.symbolType2symbolStr[parser.productions[production_number][0]] << " ---> ";
 			for (int j = 1; j < parser.productions[production_number].size(); ++j)
-				cout << parser.symbolType2symbolStr[parser.productions[production_number][j]] << " ";
-			cout << endl;
+				cerr << parser.symbolType2symbolStr[parser.productions[production_number][j]] << " ";
+			cerr << endl;
 
 			const vector<int> &production = parser.productions[production_number];
 			int production_size = parser.productions[production_number].size();
@@ -459,13 +463,24 @@ const ParseTreeNode* parseInputSourceCode(Buffer& buffer)
 
 		isError = true;
 		cout << "Line " << line_number << "\t\terror: Invalid token " << la_token << " encountered with value " << lexeme << " stack top " << expected_token << endl;
+		cerr << "Line " << line_number << "\t\terror: Invalid token " << la_token << " encountered with value " << lexeme << " stack top " << expected_token << endl;
 		_pop(&node, st);
 	}
 
 	assert(st.top() == -1);
 
 	if (!isError)
-		fprintf(stderr, "Input source code is syntactically correct.\n");
+	{
+		cout << "Input source code is syntactically correct." << endl;
+		cerr << "Input source code is syntactically correct." << endl;
+	}
+	else
+	{
+		cout << "Input source code is syntactically incorrect" << endl;
+		cerr << "Input source code is syntactically incorrect" << endl;
+	}
+
+	cerr << endl;
 
 	return parseTree;
 }

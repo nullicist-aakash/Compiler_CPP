@@ -19,4 +19,4 @@ struct ParseTreeNode
 
 void loadParser();
 
-const ParseTreeNode* parseInputSourceCode(Buffer&);
+const ParseTreeNode* parseInputSourceCode(Buffer&, bool&);

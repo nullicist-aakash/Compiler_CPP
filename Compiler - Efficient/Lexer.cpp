@@ -9,7 +9,15 @@ DFA dfa;
 
 std::ostream& operator<< (std::ostream& out, const Token& token)
 {
-	out << "Line no: " << token.line_number << "\tToken: " << setw(20) << dfa.tokenType2tokenStr[(int)token.type] << "\tLexeme: " << token.lexeme;
+	if (token.type == TokenType::TK_ERROR_LENGTH)
+		out << "Line " << token.line_number << "\t\terror: Identifier length is greater than the prescribed length.";
+	else if (token.type == TokenType::TK_ERROR_SYMBOL)
+			out << "Line " << token.line_number << "\t\terror: Unknwon Symbol <" << token.lexeme << ">.";
+	else if (token.type == TokenType::TK_ERROR_PATTERN)
+		out << "Line " << token.line_number << "\t\terror: Unknwon Pattern <" << token.lexeme << ">.";
+	else
+		out << "Line " << token.line_number << "\t\tToken: " << setw(20) << dfa.tokenType2tokenStr[(int)token.type] << "\tLexeme: " << token.lexeme;
+
 	return out;
 }
 

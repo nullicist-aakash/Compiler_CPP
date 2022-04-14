@@ -6,9 +6,14 @@ using namespace std;
 
 int main()
 {
+	std::ofstream out("outfile.txt");
+	std::cerr.rdbuf(out.rdbuf());
+
 	loadDFA();
 	loadParser();
 
-	Buffer buffer("testcase1.txt");
-	parseInputSourceCode(buffer);
+	bool b;
+
+	Buffer buffer("testcase6.txt");
+	parseInputSourceCode(buffer, b);
 }
