@@ -30,6 +30,7 @@ void loadDFA()
 	// Load Tokens
 	dfa.tokenType2tokenStr.clear();
 	dfa.tokenType2tokenStr.resize(dfa.num_tokens);
+	dfa.tokenStr2tokenType.clear();
 	for (int i = 0; i < dfa.num_tokens; ++i)
 	{
 		dfaReader >>  dfa.tokenType2tokenStr[i];
@@ -78,6 +79,7 @@ void loadDFA()
 
 	// Load Keywords
 	dfa.lookupTable.clear();
+	dfa.keywordTokens.clear();
 	for (int i = 0; i < dfa.num_keywords; ++i)
 	{
 		string keyword, token_name;
@@ -85,6 +87,34 @@ void loadDFA()
 		dfa.lookupTable[keyword] = dfa.tokenStr2tokenType[token_name];
 		dfa.keywordTokens.insert(token_name);
 	}
+}
+
+void onTokenFromDFA(Token* &token, Buffer& buffer)
+{
+	if (token->type == TokenType::TK_COMMENT || token->type == TokenType::TK_WHITESPACE)
+	{
+		delete token;
+		token = nullptr;
+		return;
+	}
+
+	char* BUFF = new char[token->length + 1];
+	for (int i = 0; i < token->length; i++)
+		BUFF[i] = buffer.getChar(buffer.start_index - token->length + i);
+	token->lexeme = BUFF;
+
+	if (token->type == TokenType::TK_ID || token->type == TokenType::TK_FUNID || token->type == TokenType::TK_FIELDID)
+	{
+		auto res = dfa.lookupTable.find(token->lexeme);
+		if (res != dfa.lookupTable.end())
+			token->type = dfa.lookupTable.at(token->lexeme);
+	}
+
+	if (token->type == TokenType::TK_ID && token->length > 20)
+		token->type = TokenType::TK_ERROR_LENGTH;
+
+	if (token->type == TokenType::TK_FUNID && token->length > 30)
+		token->type = TokenType::TK_ERROR_LENGTH;
 }
 
 Token* getTokenFromDFA(Buffer& buffer)
@@ -160,30 +190,10 @@ Token* getNextToken(Buffer& buffer)
 
 		buffer.start_index += token->length;
 
-		if (token->type == TokenType::TK_COMMENT || token->type == TokenType::TK_WHITESPACE)
-		{
-			delete token;
+		onTokenFromDFA(token, buffer);
+		
+		if (token == nullptr)
 			continue;
-		}
-
-		char* BUFF = new char[token->length + 1];
-		for (int i = 0; i < token->length; i++)
-			BUFF[i] = buffer.getChar(buffer.start_index - token->length + i);
-		token->lexeme = BUFF;
-
-		if (token->type == TokenType::TK_ID || token->type == TokenType::TK_FUNID || token->type == TokenType::TK_FIELDID)
-		{
-			auto res = dfa.lookupTable.find(token->lexeme);
-			if (res != dfa.lookupTable.end())
-				token->type = dfa.lookupTable.at(token->lexeme);
-		}
-		// Assign error types
-
-		if (token->type == TokenType::TK_ID && token->length > 20)
-			token->type = TokenType::TK_ERROR_LENGTH;
-
-		if (token->type == TokenType::TK_FUNID && token->length > 30)
-			token->type = TokenType::TK_ERROR_LENGTH;
 
 		return token;
 	}
