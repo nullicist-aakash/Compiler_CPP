@@ -101,6 +101,7 @@ void onTokenFromDFA(Token* &token, Buffer& buffer)
 	char* BUFF = new char[token->length + 1];
 	for (int i = 0; i < token->length; i++)
 		BUFF[i] = buffer.getChar(buffer.start_index - token->length + i);
+	BUFF[token->length] = 0;
 	token->lexeme = BUFF;
 
 	if (token->type == TokenType::TK_ID || token->type == TokenType::TK_FUNID || token->type == TokenType::TK_FIELDID)

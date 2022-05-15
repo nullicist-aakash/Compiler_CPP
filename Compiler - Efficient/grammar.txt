@@ -1,4 +1,4 @@
-57 53 95 57
+58 53 95 58
 eps
 TK_MAIN
 TK_END
@@ -56,6 +56,7 @@ TK_RETURN
 TK_DEFINETYPE
 TK_AS
 TK_ELSE
+TK_EOF
 program
 mainFunction
 otherFunctions

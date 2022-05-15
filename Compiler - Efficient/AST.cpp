@@ -3,7 +3,6 @@
 #include <cassert>
 using namespace std;
 
-
 std::ostream& operator<<(std::ostream& out, const ASTNode& node)
 {
 	out <<
@@ -59,7 +58,7 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 
 	if (input->productionNumber == 0)
 	{
-		//<program> ===> <otherFunctions> <mainFunction>
+		//<program> ===> <otherFunctions> <mainFunction> TK_EOF
 		//<program>.treenode = createTreeNode(<otherFunctions>.treenode, <mainFunction>.treenode);
 
 		node->children.resize(2);

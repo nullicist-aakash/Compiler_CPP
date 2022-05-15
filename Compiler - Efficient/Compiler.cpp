@@ -10,8 +10,8 @@ void printAST(ASTNode* node, int tab = 0)
 		return;
 
 	for (int i = 0; i < tab; ++i)
-		cerr << '\t';
-	cerr << *node << endl;
+		cout << '\t';
+	cout << *node << endl;
 
 	for (auto& child : node->children)
 		printAST(child, tab + 1);
@@ -53,9 +53,5 @@ int main()
 
 	cleanParseTree(parseNode);
 
-	loadSymbolTable(astNode);
-
-	typeChecker_init();
-	assignTypes(astNode);
 	printAST(astNode);
 }
