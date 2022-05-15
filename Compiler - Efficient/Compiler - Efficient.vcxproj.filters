@@ -56,6 +56,9 @@
     <ClInclude Include="TypeChecker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CodeGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="DFA.txt">
