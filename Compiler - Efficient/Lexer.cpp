@@ -166,7 +166,7 @@ Token* getNextToken(Buffer& buffer)
 			continue;
 		}
 
-		char* BUFF = (char*)calloc(token->length + 1, sizeof(char));
+		char* BUFF = new char[token->length + 1];
 		for (int i = 0; i < token->length; i++)
 			BUFF[i] = buffer.getChar(buffer.start_index - token->length + i);
 		token->lexeme = BUFF;
@@ -188,5 +188,7 @@ Token* getNextToken(Buffer& buffer)
 		return token;
 	}
 
-	return nullptr;
+	Token* end = new Token;
+	end->type = TokenType::TK_EOF;
+	return end;
 }

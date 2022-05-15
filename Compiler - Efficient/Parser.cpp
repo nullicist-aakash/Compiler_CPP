@@ -485,7 +485,7 @@ ParseTreeNode* parseInputSourceCode(Buffer& buffer, bool &isError)
 		_pop(node, st);
 	}
 
-	if (st.top() != -1 || lookahead->type != TokenType::TK_END)
+	if (st.top() != -1 || lookahead->type != TokenType::TK_EOF)
 		isError = true;
 
 	if (!isError)
