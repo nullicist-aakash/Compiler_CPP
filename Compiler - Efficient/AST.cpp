@@ -3,38 +3,55 @@
 #include <cassert>
 using namespace std;
 
-std::ostream& operator<<(std::ostream& out, const ASTNode& node)
+Token* copy_token(const Token* old_token)
 {
-	out <<
-		"{ symbol: '" <<
-		parser.symbolType2symbolStr[node.sym_index] <<
-		"', lexeme: '" <<
-		(node.token ? node.token->lexeme : "") <<
-		"', isGlobal: " <<
-		(node.isGlobal ? "yes" : "no") <<
-		", type: ";
-
-	if (node.derived_type)
-		out << *(node.derived_type);
-	else
-		out << "(null)";
-
-	out << " }";
-	return out;
+	Token* token = new Token;
+	token->length = old_token->length;
+	token->lexeme = old_token->lexeme;
+	token->line_number = old_token->line_number;
+	token->start_index = old_token->start_index;
+	token->type = old_token->type;
+	return token;
 }
 
-Token* copy_token(Token* input)
+FuncNode::FuncNode(const string& token) : ASTNode(NonTerminalType::FUNCTION)
 {
-	assert(input != nullptr);
-	assert(input->length > 0);
+	this->Name = token;
+}
 
-	Token* out = new Token;
-	out->type = input->type;
-	out->lexeme = input->lexeme;
-	out->line_number = input->line_number;
-	out->start_index = input->line_number;
-	out->length = input->length;
-	return out;
+ParameterNode::ParameterNode(const string& var, ASTNode* type) : ASTNode(NonTerminalType::PARAMETER)
+{
+	this->varName = var;
+	this->varType = type;
+}
+
+IDNode::IDNode(const string& var) : ASTNode(NonTerminalType::ID)
+{
+	this->varName = var;
+}
+
+TypeDefinitionNode::TypeDefinitionNode(bool isRecord, const string& name) : ASTNode(NonTerminalType::TYPE_DEFINITION)
+{
+	this->isRecord = isRecord;
+	this->name = name;
+}
+
+FieldDefinitionNode::FieldDefinitionNode(const string& var, ASTNode* type) : ASTNode(NonTerminalType::FIELD_DEFINITION)
+{
+	this->varName = var;
+	this->varType = type;
+}
+
+VariableDefinitionNode::VariableDefinitionNode(bool isGlobal, const string& var, ASTNode* type) : ASTNode(NonTerminalType::VARIABLE_DEFINITION)
+{
+	this->isGlobal = isGlobal;
+	this->varName = var;
+	this->varType = type;
+}
+
+AssignmentNode::AssignmentNode(ASTNode* target) : ASTNode(NonTerminalType::ASSIGNMENT)
+{
+	this->target = target;
 }
 
 ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTNode* inherited)
@@ -45,21 +62,20 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 	{
 		assert(input != nullptr && input->isLeaf);
 
-		ASTNode* node = new ASTNode;
-		node->sym_index = input->symbol_index;
-		node->token = copy_token(input->token);
-		node->isLeaf = 1;
-		return node;
+		cout << "Not implemented yet!!" << endl;
+		return nullptr;
 	}
 
-	ASTNode* node = new ASTNode;
-	node->isLeaf = 0;
-	node->sym_index = input->symbol_index;
+	ASTNode* node = nullptr;
 
 	if (input->productionNumber == 0)
 	{
-		//<program> ===> <otherFunctions> <mainFunction> TK_EOF
-		//<program>.treenode = createTreeNode(<otherFunctions>.treenode, <mainFunction>.treenode);
+		// <program> ===> <otherFunctions> <mainFunction> TK_EOF
+
+		node = new ASTNode
+		{
+			NonTerminalType::PROGRAM
+		};
 
 		node->children.resize(2);
 		node->children[0] = createAST(input->children[0], input);
@@ -67,156 +83,145 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 	}
 	else if (input->productionNumber == 1)
 	{
-		//<mainFunction> ===> TK_MAIN <stmts> TK_END
-		//<mainFunction>.treenode = createTreeNode("main",<stmts>.treenode);
+		// <mainFunction> ===> TK_MAIN <stmts> TK_END
 
-		node->token = copy_token(input->children[0]->token);
+		node = new FuncNode
+		{
+			input->children[0]->token->lexeme
+		};
+
 		node->children.resize(3, nullptr);
-
 		node->children[2] = createAST(input->children[1], input);
 	}
 	else if (input->productionNumber == 2)
 	{
-		//<otherFunctions> ===> <function> <otherFunctions[1]>
-		//<otherFunctions>.treenode = createTreeNodeList(head = <function>.treenode, tail = <otherFunctions>.treenode);
+		// <otherFunctions> ===> <function> <otherFunctions[1]>
 
-		delete node;
 		ASTNode* func = createAST(input->children[0], input);
 		func->sibling = createAST(input->children[1], input);
 		return func;
 	}
 	else if (input->productionNumber == 3)
 	{
-		//<otherFunctions> ===> eps
-		//<otherFunctions>.treenode = nullptr;
+		// <otherFunctions> ===> eps
 
-		delete node;
 		return nullptr;
 	}
 	else if (input->productionNumber == 4)
 	{
-		//<function> ===> TK_FUNID <input_par> <output_par> TK_SEM <stmts> TK_END
-		//<function>.treenode = createTreeNode(TK_FUNID.value, <input_par>.treenode, <output_par>.treenode, <stmts>.treenode);
+		// <function> ===> TK_FUNID <input_par> <output_par> TK_SEM <stmts> TK_END
+
+		node = new FuncNode
+		{
+			input->children[0]->token->lexeme
+		};
 
 		node->children.resize(3);
-		node->token = copy_token(input->children[0]->token);
 		node->children[0] = createAST(input->children[1], input);
 		node->children[1] = createAST(input->children[2], input);
 		node->children[2] = createAST(input->children[4], input);
 	}
 	else if (input->productionNumber == 5)
 	{
-		//<input_par> ===> TK_INPUT TK_PARAMETER TK_LIST TK_SQL <parameter_list> TK_SQR
-		//<input_par>.treenode = <parameter_list>.treenode;
+		// <input_par> ===> TK_INPUT TK_PARAMETER TK_LIST TK_SQL <parameter_list> TK_SQR
 
-		delete node;
 		return createAST(input->children[4], input);
 	}
 	else if (input->productionNumber == 6)
 	{
-		//<output_par> ===> TK_OUTPUT TK_PARAMETER TK_LIST TK_SQL <parameter_list> TK_SQR
-		//<output_par>.treenode = <parameter_list>.treenode;
+		// <output_par> ===> TK_OUTPUT TK_PARAMETER TK_LIST TK_SQL <parameter_list> TK_SQR
 
-		delete node;
 		return createAST(input->children[4], input);
 	}
 	else if (input->productionNumber == 7)
 	{
-		//<output_par> ===> eps
-		//<output_par>.treenode = nullptr;
+		// <output_par> ===> eps
 
-		delete node;
 		return nullptr;
 	}
 	else if (input->productionNumber == 8)
 	{
-		//<parameter_list> ===> <dataType> TK_ID <remaining_list>
-		//<parameter_list>.treenode = createTreeNodeList(head = createTreeNode(<dataType>.data, TK_ID.value), tail = <remaining_list>.treenode);
+		// <parameter_list> ===> <dataType> TK_ID <remaining_list>
 
-		node->token = copy_token(input->children[1]->token);	// Stores name of id
-		node->type = createAST(input->children[0], input);
+		node = new ParameterNode
+		{
+			input->children[1]->token->lexeme,
+			createAST(input->children[0], input)
+		};
+		
 		node->sibling = createAST(input->children[2], input);
 	}
 	else if (input->productionNumber == 9)
 	{
-		//<dataType> ===> <primitiveDatatype>
-		//<dataType>.treenode = <primitiveDatatype>.treenode;
+		// <dataType> ===> <primitiveDatatype>
 
-		delete node;
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 10)
 	{
-		//<dataType> ===> <constructedDatatype>
-		//<dataType>.treenode = <constructedDatatype>.treenode;
+		// <dataType> ===> <constructedDatatype>
 
-		delete node;
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 11)
 	{
-		//<primitiveDatatype> ===> TK_INT
-		//<primitiveDatatype>.data = "int";
+		// <primitiveDatatype> ===> TK_INT
 
-		delete node;
+		node = new ASTNode
+		{
+			NonTerminalType::GENERAL
+		};
+
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 12)
 	{
-		//<primitiveDatatype> ===> TK_REAL
-		//<primitiveDatatype>.data = "real"
+		// <primitiveDatatype> ===> TK_REAL
 
-		delete node;
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 13)
 	{
-		//<constructedDatatype> ===> TK_RECORD TK_RUID
-		//<constructedDatatype>.data = TK_RUID.data;
+		// <constructedDatatype> ===> TK_RECORD TK_RUID
 
-		delete node;
 		ASTNode* temp = createAST(input->children[0], input);
 		temp->sibling = createAST(input->children[1], input);
 		return temp;
 	}
 	else if (input->productionNumber == 14)
 	{
-		//<constructedDatatype> ===> TK_UNION TK_RUID
-		//<constructedDatatype>.data = TK_RUID.data;
+		// <constructedDatatype> ===> TK_UNION TK_RUID
 
-		delete node;
 		ASTNode* temp = createAST(input->children[0], input);
 		temp->sibling = createAST(input->children[1], input);
 		return temp;
 	}
 	else if (input->productionNumber == 15)
 	{
-		//<constructedDatatype> == = > TK_RUID
-		//<constructedDatatype>.data = TK_RUID.data;
+		// <constructedDatatype> ===> TK_RUID
 
-		delete node;
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 16)
 	{
-		//<remaining_list> ===> TK_COMMA <parameter_list>
-		//<remaining_list>.treenode = <parameter_list>.treenode;
+		// <remaining_list> ===> TK_COMMA <parameter_list>
 
-		delete node;
 		return createAST(input->children[1], input);
 	}
 	else if (input->productionNumber == 17)
 	{
-		//<remaining_list> ===> eps
-		//<remaining_list>.treenode = nullptr;
+		// <remaining_list> ===> eps
 
-		delete node;
 		return nullptr;
 	}
 	else if (input->productionNumber == 18)
 	{
-		//<stmts> ===> <typeDefinitions> <declarations> <otherStmts> <returnStmt>
-		//<stmts>.treenode = createTreeNode(<typeDefinitions>.treenode, <declarations>.treenode,<otherStmts>.treenode, <returnStmt>.treenode);
+		// <stmts> ===> <typeDefinitions> <declarations> <otherStmts> <returnStmt>
+
+		node = new ASTNode
+		{
+			NonTerminalType::STMTS
+		};
 
 		node->children.resize(4);
 		node->children[0] = createAST(input->children[0], input);
@@ -226,66 +231,60 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 	}
 	else if (input->productionNumber == 19)
 	{
-		//<typeDefinitions> ===> <actualOrRedefined> <typeDefinitions>1
-		//<typeDefinitions>.treenode = 	createTreeNodeList(head = <actualOrRedefined>.treenode, tail = <typeDefinitions>1.treenode);
+		// <typeDefinitions> ===> <actualOrRedefined> <typeDefinitions>1
 
-		delete node;
 		ASTNode* temp = createAST(input->children[0], input);
 		temp->sibling = createAST(input->children[1], input);
 		return temp;
 	}
 	else if (input->productionNumber == 20)
 	{
-		//<typeDefinitions> ===> eps
-		//<typeDefinitions>.treenode = nullptr;
+		// <typeDefinitions> ===> eps
 
-		delete node;
 		return nullptr;
 	}
 	else if (input->productionNumber == 21)
 	{
-		//<actualOrRedefined> ===> <typeDefinition>
-		//<actualOrRedefined>.treenode = <typeDefinition>.treenode
-
-		delete node;
+		// <actualOrRedefined> ===> <typeDefinition>
+		
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 22)
 	{
-		//<actualOrRedefined> ===> <definetypestmt>
-		//<actualOrRedefined>.treenode = <definetypestmt>.treenode;
-
-		delete node;
+		// <actualOrRedefined> ===> <definetypestmt>
+		
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 23)
 	{
-		//<typeDefinition> ===> TK_RECORD TK_RUID <fieldDefinitions> TK_ENDRECORD
-		//<typeDefinition>.treenode = createTreeNode(TK_RUID, <fieldDefinitions>.treenode);
-		//<typeDefinition>.data = "record"
+		// <typeDefinition> ===> TK_RECORD TK_RUID <fieldDefinitions> TK_ENDRECORD
 
-		node->token = copy_token(input->children[0]->token);
-		node->children.resize(2);
-		node->children[0] = createAST(input->children[1], input);
-		node->children[1] = createAST(input->children[2], input);
+		node = new TypeDefinitionNode
+		{
+			true,
+			input->children[1]->token->lexeme
+		};
+
+		node->children.resize(1);
+		node->children[0] = createAST(input->children[2], input);
 	}
 	else if (input->productionNumber == 24)
 	{
-		//<typeDefinition> ===> TK_UNION TK_RUID <fieldDefinitions> TK_ENDUNION
-		//<typeDefinition>.treenode = createTreeNode(TK_RUID, <fieldDefinitions>.treenode);
-		//<typeDefinition>.data = "union"
+		// <typeDefinition> ===> TK_UNION TK_RUID <fieldDefinitions> TK_ENDUNION
+		
+		node = new TypeDefinitionNode
+		{
+			false,
+			input->children[1]->token->lexeme
+		};
 
-		node->token = copy_token(input->children[0]->token);
-		node->children.resize(2);
-		node->children[0] = createAST(input->children[1], input);
-		node->children[1] = createAST(input->children[2], input);
+		node->children.resize(1);
+		node->children[0] = createAST(input->children[2], input);
 	}
 	else if (input->productionNumber == 25)
 	{
-		//<fieldDefinitions> ===> <fieldDefinition>1 <fieldDefinition>2 <moreFields>
-		//<fieldDefinitions>.treenode = createTreeNodeList( head = createTreeNode(<fieldDefinition>1.treenode, <fieldDefinition>2.treenode), tail = <moreFieds>.treenode);
+		// <fieldDefinitions> ===> <fieldDefinition>1 <fieldDefinition>2 <moreFields>
 	
-		delete node;
 		ASTNode* first = createAST(input->children[0], input);
 		first->sibling = createAST(input->children[1], input);
 		first->sibling->sibling = createAST(input->children[2], input);
@@ -293,163 +292,141 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 	}
 	else if (input->productionNumber == 26)
 	{
-		//<fieldDefinition> ===> TK_TYPE <fieldType> TK_COLON TK_FIELDID TK_SEM
-		//<fieldDefinition>.treenode = createTreeNode(<fieldType>.data, TK_FIELDID.value);
-		node->token = copy_token(input->children[3]->token);
-		node->type = createAST(input->children[1], input);
+		// <fieldDefinition> ===> TK_TYPE <fieldType> TK_COLON TK_FIELDID TK_SEM
+		
+		node = new FieldDefinitionNode
+		{
+			input->children[3]->token->lexeme,
+			createAST(input->children[1], input)
+		};
 	}
 	else if (input->productionNumber == 27)
 	{
-		//<fieldType> ===> <primitiveDatatype>
-		//<fieldType>.data = <primitiveDatatype>.data;
-
-		delete node;
+		// <fieldType> ===> <primitiveDatatype>
+		
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 28)
 	{
-		//<fieldType> ===> TK_RUID
-		//<fieldType>.data = TK_RUID.data;
-
-		delete node;
+		// <fieldType> ===> TK_RUID
+		
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 29)
 	{
-		//<moreFields> ===> <fieldDefinition> <moreFields>
-		//<moreFields>.treenode = createTreeNodeList(head = <fieldDefinition>.treenode, tail = moreFields.treenode);
+		// <moreFields> ===> <fieldDefinition> <moreFields>
 
-		delete node;
 		ASTNode* first = createAST(input->children[0], input);
 		first->sibling = createAST(input->children[1], input);
 		return first;
 	}
 	else if (input->productionNumber == 30)
 	{
-		//<moreFields> ===> eps
-		//<moreFields>.treenode = nullptr;
-
-		delete node;
+		// <moreFields> ===> eps
+		
 		return nullptr;
 	}
 	else if (input->productionNumber == 31)
 	{
-		//<declarations> ===> <declaration> <declarations>1
-		//<declarations>.treenode = createTreeNodeList(head = <declaration>.treenode, tail = <declarations>1.treenode);
-
-		delete node;
+		// <declarations> ===> <declaration> <declarations>1
+		
 		ASTNode* first = createAST(input->children[0], input);
 		first->sibling = createAST(input->children[1], input);
 		return first;
 	}
 	else if (input->productionNumber == 32)
 	{
-		//<declarations> ===> eps
-		//<declarations>.treenode = nullptr;
-
-		delete node;
+		// <declarations> ===> eps
+		
 		return nullptr;
 	}
 	else if (input->productionNumber == 33)
 	{
-		//<declaration> ===> TK_TYPE <dataType> TK_COLON TK_ID <global_or_not> TK_SEM
-		//<declaration>.treenode = createTreeNode(<dataType>.data, TK_ID.value, <global_or_not>.isGlobal);
+		// <declaration> ===> TK_TYPE <dataType> TK_COLON TK_ID <global_or_not> TK_SEM
 
-		node->type = createAST(input->children[1], input);
-		node->token = copy_token(input->children[3]->token);
-		ASTNode* isGlobal = createAST(input->children[4], input);
-		node->isGlobal = isGlobal == nullptr ? 0 : 1;
-
-		if (isGlobal)
-			delete isGlobal;
+		node = new VariableDefinitionNode
+		{
+			input->children[4]->productionNumber == 34,
+			input->children[3]->token->lexeme,
+			createAST(input->children[1], input)
+		};
 	}
 	else if (input->productionNumber == 34)
 	{
-		//<global_or_not> ===> TK_COLON TK_GLOBAL
-		//<global_or_not>.isGlobal = true;
+		// <global_or_not> ===> TK_COLON TK_GLOBAL
 
-		node->isGlobal = 1;
+		return nullptr;
 	}
 	else if (input->productionNumber == 35)
 	{
-		//<global_or_not> ===> eps
-		//<global_or_not>.isGlobal = false;
+		// <global_or_not> ===> eps
 
-		delete node;
 		return nullptr;
 	}
 	else if (input->productionNumber == 36)
 	{
-		//<otherStmts> ===> <stmt> <otherStmts>1
-		//<otherStmts>.treenode = createTreeNodeList(head = <stmt>.treenode, tail = <otherStmts>1.treenode);
-
-		delete node;
+		// <otherStmts> ===> <stmt> <otherStmts>1
+		
 		ASTNode* first = createAST(input->children[0], input);
 		first->sibling = createAST(input->children[1], input);
 		return first;
 	}
 	else if (input->productionNumber == 37)
 	{
-		//<otherStmts> ===> eps
-		//<otherStmts>.treenode = nullptr;
-
-		delete node;
+		// <otherStmts> ===> eps
+		
 		return nullptr;
 	}
 	else if (input->productionNumber == 38)
 	{
-		//<stmt> ===> <assignmentStmt>
-		//<stmt>.treenode = <assignmentStmt>.treenode;
-
-		delete node;
+		// <stmt> ===> <assignmentStmt>
+		
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 39)
 	{
-		//<stmt> ===> <iterativeStmt>
-		//<stmt>.treenode = <iterativeStmt>.treenode;
-
-		delete node;
+		// <stmt> ===> <iterativeStmt>
+		
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 40)
 	{
-		//<stmt> ===> <conditionalStmt>
-		//<stmt>.treenode = <conditionalStmt>.treenode;
-
-		delete node;
+		// <stmt> ===> <conditionalStmt>
+		
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 41)
 	{
-		//<stmt> ===> <ioStmt>
-		//<stmt>.treenode = <ioStmt>.treenode
-
-		delete node;
+		// <stmt> ===> <ioStmt>
+		
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 42)
 	{
-		//<stmt> ===> <funCallStmt>
-		//<stmt>.treenode = <funCallStmt>.treenode;
-
-		delete node;
+		// <stmt> ===> <funCallStmt>
+		
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 43)
 	{
-		//<assignmentStmt> ===> <singleOrRecId> TK_ASSIGNOP <arithmeticExpression> TK_SEM
-		//<assignmentStmt>.treenode = createTreeNode(<singleOrRecId>.treenode, <arithmeticExpression>.treenode;
+		// <assignmentStmt> ===> <singleOrRecId> TK_ASSIGNOP <arithmeticExpression> TK_SEM
 
-		node->token = copy_token(input->children[1]->token);
-		node->children.resize(2);
-		node->children[0] = createAST(input->children[0], input);
-		node->children[1] = createAST(input->children[2], input);
+		node = new AssignmentNode
+		{
+			createAST(input->children[0], input)
+		};
+
+		node->children.resize(1);
+		node->children[0] = createAST(input->children[2], input);
 	}
 	else if (input->productionNumber == 44)
 	{
-		//<oneExpansion> ===> TK_DOT TK_FIELDID
-		//<oneExpansion>.treenode = createTreeNode(TK_FIELDID.value);
+		// <oneExpansion> ===> TK_DOT TK_FIELDID
+
+		node = new OperatorNode
+		{
+			TokenType::TK_DOT
+		};
 
 		node->children.resize(2);
 		node->children[0] = createAST(input->children[0], input);
@@ -457,10 +434,8 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 	}
 	else if (input->productionNumber == 45)
 	{
-		//<moreExpansions> ===> <oneExpansion> <moreExpansions>1
-		//<moreExpansions>.treenode = createTreeNodeList(head = <oneExpansion>.treenode, tail = <moreExpansions>1.treenode);
+		// <moreExpansions> ===> <oneExpansion> <moreExpansions>1
 
-		delete node;
 		ASTNode* oneExp = createAST(input->children[0], input);
 		assert(oneExp->children.size() == 2);
 		ASTNode* dot = oneExp->children[0];
@@ -475,36 +450,28 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 	}
 	else if (input->productionNumber == 46)
 	{
-		//<moreExpansions> ===> eps
-		//<moreExpansions>.treeNode = nullptr;
+		// <moreExpansions> ===> eps
 
-		delete node;
 		return inherited;
 	}
 	else if (input->productionNumber == 47)
 	{
-		//<singleOrRecId> ===> TK_ID <option_single_constructed>
-		//<singleOrRecId>.treenode = createTreeNode(TK_ID.value, <option_single_constructed>.treenode);
+		// <singleOrRecId> ===> TK_ID <option_single_constructed>
 
-		delete node;
 		ASTNode* idNode = createAST(input->children[0], input);
 		ASTNode* constructed = createAST(input->children[1], input, idNode);
 		return constructed;
 	}
 	else if (input->productionNumber == 48)
 	{
-		//<option_single_constructed> ===> eps
-		//<option_single_constructed>.treeNode = nullptr;
+		// <option_single_constructed> ===> eps
 
-		delete node;
 		return inherited;
 	}
 	else if (input->productionNumber == 49)
 	{
-		//<option_single_constructed> ===> <oneExpansion> <moreExpansions>
-		//<option_single_constructed>.treenode = createTreeNodeList(head = <oneExpansion>.treenode, tail = <moreExpansions>1.treenode);
+		// <option_single_constructed> ===> <oneExpansion> <moreExpansions>
 
-		delete node;
 		ASTNode* oneExp = createAST(input->children[0], input);
 		assert(oneExp->children.size() == 2);
 		ASTNode* dot = oneExp->children[0];
@@ -520,9 +487,12 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 	else if (input->productionNumber == 50)
 	{
 		// <funCallStmt> ===> <outputParameters> TK_CALL TK_FUNID TK_WITH TK_PARAMETERS <inputParameters> TK_SEM
-		// <funCallStmt>.treenode = createTreeNode(TK_FUNID.val, <outputParameters>.treenode, <inputParameters>.treenode)
 
-		node->token = copy_token(input->children[2]->token);
+		node = new FunctionCallNode
+		{
+			input->children[2]->token->lexeme
+		};
+
 		node->children.resize(2);
 		node->children[0] = createAST(input->children[0], input);
 		node->children[1] = createAST(input->children[5], input);
@@ -530,33 +500,30 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 	else if (input->productionNumber == 51)
 	{
 		// <outputParameters> ===> TK_SQL <idList> TK_SQR TK_ASSIGNOP
-		// <outputParameters>.treenode = createTreeNode("<--", <idList>.treenode)
-
-		delete node;
+		
 		return createAST(input->children[1], input);
 	}
 	else if (input->productionNumber == 52)
 	{
 		// <outputParameters> ===> eps
-		// <outputParameters>.treenode = nullptr
-
-		delete node;
+		
 		return nullptr;
 	}
 	else if (input->productionNumber == 53)
 	{
 		// <inputParameters> ===> TK_SQL <idList> TK_SQR
-		// <inputParameters>.treenode = <idList>.treenode
-
-		delete node;
+		
 		return createAST(input->children[1], input);
 	}
 	else if (input->productionNumber == 54)
 	{
 		// <iterativeStmt> ===> TK_WHILE TK_OP <booleanExpression> TK_CL <stmt> <otherStmts> TK_ENDWHILE
-		// <iterativeStmt>.treenode = createTreeNode("while", <booleanExpressions>.treenode, createTreeNodeList(head = <stmt>.treenode, tail = <otherStmts>.treenode));
 
-		node->token = copy_token(input->children[0]->token);
+		node = new ASTNode
+		{
+			NonTerminalType::ITERATIVE
+		};
+
 		node->children.resize(2);
 		node->children[0] = createAST(input->children[2], input);
 		node->children[1] = createAST(input->children[4], input);
@@ -564,10 +531,13 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 	}
 	else if (input->productionNumber == 55)
 	{
-		//<conditionalStmt> == = > TK_IF TK_OP<booleanExpression> TK_CL TK_THEN<stmt><otherStmts><elsePart>
-		//<conditionalStmt>.treenode = createTreeNode("if", <booleanExpression>.treenode, createTreeNodeList(head = <stmt>.treenode, tail = <otherStmts>.treenode), <elsePart>.treenode)
+		// <conditionalStmt> ===> TK_IF TK_OP<booleanExpression> TK_CL TK_THEN<stmt><otherStmts><elsePart>
 		
-		node->token = copy_token(input->children[0]->token);
+		node = new ASTNode
+		{
+			NonTerminalType::CONDITIONAL
+		};
+
 		node->children.resize(3);
 		node->children[0] = createAST(input->children[2], input);
 		node->children[1] = createAST(input->children[5], input);
@@ -576,39 +546,35 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 	}
 	else if (input->productionNumber == 56)
 	{
-		//<elsePart> ===> TK_ELSE <stmt> <otherStmts> TK_ENDIF
-		//<elsePart>.treenode = createTreeNode("else", createTreeNodeList(head=<stmt>.treenode, tail=<otherStmts>.treenode)
+		// <elsePart> ===> TK_ELSE <stmt> <otherStmts> TK_ENDIF
 
-		delete node;
 		ASTNode* first = createAST(input->children[1], input);
 		first->sibling = createAST(input->children[2], input);
 		return first;
 	}
 	else if (input->productionNumber == 57)
 	{
-		//<elsePart> ===> TK_ENDIF
-		//<elsePart>.treenode = nullptr
-
-		delete node;
+		// <elsePart> ===> TK_ENDIF
+		
 		return nullptr;
 	}
 	else if (input->productionNumber == 58)
 	{
-		//<ioStmt> == = > TK_READ TK_OP<var> TK_CL TK_SEM
-		//<ioStmt>.treenode = createTreeNode("read", <var>.treenode)
+		// <ioStmt> ===> TK_READ TK_OP <var> TK_CL TK_SEM
 
-		node->token = copy_token(input->children[0]->token);
-		node->children.resize(1);
-		node->children[0] = createAST(input->children[2], input);
+		node = new ReadNode
+		{
+			createAST(input->children[2], input)
+		};
 	}
 	else if (input->productionNumber == 59)
 	{
-		//<ioStmt> == = > TK_WRITE TK_OP<var> TK_CL TK_SEM
-		//<ioStmt>.treenode = createTreeNode("write", <var>.treenode)
+		// <ioStmt> == = > TK_WRITE TK_OP<var> TK_CL TK_SEM
 
-		node->token = copy_token(input->children[0]->token);
-		node->children.resize(1);
-		node->children[0] = createAST(input->children[2], input);
+		node = new WriteNode
+		{
+			createAST(input->children[2], input)
+		};
 	}
 	else if (input->productionNumber == 60)
 	{
@@ -616,7 +582,6 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 		// <arithmeticExpression>.treenode = <expPrime>.syn
 		// <expPrime>.inh = <term>.treenode
 
-		delete node;
 		ASTNode* termNode = createAST(input->children[0], input);
 		ASTNode* expPrime = createAST(input->children[1], input, termNode);
 		return expPrime;
@@ -626,8 +591,6 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 		// <expPrime> ===> <lowPrecedenceOperators> <term> <expPrime[1]>
 		// <expPrime[1]>.inh = createTreeNode(<lowPrecedenceOperators>.data, <expPrime>.inh, <term>.treenode)
 		// <expPrime>.syn = <expPrime[1]>.syn
-
-		delete node;
 
 		ASTNode* op = createAST(input->children[0], input);
 		ASTNode* term = createAST(input->children[1], input);
@@ -643,27 +606,24 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 		// <expPrime> ===> eps
 		// <expPrime>.syn = <expPrime>.inh
 
-		delete node;
 		return inherited;
 	}
 	else if (input->productionNumber == 63)
 	{
-		//<term> ===> <factor> <termPrime>
-		//<term>.treenode = <termPrime>.syn
-		//<termPrime>.inh = <factor>.treenode
+		// <term> ===> <factor> <termPrime>
+		// <term>.treenode = <termPrime>.syn
+		// <termPrime>.inh = <factor>.treenode
 
-		delete node;
 		ASTNode* factorNode = createAST(input->children[0], input);
 		ASTNode* termPrime = createAST(input->children[1], input, factorNode);
 		return termPrime;
 	}
 	else if (input->productionNumber == 64)
 	{
-		//<termPrime> ===> <highPrecedenceOperators> <factor> <termPrime[1]>
-		//<termPrime[1]>.treenode = createTreeNode(<highPrecedenceOperators>.data, <termPrime>.inh, <factor>.treenode)
-		//<termPrime>.syn = <termPrime[1]>.syn
+		// <termPrime> ===> <highPrecedenceOperators> <factor> <termPrime[1]>
+		// <termPrime[1]>.treenode = createTreeNode(<highPrecedenceOperators>.data, <termPrime>.inh, <factor>.treenode)
+		// <termPrime>.syn = <termPrime[1]>.syn
 
-		delete node;
 		ASTNode* op = createAST(input->children[0], input);
 		ASTNode* term = createAST(input->children[1], input);
 
@@ -675,66 +635,50 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 	}
 	else if (input->productionNumber == 65)
 	{
-		//<termPrime> ===> eps
-		//<termPrime>.syn = <termPrime>.inh
+		// <termPrime> ===> eps
 
-		delete node;
 		return inherited;
 	}
 	else if (input->productionNumber == 66)
 	{
-		//<factor> ===> TK_OP <arithmeticExpression> TK_CL
-		//<factor>.treenode = <arithmeticExpression>.treenode
+		// <factor> ===> TK_OP <arithmeticExpression> TK_CL
 
-		delete node;
 		return createAST(input->children[1], input);
 	}
 	else if (input->productionNumber == 67)
 	{
-		//<factor> ===> <var>
-		//<factor>.treenode = <var>.treenode
+		// <factor> ===> <var>
 
-		delete node;
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 68)
 	{
-		//<highPrecedenceOperators> ===> TK_MUL
-		//<highPrecedenceOperators>.data = "*";
+		// <highPrecedenceOperators> ===> TK_MUL
 
-		delete node;
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 69)
 	{
-		//<highPrecedenceOperators> ===> TK_DIV
-		//<highPrecedenceOperators>.data = "/";
-
-		delete node;
+		// <highPrecedenceOperators> ===> TK_DIV
+		
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 70)
 	{
-		//<lowPrecedenceOperators> ===> TK_PLUS
-		//<lowPrecedenceOperators>.data = "+";
+		// <lowPrecedenceOperators> ===> TK_PLUS
 
-		delete node;
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 71)
 	{
-		//<lowPrecedenceOperators> ===> TK_MINUS
-		//<lowPrecedenceOperators>.data = "-";
+		// <lowPrecedenceOperators> ===> TK_MINUS
 
-		delete node;
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 72)
 	{
-		//<booleanExpression> ===> TK_OP <booleanExpression>1 TK_CL <logicalOp> TK_OP <booleanExpression>2 TK_CL
-		//<booleanExpression>.treenode = createTreeNode(<logicalOp>.data, <booleanExpression>1.treenode, <booleanExpression>2.treenode);
+		// <booleanExpression> ===> TK_OP <booleanExpression>1 TK_CL <logicalOp> TK_OP <booleanExpression>2 TK_CL
 
-		delete node;
 		ASTNode* op = createAST(input->children[3], input);
 		op->children.resize(2);
 		op->children[0] = createAST(input->children[1], input);
@@ -743,9 +687,8 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 	}
 	else if (input->productionNumber == 73)
 	{
-		//<booleanExpression> ===> <var>1 <relationalOp> <var>2
+		// <booleanExpression> ===> <var>1 <relationalOp> <var>2
 
-		delete node;
 		ASTNode* op = createAST(input->children[1], input);
 		op->children.resize(2);
 		op->children[0] = createAST(input->children[0], input);
@@ -754,10 +697,8 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 	}
 	else if (input->productionNumber == 74)
 	{
-		//<booleanExpression> ===> TK_NOT TK_OP <booleanExpression> TK_CL
-		//<booleanExpression>.treenode = createTreeNode("~", <booleanExpression>.treenode);
+		// <booleanExpression> ===> TK_NOT TK_OP <booleanExpression> TK_CL
 
-		delete node;
 		ASTNode* op = createAST(input->children[0], input);
 		op->children.resize(1);
 		op->children[0] = createAST(input->children[2], input);
@@ -765,164 +706,133 @@ ASTNode* createAST(const ParseTreeNode* input, const ParseTreeNode* parent, ASTN
 	}
 	else if (input->productionNumber == 75)
 	{
-		//<var> ===> <singleOrRecId>
-		//<var>.treenode =  <singleOrRecId>.treenode;
+		// <var> ===> <singleOrRecId>
 
-		delete node;
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 76)
 	{
-		//<var> ===> TK_NUM
-		//<var>.treenode = createTreeNode(TK_NUM.value);
+		// <var> ===> TK_NUM
 
-		delete node;
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 77)
 	{
-		//<var> ===> TK_RNUM
-		//<var>.treenode = createTreeNode(TK_RNUM.value);
+		// <var> ===> TK_RNUM
 
-		delete node;
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 78)
 	{
-		//<logicalOp> ===> TK_AND
-		//<logicalOp>.data=”&&&”;
+		// <logicalOp> ===> TK_AND
 
-		delete node;
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 79)
 	{
-		//<logicalOp> ===> TK_OR
-		//<logicalOp>.data=”@@@”;
+		//  <logicalOp> ===> TK_OR
 
-		delete node;
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 80)
 	{
-		//<relationalOp> ===> TK_LT
-		//<relationalOp>.data=”<”;
+		// <relationalOp> ===> TK_LT
 
-		delete node;
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 81)
 	{
-		//<relationalOp> ===> TK_LE
-		//<relationalOp>.data=”<=”;
-
-		delete node;
+		// <relationalOp> ===> TK_LE
+		
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 82)
 	{
-		//<relationalOp> ===> TK_EQ
-		//<relationalOp>.data=”==”;
-
-		delete node;
+		// <relationalOp> ===> TK_EQ
+		
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 83)
 	{
-		//<relationalOp> ===> TK_GT
-		//<relationalOp>.data=”>”;
-
-		delete node;
+		// <relationalOp> ===> TK_GT
+		
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 84)
 	{
-		//<relationalOp> ===> TK_GE
-		//<relationalOp>.data=”>=”;
-
-		delete node;
+		// <relationalOp> ===> TK_GE
+		
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 85)
 	{
-		//<relationalOp> ===> TK_NE
-		//<relationalOp>.data=”!=”;
-
-		delete node;
+		// <relationalOp> ===> TK_NE
+		
 		return createAST(input->children[0], input);
 	}
 	else if (input->productionNumber == 86)
 	{
-		//<returnStmt> ===> TK_RETURN <optionalReturn> TK_SEM
-		//<returnStmt>.treenode = <optionalReturn>.treenode;
+		// <returnStmt> ===> TK_RETURN <optionalReturn> TK_SEM
 
-		delete node;
 		return createAST(input->children[1], input);
 	}
 	else if (input->productionNumber == 87)
 	{
-		//<optionalReturn> ===> TK_SQL <idList> TK_SQR
-		//<optionalReturn>.treenode = <idList>.treenode;
+		// <optionalReturn> ===> TK_SQL <idList> TK_SQR
 
-		delete node;
 		return createAST(input->children[1], input);
 	}
 	else if (input->productionNumber == 88)
 	{
-		//<optionalReturn> ===> eps
-		//<optionalReturn>.treenode = nullptr;
+		// <optionalReturn> ===> eps
 
-		delete node;
 		return nullptr;
 	}
 	else if (input->productionNumber == 89)
 	{
-		//<idList> ===> TK_ID <more_ids>
-		//<idList>.treenode = createTreeNodeList(head = TK_ID.value, tail = <more_ids>.treenode);
+		// <idList> ===> TK_ID <more_ids>
 
-		node->token = copy_token(input->children[0]->token);
+		node = new IDNode
+		{
+			input->children[0]->token->lexeme
+		};
+
 		node->sibling = createAST(input->children[1], input);
 	}
 	else if (input->productionNumber == 90)
 	{
-		//<more_ids> ===> TK_COMMA <idList>
-		//<more_ids>.treenode = <idList>.treenode;
-
-		delete node;
+		// <more_ids> ===> TK_COMMA <idList>
+		
 		return createAST(input->children[1], input);
 	}
 	else if (input->productionNumber == 91)
 	{
-		//<more_ids> ===> eps
-		//<more_ids>.treenode = nullptr;
-
-		delete node;
+		// <more_ids> ===> eps
+		
 		return nullptr;
 	}
 	else if (input->productionNumber == 92)
 	{
-		//<definetypestmt> ===> TK_DEFINETYPE <A> TK_RUID1 TK_AS TK_RUID2
-		//<definetypestmt>.treenode = createTreeNode(<A>.data, TK_RUID1.value ,TK_RUID2.value)
+		// <definetypestmt> ===> TK_DEFINETYPE <A> TK_RUID1 TK_AS TK_RUID2
 
-		node->token = copy_token(input->children[0]->token);
-		node->children.resize(3);
-		node->children[0] = createAST(input->children[1], input);
-		node->children[1] = createAST(input->children[2], input);
-		node->children[2] = createAST(input->children[4], input);
+		node = new DefineTypeNode
+		{
+			input->children[1]->productionNumber == 94,
+			input->children[2]->token->lexeme,
+			input->children[4]->token->lexeme
+		};
 	}
 	else if (input->productionNumber == 93)
 	{
 		// <A> ===> TK_RECORD
-		// <A>.data = "record"
 
-		node->token = copy_token(input->children[0]->token);
+		return nullptr;
 	}
 	else if (input->productionNumber == 94)
 	{
 		// <A> ===> TK_UNION
-		// <A>.data = "union"
 
-		node->token = copy_token(input->children[0]->token);
+		return nullptr;
 	}
 
 	return node;

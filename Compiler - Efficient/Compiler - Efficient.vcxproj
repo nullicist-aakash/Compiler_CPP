@@ -143,17 +143,12 @@
     <ClCompile Include="Compiler.cpp" />
     <ClCompile Include="Lexer.cpp" />
     <ClCompile Include="Parser.cpp" />
-    <ClCompile Include="SymbolTable.cpp" />
-    <ClCompile Include="TypeChecker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AST.h" />
     <ClInclude Include="Buffer.h" />
-    <ClInclude Include="CodeGenerator.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="Parser.h" />
-    <ClInclude Include="SymbolTable.h" />
-    <ClInclude Include="TypeChecker.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="DFA.txt" />

@@ -1,23 +1,8 @@
 #include <iostream>
 #include <iomanip>
-#include "TypeChecker.h"
+#include "AST.h"
 
 using namespace std;
-
-void printAST(ASTNode* node, int tab = 0)
-{
-	if (node == nullptr)
-		return;
-
-	for (int i = 0; i < tab; ++i)
-		cout << '\t';
-	cout << *node << endl;
-
-	for (auto& child : node->children)
-		printAST(child, tab + 1);
-
-	printAST(node->sibling, tab);
-}
 
 void printParseTree(const ParseTreeNode& node)
 {
@@ -49,9 +34,11 @@ int main()
 
 	Buffer buffer("testcase5.txt");
 	auto parseNode = parseInputSourceCode(buffer, b);
+	
 	auto astNode = createAST(parseNode);
 
 	cleanParseTree(parseNode);
 
-	printAST(astNode);
+	/*
+	printAST(astNode);*/
 }

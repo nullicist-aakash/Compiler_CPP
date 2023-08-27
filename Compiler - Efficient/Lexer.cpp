@@ -12,7 +12,7 @@ std::ostream& operator<< (std::ostream& out, const Token& token)
 	if (token.type == TokenType::TK_ERROR_LENGTH)
 		out << "Line " << token.line_number << "\t\terror: Identifier length is greater than the prescribed length.";
 	else if (token.type == TokenType::TK_ERROR_SYMBOL)
-			out << "Line " << token.line_number << "\t\terror: Unknwon Symbol <" << token.lexeme << ">.";
+		out << "Line " << token.line_number << "\t\terror: Unknwon Symbol <" << token.lexeme << ">.";
 	else if (token.type == TokenType::TK_ERROR_PATTERN)
 		out << "Line " << token.line_number << "\t\terror: Unknwon Pattern <" << token.lexeme << ">.";
 	else
@@ -25,7 +25,7 @@ void loadDFA()
 {
 	std::ifstream dfaReader{ LexerLoc };
 	assert(dfaReader);
-	dfaReader >>  dfa.num_tokens >> dfa.num_states >> dfa.num_transitions >> dfa.num_finalStates >> dfa.num_keywords;
+	dfaReader >> dfa.num_tokens >> dfa.num_states >> dfa.num_transitions >> dfa.num_finalStates >> dfa.num_keywords;
 
 	// Load Tokens
 	dfa.tokenType2tokenStr.clear();
@@ -33,7 +33,7 @@ void loadDFA()
 	dfa.tokenStr2tokenType.clear();
 	for (int i = 0; i < dfa.num_tokens; ++i)
 	{
-		dfaReader >>  dfa.tokenType2tokenStr[i];
+		dfaReader >> dfa.tokenType2tokenStr[i];
 		dfa.tokenStr2tokenType[dfa.tokenType2tokenStr[i]] = (TokenType)i;
 	}
 
@@ -45,7 +45,7 @@ void loadDFA()
 	{
 		int from, to;
 		string symbols;
-		dfaReader >>  from >> to >> symbols;
+		dfaReader >> from >> to >> symbols;
 
 		for (char c : symbols)
 			dfa.productions[from][c] = to;
@@ -72,7 +72,7 @@ void loadDFA()
 	{
 		int state;
 		string BUFF;
-		dfaReader >>  state >> BUFF;
+		dfaReader >> state >> BUFF;
 
 		dfa.finalStates[state] = dfa.tokenStr2tokenType[BUFF];
 	}
@@ -83,13 +83,13 @@ void loadDFA()
 	for (int i = 0; i < dfa.num_keywords; ++i)
 	{
 		string keyword, token_name;
-		dfaReader >>  keyword >> token_name;
+		dfaReader >> keyword >> token_name;
 		dfa.lookupTable[keyword] = dfa.tokenStr2tokenType[token_name];
 		dfa.keywordTokens.insert(token_name);
 	}
 }
 
-void onTokenFromDFA(Token* &token, Buffer& buffer)
+void onTokenFromDFA(Token*& token, Buffer& buffer)
 {
 	if (token->type == TokenType::TK_COMMENT || token->type == TokenType::TK_WHITESPACE)
 	{
@@ -98,11 +98,8 @@ void onTokenFromDFA(Token* &token, Buffer& buffer)
 		return;
 	}
 
-	char* BUFF = new char[token->length + 1];
 	for (int i = 0; i < token->length; i++)
-		BUFF[i] = buffer.getChar(buffer.start_index - token->length + i);
-	BUFF[token->length] = 0;
-	token->lexeme = BUFF;
+		token->lexeme += buffer.getChar(buffer.start_index - token->length + i);
 
 	if (token->type == TokenType::TK_ID || token->type == TokenType::TK_FUNID || token->type == TokenType::TK_FIELDID)
 	{
@@ -192,7 +189,7 @@ Token* getNextToken(Buffer& buffer)
 		buffer.start_index += token->length;
 
 		onTokenFromDFA(token, buffer);
-		
+
 		if (token == nullptr)
 			continue;
 
@@ -200,6 +197,10 @@ Token* getNextToken(Buffer& buffer)
 	}
 
 	Token* end = new Token;
+	end->length = 0;
+	end->lexeme = "";
+	end->line_number = buffer.line_number;
+	end->start_index = buffer.start_index;
 	end->type = TokenType::TK_EOF;
 	return end;
 }

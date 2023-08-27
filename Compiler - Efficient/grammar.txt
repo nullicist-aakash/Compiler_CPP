@@ -110,7 +110,7 @@ idList
 more_ids
 definetypestmt
 A
-program otherFunctions mainFunction
+program otherFunctions mainFunction TK_EOF
 mainFunction TK_MAIN stmts TK_END
 otherFunctions function otherFunctions
 otherFunctions eps

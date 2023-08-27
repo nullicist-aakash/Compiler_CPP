@@ -208,14 +208,8 @@ void Parser::computeParseTable()
 			for (int j = 1; j < productions[i].size(); ++j)
 				cerr << parser.symbolType2symbolStr[productions[i][j]] << " ";
 			cerr << endl;
-			
-			auto &target = parseTable[productions[i][0]][j];
-			if (target != -1)
-			{
-				cerr << "Colliding productions found!!" << endl;
-				exit(-1);
-			}
-			target = i;
+
+			parseTable[productions[i][0]][j] = i;
 		}
 	}
 
